@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="cryptoItem"
+            type="com.example.cryptoanalytic.common.responses.latest.LatestResponse" />
+        <variable
+            name="currencyItem"
+            type="com.example.cryptoanalytic.common.responses.base.currencyResponses.CurrencyItemResponse" />
+    </data>
+
+<FrameLayout
+    android:id="@+id/crypto_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:elevation="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/item_background">
+
+            <LinearLayout
+                android:id="@+id/crypto_name_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/crypto_short_name"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:text="@{cryptoItem.symbol}"
+                    tools:text="BTC" />
+
+                <TextView
+                    android:id="@+id/crypto_full_name"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:text="@{cryptoItem.name}"
+                    tools:text="Bitcoin" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/crypto_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:text="@{Double.toString(currencyItem.price)}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/crypto_change"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/crypto_name_layout"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="$ 20000 USD" />
+
+            <ImageView
+                android:id="@+id/notification_item_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_baseline_notifications_active_24"
+                app:layout_constraintEnd_toEndOf="@+id/crypto_price"
+                app:layout_constraintStart_toStartOf="@+id/crypto_price"
+                app:layout_constraintTop_toBottomOf="@+id/crypto_price" />
+
+            <LinearLayout
+                android:id="@+id/crypto_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/crypto_price"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/crypto_top_value"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:textAlignment="center"
+                    android:text="@{Double.toString(currencyItem.percentChange24h)}"
+                    android:textColor="@color/green"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    tools:text="+$2,42" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/crypto_low_value"-->
+<!--                    android:layout_width="120dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textColor="@color/red"-->
+<!--                    android:textSize="22sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    tools:text="-$1.23" />-->
+
+                <TextView
+                    android:id="@+id/crypto_time_change"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:text="@{currencyItem.lastUpdated}"
+                    tools:text="Time update: 1h" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
+</layout>

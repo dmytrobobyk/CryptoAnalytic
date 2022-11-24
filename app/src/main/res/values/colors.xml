@@ -19,6 +19,8 @@
     <color name="disableColor">#D1D1D1</color>
     <color name="title">#000000</color>
 
+    
+    <color name="title_item_name_color">#C4C4C4</color>
 
 
 </resources>

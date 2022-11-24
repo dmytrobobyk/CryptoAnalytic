@@ -58,6 +58,8 @@ ext {
     navigation = "2.4.2"
     lifeCycleExtensions = "2.2.0"
     lifecycleViewModel = "2.4.1"
+    MPAndroidCharts = "v3.0.2"
+    toggleButtonGroup = "1.1.2"
 
     //Testing
     jUnit = "4.13.2"
@@ -106,6 +108,10 @@ dependencies {
     //Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$lifeCycleExtensions"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleViewModel"
+
+    //Charts
+    implementation "com.github.PhilJay:MPAndroidChart:$MPAndroidCharts"
+    implementation "com.nex3z:toggle-button-group:$toggleButtonGroup"
 
 
     //Testing

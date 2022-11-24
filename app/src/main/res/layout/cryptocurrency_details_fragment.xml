@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        tools:context="com.example.cryptoanalytic.cryptocurrencyDetails.CryptocurrencyDetailsFragment">
+
+        <RelativeLayout
+            android:id="@+id/cryptocurrency_name_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/half_standard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/cryptocurrency_image_view"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                tools:src="@drawable/ic_baseline_attach_money_24" />
+
+            <TextView
+                android:id="@+id/cryptocurrency_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="@dimen/half_standard"
+                android:layout_toEndOf="@+id/cryptocurrency_image_view"
+                android:textColor="@color/title_item_name_color"
+                android:textSize="22sp"
+                tools:text="Bitcoin" />
+
+            <TextView
+                android:id="@+id/cryptocurrency_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cryptocurrency_name"
+                android:layout_alignStart="@+id/cryptocurrency_name"
+                android:textSize="16sp"
+                tools:text="$15,934.25" />
+
+            <TextView
+                android:id="@+id/cryptocurrency_percent_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/cryptocurrency_price"
+                android:layout_marginStart="@dimen/standard"
+                android:layout_toEndOf="@+id/cryptocurrency_price"
+                android:textSize="16sp"
+                tools:text="3,25%" />
+        </RelativeLayout>
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/chart_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cryptocurrency_name_layout" />
+
+        <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
+            android:id="@+id/chart_interval_button_grp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chart"
+            app:tbgCheckedButton="@+id/dayButton"
+            app:tbgChildSpacing="auto">
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/dayButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/oneDay"
+                android:textSize="16sp"
+                app:tbgMarkerColor="@color/title_item_name_color" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/weekButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Week"
+                android:textSize="16sp"
+                app:tbgMarkerColor="@color/title_item_name_color" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/monthButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Month"
+                android:textSize="16sp"
+                app:tbgMarkerColor="@color/title_item_name_color" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/threeMonthButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/threeMonth"
+                android:textSize="16sp"
+                app:tbgMarkerColor="@color/title_item_name_color" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/yearButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Year"
+                android:textSize="16sp"
+                app:tbgMarkerColor="@color/title_item_name_color" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/allTimeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/All"
+                android:textSize="16sp"
+                app:tbgMarkerColor="@color/title_item_name_color" />
+        </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
+
+        <TextView
+            android:id="@+id/market_cap_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/market_cap"
+            android:textSize="16sp"
+            android:layout_marginStart="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chart_interval_button_grp"/>
+
+        <TextView
+            android:id="@+id/market_cap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginStart="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/market_cap_title"
+            tools:text="158,2M"/>
+
+        <TextView
+            android:id="@+id/volume_24h_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/volume_24h"
+            android:textSize="16sp"
+            android:layout_marginEnd="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chart_interval_button_grp"/>
+
+        <TextView
+            android:id="@+id/volume_24h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginEnd="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/volume_24h_title"
+            tools:text="$226.25"/>
+
+        <TextView
+            android:id="@+id/available_supply_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/market_cap"
+            android:textSize="16sp"
+            android:layout_marginStart="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/market_cap"/>
+
+        <TextView
+            android:id="@+id/available_supply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginStart="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/available_supply_title"
+            tools:text="4.23B"/>
+
+        <TextView
+            android:id="@+id/total_supply_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/volume_24h"
+            android:textSize="16sp"
+            android:layout_marginEnd="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/volume_24h"/>
+
+        <TextView
+            android:id="@+id/total_supply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginEnd="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/total_supply_title"
+            tools:text="$226.25"/>
+
+        <View
+            android:id="@+id/market_cap_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/total_supply"/>
+
+        <TextView
+            android:id="@+id/explorers_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/explorers"
+            android:textSize="16sp"
+            android:layout_marginStart="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintTop_toBottomOf="@+id/market_cap_divider"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/explorers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/explorers"
+            android:textSize="14sp"
+            android:padding="@dimen/small"
+            android:background="@color/divider"
+            android:layout_marginStart="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintTop_toBottomOf="@+id/explorers_title"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="optimistic.offer.io"/>
+
+        <View
+            android:id="@+id/explorers_divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/divider"
+            android:layout_marginTop="@dimen/standard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/explorers"/>
+
+        <TextView
+            android:id="@+id/website_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/website"
+            android:textSize="16sp"
+            android:layout_marginStart="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/explorers_divider"/>
+
+        <TextView
+            android:id="@+id/website"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginStart="@dimen/standard"
+            android:layout_marginTop="@dimen/half_standard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/website_title"
+            tools:text="https://bitcoin.coin.com"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

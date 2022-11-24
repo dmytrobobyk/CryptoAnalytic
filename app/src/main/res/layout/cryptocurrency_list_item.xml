@@ -13,125 +13,117 @@
             type="com.example.cryptoanalytic.common.responses.base.currencyResponses.CurrencyItemResponse" />
     </data>
 
-<FrameLayout
-    android:id="@+id/crypto_item_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <androidx.cardview.widget.CardView
+    <FrameLayout
+        android:id="@+id/crypto_item_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:elevation="5dp">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:background="@color/item_background">
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="5dp">
 
-            <LinearLayout
-                android:id="@+id/crypto_name_layout"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:background="@color/item_background"
+                android:padding="@dimen/standard">
+
+                <ImageView
+                    android:id="@+id/add_favorite_image_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHorizontal_weight="2"
+                    android:src="@drawable/ic_baseline_star_border_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/cryptocurrency_item_name_layout"
+                    />
+
+                <RelativeLayout
+                    android:id="@+id/cryptocurrency_item_name_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHorizontal_weight="3"
+                    android:layout_marginStart="@dimen/standard"
+                    app:layout_constraintStart_toEndOf="@+id/add_favorite_image_view"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/cryptocurrency_item_change">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/cryptocurrency_item_image_view"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        app:shapeAppearanceOverlay="@style/roundedImageView"
+                        tools:src="@drawable/ic_baseline_attach_money_24" />
+
+                    <TextView
+                        android:id="@+id/cryptocurrency_item_short_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@+id/cryptocurrency_item_image_view"
+                        android:textColor="@color/title_item_name_color"
+                        android:text="@{cryptoItem.symbol}"
+                        tools:text="BTC" />
+
+                    <TextView
+                        android:id="@+id/cryptocurrency_position"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/cryptocurrency_item_short_name"
+                        android:layout_toEndOf="@+id/cryptocurrency_item_image_view"
+                        android:background="@drawable/cryptocurrency_item_position_background"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@{String.valueOf(cryptoItem.cmcRank.intValue())}"
+                        tools:text="1" />
+
+                    <TextView
+                        android:id="@+id/cryptocurrency_item_full_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/cryptocurrency_item_short_name"
+                        android:layout_marginStart="@dimen/extra_small"
+                        android:layout_toEndOf="@+id/cryptocurrency_position"
+                        android:text="@{cryptoItem.name}"
+                        tools:text="Bitcoin" />
+                </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/crypto_short_name"
-                    android:layout_width="120dp"
+                    android:id="@+id/cryptocurrency_item_change"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:text="@{cryptoItem.symbol}"
-                    tools:text="BTC" />
+                    app:layout_constraintHorizontal_weight="3"
+                    percentChanged="@{currencyItem.percentChange24h}"
+                    changeColor="@{currencyItem.percentChange24h}"
+                    app:layout_constraintStart_toEndOf="@+id/cryptocurrency_item_name_layout"
+                    app:layout_constraintEnd_toStartOf="@+id/cryptocurrency_price"
+                    app:layout_constraintTop_toTopOf="@+id/cryptocurrency_item_name_layout"
+                    app:layout_constraintBottom_toBottomOf="@+id/cryptocurrency_item_name_layout"
+                    tools:text="1.02%" />
 
                 <TextView
-                    android:id="@+id/crypto_full_name"
-                    android:layout_width="120dp"
+                    android:id="@+id/cryptocurrency_price"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:text="@{cryptoItem.name}"
-                    tools:text="Bitcoin" />
-            </LinearLayout>
+                    app:layout_constraintHorizontal_weight="3"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cryptocurrency_item_change"
+                    app:layout_constraintTop_toTopOf="@+id/cryptocurrency_item_name_layout"
+                    app:layout_constraintBottom_toBottomOf="@+id/cryptocurrency_item_name_layout"
+                    android:text="@{String.format(@string/double_three_signs, currencyItem.price)}"
+                    tools:text="$16,456.34"
+                    />
 
-            <TextView
-                android:id="@+id/crypto_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:text="@{Double.toString(currencyItem.price)}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/crypto_change"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@+id/crypto_name_layout"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="$ 20000 USD" />
-
-            <ImageView
-                android:id="@+id/notification_item_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:src="@drawable/ic_baseline_notifications_active_24"
-                app:layout_constraintEnd_toEndOf="@+id/crypto_price"
-                app:layout_constraintStart_toStartOf="@+id/crypto_price"
-                app:layout_constraintTop_toBottomOf="@+id/crypto_price" />
-
-            <LinearLayout
-                android:id="@+id/crypto_change"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintStart_toEndOf="@+id/crypto_price"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/crypto_top_value"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:textAlignment="center"
-                    android:text="@{Double.toString(currencyItem.percentChange24h)}"
-                    android:textColor="@color/green"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    tools:text="+$2,42" />
-
-<!--                <TextView-->
-<!--                    android:id="@+id/crypto_low_value"-->
-<!--                    android:layout_width="120dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:textAlignment="center"-->
-<!--                    android:textColor="@color/red"-->
-<!--                    android:textSize="22sp"-->
-<!--                    android:textStyle="bold"-->
-<!--                    tools:text="-$1.23" />-->
-
-                <TextView
-                    android:id="@+id/crypto_time_change"
-                    android:layout_width="120dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:text="@{currencyItem.lastUpdated}"
-                    tools:text="Time update: 1h" />
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</FrameLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
 </layout>

@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.common.responses.latest.LatestResponse
 import com.example.cryptoanalytic.databinding.CryptocurrencyListItemBinding
 
@@ -20,7 +19,6 @@ class CryptocurrenciesListAdapter : ListAdapter<LatestResponse, RecyclerView.Vie
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-//        val view = LayoutInflater.from(parent.context).inflate(R.layout.cryptocurrency_list_item, parent, false)
         val itemBinding = CryptocurrencyListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CryptocurrencyItemViewHolder(itemBinding)
     }

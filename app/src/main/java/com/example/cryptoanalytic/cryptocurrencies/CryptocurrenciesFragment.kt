@@ -23,13 +23,13 @@ class CryptocurrenciesFragment : Fragment() {
         val binding: CryptocurrencyListFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.cryptocurrency_list_fragment, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.toolbar.toolbarTitleTextView.text = "Fragment time"
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val a = viewModel.cryptocurrenciesList.replayCache
+//        val a = viewModel.cryptocurrenciesList.value
+//        val s =""
 
 //        val navController = (childFragmentManager.findFragmentById(R.id.bottomNavigationContainer) as NavHostFragment).navController
 //        NavigationUI.setupWithNavController(bottomNavigationView, navController)

@@ -13,7 +13,9 @@ class CryptocurrenciesLocalRepository @Inject constructor(private val dataSource
         return flow {
             emit(Result.Loading)
             emit(dataSource.getLatestCryptocurrencies())
-//            emit(Result.Success(LatestResponse(1, 1, "Piston",null, null, null,null, null, null,null, null, null,null, null, null,null)))
+//            val list = mutableListOf<LatestResponse>()
+//            list.add(LatestResponse(1.0, 1.0, "Piston",null, null, null,null, null, null,null, null, null,null, null, null,null))
+//            emit(Result.Success(list))
             emit(Result.Finish)
         }
     }

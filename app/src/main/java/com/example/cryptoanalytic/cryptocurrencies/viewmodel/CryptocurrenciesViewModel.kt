@@ -16,10 +16,8 @@ import javax.inject.Inject
 class CryptocurrenciesViewModel @Inject constructor(private val repository: CryptocurrenciesRepository) : BaseViewModel() {
     private val TAG = CryptocurrenciesViewModel::class.java.name
 
-    //    private val _cryptocurrenciesList = MutableSharedFlow<List<LatestResponse>>(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
-//    val cryptocurrenciesList: SharedFlow<List<LatestResponse>> = _cryptocurrenciesList.asSharedFlow()
     private val _cryptocurrenciesList = MutableStateFlow<List<LatestResponse>>(emptyList())
-    val cryptocurrenciesList: StateFlow<List<LatestResponse>> = _cryptocurrenciesList
+    val cryptocurrenciesList: StateFlow<List<LatestResponse>> = _cryptocurrenciesList.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -29,12 +27,15 @@ class CryptocurrenciesViewModel @Inject constructor(private val repository: Cryp
                         Log.d(TAG, "LOADING")
 
                     }
-//                    is Result.Finish -> {
-//
-//                    }
+                    is Result.Finish -> {
+                        Log.d(TAG, "FINISH")
+
+                    }
                     is Result.Success -> {
+                        Log.d(TAG, "SUCCESS")
                         result.data?.let {
-                            _cryptocurrenciesList.emit(it)
+                            _cryptocurrenciesList.value = it
+
                         }
 
                     }
@@ -43,7 +44,6 @@ class CryptocurrenciesViewModel @Inject constructor(private val repository: Cryp
                     }
                 }
             }
-//            _cryptocurrenciesList.emit(LatestResponse(null, null, null,null, null, null,null, null, null,null, null, null,null, null, null,null))
         }
     }
 

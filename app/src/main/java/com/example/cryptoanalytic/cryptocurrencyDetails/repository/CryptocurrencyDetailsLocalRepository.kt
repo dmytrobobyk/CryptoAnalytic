@@ -1,0 +1,4 @@
+package com.example.cryptoanalytic.cryptocurrencyDetails.repository
+
+class CryptocurrencyDetailsLocalRepository: CryptocurrencyDetailsRepository {
+}

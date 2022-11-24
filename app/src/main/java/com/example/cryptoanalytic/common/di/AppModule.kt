@@ -23,25 +23,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitBuilder(converterFactory: Converter.Factory): Retrofit.Builder {
-        return Retrofit.Builder()
-            .addConverterFactory(converterFactory)
-    }
+    fun provideRetrofitBuilder(converterFactory: Converter.Factory): Retrofit.Builder = Retrofit.Builder().addConverterFactory(converterFactory)
 
     @Provides
     @Singleton
-    fun provideConverterFactory(@Nullable gson: Gson): Converter.Factory {
-        return GsonConverterFactory.create(gson)
-    }
+    fun provideConverterFactory(@Nullable gson: Gson): Converter.Factory = GsonConverterFactory.create(gson)
 
     @Provides
     @Singleton
-    fun provideGson(): Gson {
-        return GsonBuilder()
-            .excludeFieldsWithoutExposeAnnotation()
-            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-            .create()
-    }
+    fun provideGson(): Gson = GsonBuilder().create()
 
     @Provides
     @Singleton

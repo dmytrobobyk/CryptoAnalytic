@@ -40,10 +40,18 @@ object AppModule {
         logging.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder()
             .addInterceptor(logging)
-            .addInterceptor(Interceptor { chain ->
-                val request = chain.request().newBuilder()
-                    .header(BuildConfig.API_AUTH_HEADER, BuildConfig.API_KEY)
-                    .build();
+                //CoinMarketCap
+//            .addInterceptor(Interceptor { chain ->
+//                val request = chain.request().newBuilder()
+//                    .header(BuildConfig.API_AUTH_HEADER, BuildConfig.API_KEY)
+//                    .build();
+//                chain.proceed(request)
+//            })
+                //CoinGecko
+            .addInterceptor(Interceptor {chain ->
+                var request = chain.request()
+                val url = request.url.newBuilder().addQueryParameter("vs_currency","USD").build()
+                request = request.newBuilder().url(url).build()
                 chain.proceed(request)
             })
             .build()

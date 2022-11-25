@@ -9,4 +9,6 @@ open class BaseViewModel : ViewModel() {
 //    var error: MutableLiveData<String> = MutableLiveData("")
 //    val oneTimeEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
+    val TAG = this.javaClass.simpleName
+
 }

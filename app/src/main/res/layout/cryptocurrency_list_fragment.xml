@@ -7,14 +7,14 @@
     <data>
     <variable
         name="viewModel"
-        type="com.example.cryptoanalytic.cryptocurrencies.viewmodel.CryptocurrenciesViewModel" />
+        type="com.example.cryptoanalytic.screens.cryptocurrencies.viewmodel.CryptocurrenciesViewModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context="com.example.cryptoanalytic.cryptocurrencies.CryptocurrenciesFragment">
+    tools:context=".screens.cryptocurrencies.CryptocurrenciesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

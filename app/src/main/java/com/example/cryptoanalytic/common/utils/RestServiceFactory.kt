@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 fun <T> createService(clazz: Class<T>, okHttpClient: OkHttpClient, converterFactory: Converter.Factory): T = Retrofit.Builder()
     .addConverterFactory(converterFactory)
-    .baseUrl(BuildConfig.API_BASE_URL)
+    .baseUrl(BuildConfig.COIN_GECKO_API_BASE_URL)
     .client(okHttpClient)
     .build()
     .create(clazz)

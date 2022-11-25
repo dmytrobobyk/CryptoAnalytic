@@ -9,7 +9,7 @@
         app:startDestination="@id/cryptocurrenciesFragment">
         <fragment
             android:id="@+id/cryptocurrenciesFragment"
-            android:name="com.example.cryptoanalytic.cryptocurrencies.CryptocurrenciesFragment"
+            android:name="com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesFragment"
             android:label="CryptocurrenciesFragment"/>
     </navigation>
 

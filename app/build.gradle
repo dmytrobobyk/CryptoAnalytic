@@ -20,9 +20,13 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        //Coin market cap api
         buildConfigField "String", "API_BASE_URL", '"https://pro-api.coinmarketcap.com/v1/"'
         buildConfigField "String", "API_KEY", '"574ea375-7e0f-46d5-a352-379d2b1383b3"'
         buildConfigField "String", "API_AUTH_HEADER", '"X-CMC_PRO_API_KEY"'
+
+        //Coin gecko api
+        buildConfigField "String", "COIN_GECKO_API_BASE_URL", '"https://api.coingecko.com/api/v3/"'
     }
 
     buildTypes {
@@ -60,6 +64,7 @@ ext {
     lifecycleViewModel = "2.4.1"
     MPAndroidCharts = "v3.0.2"
     toggleButtonGroup = "1.1.2"
+    glide = "4.14.2"
 
     //Testing
     jUnit = "4.13.2"
@@ -112,6 +117,10 @@ dependencies {
     //Charts
     implementation "com.github.PhilJay:MPAndroidChart:$MPAndroidCharts"
     implementation "com.nex3z:toggle-button-group:$toggleButtonGroup"
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$glide"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide"
 
 
     //Testing

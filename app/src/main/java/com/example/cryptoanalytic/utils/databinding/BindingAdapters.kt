@@ -8,8 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoanalytic.R
-import com.example.cryptoanalytic.common.responses.latest.LatestResponse
-import com.example.cryptoanalytic.cryptocurrencies.CryptocurrenciesListAdapter
+import com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesListAdapter
+import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CoinMarketResponseItem
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -17,9 +17,20 @@ import java.text.SimpleDateFormat
 
 object BindingAdapters {
 
+    //CoinMarketCap API
+//    @BindingAdapter("cryptocurrencyItems")
+//    @JvmStatic
+//    fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<LatestResponse>) {
+//        recyclerView.adapter ?: run {
+//            recyclerView.adapter = CryptocurrenciesListAdapter()
+//        }
+//        (recyclerView.adapter as CryptocurrenciesListAdapter).submitList(cryptocurrencyItems.toMutableList())
+//    }
+
+    //CoinGecko API
     @BindingAdapter("cryptocurrencyItems")
     @JvmStatic
-    fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<LatestResponse>) {
+    fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<CoinMarketResponseItem>) {
         recyclerView.adapter ?: run {
             recyclerView.adapter = CryptocurrenciesListAdapter()
         }

@@ -15,7 +15,7 @@
             tools:layout="@layout/cryptocurrency_list_fragment">
 
             <action
-                android:id="@+id/action_cryptocurrenciesFragment_to_cryptocurrencyDetails3"
+                android:id="@+id/action_cryptocurrenciesFragment_to_cryptocurrencyDetails"
                 app:destination="@id/cryptocurrencyDetails" />
         </fragment>
 

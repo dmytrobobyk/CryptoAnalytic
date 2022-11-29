@@ -79,7 +79,7 @@
                         android:background="@drawable/cryptocurrency_item_position_background"
                         android:paddingStart="2dp"
                         android:paddingEnd="2dp"
-                        android:text="@{cryptoItem.marketCapRank}"
+                        android:text="1"
                         tools:text="1" />
 
                     <TextView

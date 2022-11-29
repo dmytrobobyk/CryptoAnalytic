@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class CryptocurrencyDetailsViewModel @AssistedInject constructor(
     private val repository: CryptocurrencyDetailsRepository,
-    @Assisted("cryptocurrencyId") private val cryptocurrencyId: String,
+    @Assisted private val cryptocurrencyId: String,
 ) : BaseViewModel() {
     private val _cryptocurrencyDetailsInfo = MutableStateFlow<CryptocurrencyDetailsResponse?>(null)
     val cryptocurrencyDetailsInfo: StateFlow<CryptocurrencyDetailsResponse?> = _cryptocurrencyDetailsInfo.asStateFlow()
@@ -55,7 +55,7 @@ class CryptocurrencyDetailsViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface CryptocurrencyDetailsViewModelFactory {
-        fun create(userId: String): CryptocurrencyDetailsViewModel
+        fun create(cryptocurrencyId: String): CryptocurrencyDetailsViewModel
     }
 
     companion object {

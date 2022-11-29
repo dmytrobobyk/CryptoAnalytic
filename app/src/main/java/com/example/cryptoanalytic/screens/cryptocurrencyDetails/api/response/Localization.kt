@@ -1,5 +1,7 @@
 package com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response
 
+import com.google.gson.annotations.SerializedName
+
 data class Localization(
     val ar: String,
     val bg: String,
@@ -34,5 +36,5 @@ data class Localization(
     val uk: String,
     val vi: String,
     val zh: String,
-    val zh-tw: String
+    @SerializedName("zh-tw") val zh_tw: String
 )

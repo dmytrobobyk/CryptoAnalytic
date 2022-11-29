@@ -67,7 +67,8 @@ class CryptocurrenciesListAdapter : ListAdapter<CoinMarketResponseItem, Recycler
             itemBinding.cryptoItem = item
             Glide.with(itemBinding.root.context).load(item.image).into(itemBinding.cryptocurrencyItemImageView)
             itemBinding.root.setOnClickListener {
-                it.findNavController().navigate(R.id.action_cryptocurrencyDetails)
+                val action = CryptocurrenciesFragmentDirections.actionCryptocurrenciesFragmentToCryptocurrencyDetails(item.id)
+                it.findNavController().navigate(action)
             }
         }
     }

@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+//import com.example.cryptoanalytic.CryptocurrencyDetailsArgs
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.databinding.CryptocurrencyDetailsFragmentBinding
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.viewmodel.CryptocurrencyDetailsViewModel
@@ -28,13 +29,14 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
 
-    private val args: CryptocurrencyDetailsFragmentArgs by navArgs()
+//    private val args: CryptocurrencyDetailsArgs by navArgs()
     @Inject
     lateinit var articlesFeedViewModelFactory: CryptocurrencyDetailsViewModel.CryptocurrencyDetailsViewModelFactory
     private val viewModel: CryptocurrencyDetailsViewModel by viewModels {
         CryptocurrencyDetailsViewModel.providesFactory(
             assistedFactory = articlesFeedViewModelFactory,
-            cryptocurrencyId = args.cryptocurrencyId
+//            cryptocurrencyId = args.cryptocurrencyId
+        ""
         )
     }
     private lateinit var binding: CryptocurrencyDetailsFragmentBinding

@@ -2,10 +2,12 @@ package com.example.cryptoanalytic.screens.cryptocurrencies
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.databinding.CryptocurrencyListItemBinding
 import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CoinMarketResponseItem
 
@@ -64,6 +66,9 @@ class CryptocurrenciesListAdapter : ListAdapter<CoinMarketResponseItem, Recycler
         fun bind(item: CoinMarketResponseItem) {
             itemBinding.cryptoItem = item
             Glide.with(itemBinding.root.context).load(item.image).into(itemBinding.cryptocurrencyItemImageView)
+            itemBinding.root.setOnClickListener {
+                it.findNavController().navigate(R.id.action_cryptocurrencyDetails)
+            }
         }
     }
 }

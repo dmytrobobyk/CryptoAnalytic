@@ -3,12 +3,12 @@ package com.example.cryptoanalytic.screens.cryptocurrencyDetails
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.databinding.CryptocurrencyDetailsFragmentBinding
@@ -18,12 +18,17 @@ import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
@@ -41,6 +46,9 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
     private lateinit var binding: CryptocurrencyDetailsFragmentBinding
     private var displayWidth: Int = 0
 
+    private val xAxisFormatter: IAxisValueFormatter? = null
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.cryptocurrency_details_fragment, container, false)
         binding.lifecycleOwner = this
@@ -49,8 +57,84 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
         val mWinMgr = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         displayWidth = mWinMgr.defaultDisplay.width
 
-        setUpChart()
+//        setUpChart()
         return binding.root
+    }
+
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val info = viewModel.cryptocurrencyDetailsInfo.value
+//        viewModel.viewModelScope.launch {
+//        lifecycleScope.launch {
+//            viewModel.cryptocurrencyDetailsInfo.collect {cryptocurrencyDetailsInfo ->
+//                cryptocurrencyDetailsInfo?.let {
+//                    val timeFrom = Calendar.getInstance().time.time
+//                    val timeTo = Calendar.getInstance().time.time
+//                    viewModel.getCryptocurrencyHistoryPrices(it.symbol, timeFrom, timeTo)
+//                }
+//            }
+//        }
+
+//        viewModel.viewModelScope.launch {
+//            viewModel.cryptocurrencyHistoryPrices.collect { historyPrices ->
+//                if (historyPrices?.prices?.isNotEmpty() == true) {
+//                    //create list
+//                    var list = arrayListOf<Entry>()
+//                    historyPrices.prices.forEachIndexed { index, currentRow ->
+//                        list.add(Entry(currentRow[0].toFloat(), currentRow[1].toFloat()))
+//                    }
+//                    setChartData(list)
+//                }
+//            }
+//        }
+    }
+
+    private fun setChartData(values: ArrayList<Entry>) {
+        var chartDataSet = LineDataSet(listOf(), "")
+        chartDataSet = LineDataSet(values, "")
+
+        chartDataSet.color = Color.BLUE
+        chartDataSet.setDrawCircles(false)
+        chartDataSet.setDrawHorizontalHighlightIndicator(false)
+        chartDataSet.setDrawVerticalHighlightIndicator(true)
+        chartDataSet.lineWidth = 3f
+        chartDataSet.setDrawValues(false)
+
+
+        if (binding.chart.data == null) {
+            val data = LineData(chartDataSet)
+            binding.chart.data = data
+        } else {
+            binding.chart.clearValues()
+            binding.chart.data.clearValues()
+            binding.chart.data.addDataSet(chartDataSet)
+        }
+        //chart.animateX(1000)
+        binding.chart.notifyDataSetChanged()
+        binding.chart.invalidate()
+
+//        setChartVisibility(true)
+//        setChartLoadingProgressBarVisibility(false)
+    }
+
+    fun setUpLineDataSet(entries: List<Entry?>?): LineDataSet {
+        val dataSet = LineDataSet(entries, "Price")
+        dataSet.color = Color.GREEN
+        dataSet.fillColor = Color.BLUE
+        dataSet.setDrawHighlightIndicators(true)
+        dataSet.setDrawFilled(true)
+        dataSet.setDrawCircles(true)
+        dataSet.setCircleColor(Color.GREEN)
+        dataSet.setDrawCircleHole(false)
+        dataSet.setDrawValues(false)
+        dataSet.circleRadius = 1f
+        dataSet.highlightLineWidth = 2f
+        dataSet.isHighlightEnabled = true
+        dataSet.setDrawHighlightIndicators(true)
+        dataSet.highLightColor = Color.GREEN // color for highlight indicator
+        return dataSet
     }
 
     private fun setUpChart() {
@@ -115,27 +199,27 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
                     }
                 }
                 if (closePrices.size == 0) {
-                    lineChart.setData(null)
-                    lineChart.setEnabled(false)
-                    lineChart.invalidate()
-                    percentChangeText.text = ""
-                    currPriceText.text = ""
-                    lineChart.setNoDataText(getString(R.string.noChartDataString))
-                    chartProgressBar.setVisibility(View.GONE)
+                    binding.chart.data = null
+                    binding.chart.isEnabled = false
+                    binding.chart.invalidate()
+//                    percentChangeText.text = ""
+//                    currPriceText.text = ""
+                    binding.chart.setNoDataText(getString(R.string.no_chart_data_string))
+//                    chartProgressBar.setVisibility(View.GONE)
                     return
                 }
-                val xAxis: XAxis = lineChart.getXAxis()
-                xAxis.valueFormatter = XAxisFormatter
-                val currentPriceTextView: TextView = rootView.findViewById<TextView>(R.id.current_price)
-                val currPrice = closePrices[closePrices.size - 1].y
-                val chartDateTextView: TextView = rootView.findViewById<TextView>(R.id.graphFragmentDateTextView)
-                chartDateTextView.setText(getFormattedFullDate(closePrices[closePrices.size - 1].x))
-                if (tsymbol == "USD") {
-                    currentPriceTextView.text = String.format(getString(R.string.unrounded_usd_chart_price_format), currPrice.toString())
-                } else {
-                    currentPriceTextView.setText(currencyFormatter.format(currPrice, "BTC"))
-                }
-                currentPriceTextView.setTextColor(Color.BLACK)
+                val xAxis: XAxis = binding.chart.xAxis
+                xAxis.valueFormatter = xAxisFormatter
+//                val currentPriceTextView: TextView = binding.root.findViewById(R.id.current_price)
+//                val currPrice = closePrices[closePrices.size - 1].y
+//                val chartDateTextView: TextView = binding.root.findViewById(R.id.graphFragmentDateTextView)
+//                chartDateTextView.setText(getFormattedFullDate(closePrices[closePrices.size - 1].x))
+//                if (tsymbol == "USD") {
+//                    currentPriceTextView.text = String.format(getString(R.string.unrounded_usd_chart_price_format), currPrice.toString())
+//                } else {
+//                    currentPriceTextView.setText(currencyFormatter.format(currPrice, "BTC"))
+//                }
+//                currentPriceTextView.setTextColor(Color.BLACK)
                 var firstPrice = closePrices[0].y
                 // Handle edge case where we dont have data for the interval on the chart. E.g. user selects
                 // 3 month window, but we only have data for last month
@@ -146,40 +230,40 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
                         e.y
                     }
                 }
-                val difference = currPrice - firstPrice
-                val percentChange = difference / firstPrice * 100
-                if (percentChange < 0) {
-                    if (tsymbol == "USD") {
-                        percentChangeText.text = String.format(
-                            getString(R.string.negative_variable_pct_change_with_dollars_format),
-                            currentTimeWindow,
-                            percentChange,
-                            Math.abs(difference)
-                        )
-                    } else {
-                        percentChangeText.text =
-                            String.format(getString(R.string.negative_variable_pct_change_without_dollars_format), currentTimeWindow, percentChange)
-                    }
-                } else {
-                    if (tsymbol == "USD") {
-                        percentChangeText.text = String.format(
-                            getString(R.string.positive_variable_pct_change_with_dollars_format),
-                            currentTimeWindow,
-                            percentChange,
-                            Math.abs(difference)
-                        )
-                    } else {
-                        percentChangeText.text =
-                            String.format(getString(R.string.positive_variable_pct_change_without_dollars_format), currentTimeWindow, percentChange)
-                    }
-                }
-                setColors(percentChange)
-                percentChangeText.setTextColor(percentageColor)
+//                val difference = currPrice - firstPrice
+//                val percentChange = difference / firstPrice * 100
+//                if (percentChange < 0) {
+//                    if (tsymbol == "USD") {
+//                        percentChangeText.text = String.format(
+//                            getString(R.string.negative_variable_pct_change_with_dollars_format),
+//                            currentTimeWindow,
+//                            percentChange,
+//                            Math.abs(difference)
+//                        )
+//                    } else {
+//                        percentChangeText.text =
+//                            String.format(getString(R.string.negative_variable_pct_change_without_dollars_format), currentTimeWindow, percentChange)
+//                    }
+//                } else {
+//                    if (tsymbol == "USD") {
+//                        percentChangeText.text = String.format(
+//                            getString(R.string.positive_variable_pct_change_with_dollars_format),
+//                            currentTimeWindow,
+//                            percentChange,
+//                            Math.abs(difference)
+//                        )
+//                    } else {
+//                        percentChangeText.text =
+//                            String.format(getString(R.string.positive_variable_pct_change_without_dollars_format), currentTimeWindow, percentChange)
+//                    }
+//                }
+//                setColors(percentChange)
+//                percentChangeText.setTextColor(percentageColor)
                 val dataSet: LineDataSet = setUpLineDataSet(closePrices)
                 val lineData = LineData(dataSet)
-                lineChart.setData(lineData)
-                lineChart.animateX(800)
-                chartProgressBar.setVisibility(View.GONE)
+                binding.chart.data = lineData
+                binding.chart.animateX(800)
+//                chartProgressBar.setVisibility(View.GONE)
             }
         }, object : afterTaskFailure() {
             fun onTaskFailed(o: Any?, e: Exception) {
@@ -189,7 +273,7 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
             }
         }, true)
     }
-    */
+*/
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
         TODO("Not yet implemented")

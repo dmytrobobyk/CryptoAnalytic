@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.cryptoanalytic.common.BaseViewModel
 import com.example.cryptoanalytic.common.Result
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyDetailsResponse
+import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyHistoryPrices
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.repository.CryptocurrencyDetailsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -23,6 +24,9 @@ class CryptocurrencyDetailsViewModel @AssistedInject constructor(
 ) : BaseViewModel() {
     private val _cryptocurrencyDetailsInfo = MutableStateFlow<CryptocurrencyDetailsResponse?>(null)
     val cryptocurrencyDetailsInfo: StateFlow<CryptocurrencyDetailsResponse?> = _cryptocurrencyDetailsInfo.asStateFlow()
+
+    private val _cryptocurrencyHistoryPrices = MutableStateFlow<CryptocurrencyHistoryPrices?>(null)
+    val cryptocurrencyHistoryPrices: StateFlow<CryptocurrencyHistoryPrices?> = _cryptocurrencyHistoryPrices.asStateFlow()
 
 
     init {
@@ -41,6 +45,35 @@ class CryptocurrencyDetailsViewModel @AssistedInject constructor(
                         Log.d(TAG, "SUCCESS")
                         result.data?.let {
                             _cryptocurrencyDetailsInfo.value = it
+
+                        }
+
+                    }
+                    is Result.Error -> {
+                        Log.d(TAG, "ERROR")
+                    }
+                }
+            }
+        }
+    }
+
+    fun getCryptocurrencyHistoryPrices(currencySymbol: String, unixTimeFrom: Long, unixTimeTo: Long) {
+        viewModelScope.launch {
+            repository.getHistoryOfPriceForDateRange(currencySymbol, unixTimeFrom, unixTimeTo).collect { result ->
+                when(result) {
+                    is Result.Loading -> {
+                        Log.d(TAG, "LOADING")
+
+                    }
+                    is Result.Finish -> {
+                        Log.d(TAG, "FINISH")
+
+                    }
+                    is Result.Success -> {
+                        Log.d(TAG, "SUCCESS")
+                        result.data?.let {
+                            val s = it
+                            val ss = ""
 
                         }
 

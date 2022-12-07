@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.databinding.CryptocurrencyDetailsFragmentBinding
+import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyDetailsResponse
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyHistoryPrices
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.viewmodel.CryptocurrencyDetailsViewModel
 import com.github.mikephil.charting.components.XAxis
@@ -27,6 +28,8 @@ import com.nex3z.togglebuttongroup.SingleSelectToggleGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -64,25 +67,24 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
         val mWinMgr = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         displayWidth = mWinMgr.defaultDisplay.width
 //        setUpChart()
+        initViews()
 
-
-            //TODO: add correct date for historical data when initializing the screen
-            viewModel.viewModelScope.launch {
-                viewModel.cryptocurrencyDetailsInfo.collect { cryptocurrencyDetailsInfo ->
-                    cryptocurrencyDetailsInfo?.let {
-                        //set date range parameters
-                        val calendar = Calendar.getInstance()
-                        val dateStart = calendar.time.time / 1000
-                        calendar.add(Calendar.DAY_OF_MONTH, 1)
-                        val dateEnd = calendar.time.time / 1000
-                        viewModel.getCryptocurrencyHistoryPrices(it.id.lowercase(), 1670090199, 1670176599)
-                    }
-                }
-            }
 
         viewModel.viewModelScope.launch {
+            viewModel.cryptocurrencyDetailsInfo.collect { cryptocurrencyDetailsInfo ->
+                cryptocurrencyDetailsInfo?.let {
+                    setChartTimeRange(R.id.day_button)
+                }
+            }
+        }
+
+        viewModel.viewModelScope.launch {
+            showChartProgress(true)
             viewModel.cryptocurrencyHistoryPrices.collect { historicalPrices ->
                 historicalPrices?.let {
+                    viewModel.cryptocurrencyDetailsInfo.value?.let {
+                        setCryptocurrencyInfo(it)
+                    }
                     setChartData(historicalPrices)
                 }
             }
@@ -91,47 +93,41 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
 
     private fun initViews() {
         binding.chartIntervalButtonGroup.setOnCheckedChangeListener(SingleSelectToggleGroup.OnCheckedChangeListener { group, checkedId ->
-//            Calendar.getInstance()
-            when (checkedId) {
-                R.id.day_button -> {
-//                    setDayChecked(Calendar.getInstance())
-//                    getCMCChart()
-//                    viewModel.getCryptocurrencyHistoryPrices()
-                }
-                R.id.week_button -> {
-//                    setWeekChecked(Calendar.getInstance())
-//                    getCMCChart()
-//                    viewModel.getCryptocurrencyHistoryPrices()
-                }
-                R.id.month_button -> {
-//                    setMonthChecked(Calendar.getInstance())
-//                    getCMCChart()
-//                    viewModel.getCryptocurrencyHistoryPrices()
-                }
-                R.id.three_month_button -> {
-//                    setThreeMonthChecked(Calendar.getInstance())
-//                    getCMCChart()
-//                    viewModel.getCryptocurrencyHistoryPrices()
-                }
-                R.id.year_button -> {
-//                    setYearChecked(Calendar.getInstance())
-//                    getCMCChart()
-//                    viewModel.getCryptocurrencyHistoryPrices()
-                }
-                R.id.all_time_button -> {
-//                    setAllTimeChecked()
-//                    getCMCChart()
-//                    viewModel.getCryptocurrencyHistoryPrices()
-                }
-            }
+            setChartTimeRange(checkedId)
         })
+    }
+
+    private fun setChartTimeRange(checkedRadioButtonId: Int) {
+        //set date range parameters
+        val calendar = Calendar.getInstance()
+        val dateEnd = calendar.time
+
+        when (checkedRadioButtonId) {
+            R.id.quarter_hour_button -> calendar.add(Calendar.MINUTE, -45)
+            R.id.hour_button -> calendar.add(Calendar.HOUR, -1)
+            R.id.day_button -> calendar.add(Calendar.DAY_OF_MONTH, -1)
+            R.id.week_button -> calendar.add(Calendar.DAY_OF_MONTH, -7)
+            R.id.month_button -> calendar.add(Calendar.MONTH, -1)
+            R.id.three_month_button -> calendar.add(Calendar.MONTH, -3)
+            R.id.year_button -> calendar.add(Calendar.YEAR, -1)
+            R.id.all_time_button -> calendar.add(Calendar.HOUR, -1) //TODO: fix and get all data
+        }
+
+        val dateStart = calendar.time
+
+        viewModel.cryptocurrencyDetailsInfo.value?.let {
+            viewModel.getCryptocurrencyHistoryPrices(it.id.lowercase(), dateStart.time / 1000, dateEnd.time / 1000)
+        }
+
     }
 
     private fun showChartProgress(state: Boolean) {
         if (state) {
+            binding.chart.visibility = View.INVISIBLE
             binding.chartProgressBar.visibility = View.VISIBLE
         } else {
             binding.chartProgressBar.visibility = View.GONE
+            binding.chart.visibility = View.VISIBLE
         }
     }
 
@@ -165,8 +161,17 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
         binding.chart.notifyDataSetChanged()
         binding.chart.invalidate()
 
-//        setChartVisibility(true)
-        setChartLoadingProgressBarVisibility(false)
+        showChartProgress(false)
+    }
+
+    private fun setCryptocurrencyInfo(cryptocurrencyInfo: CryptocurrencyDetailsResponse) {
+        val formatter: NumberFormat = DecimalFormat("0.000")
+        val string: String = formatter.format(cryptocurrencyInfo.market_data.market_cap.usd)
+        binding.marketCap.text = "${cryptocurrencyInfo.market_data.market_cap.usd}$"
+        binding.volume24h.text = "${cryptocurrencyInfo.market_data.price_change_24h}$"
+        binding.availableSupply.text = "${cryptocurrencyInfo.market_data.max_supply}"
+        binding.totalSupply.text = "${cryptocurrencyInfo.market_data.total_supply}"
+        binding.explorers.text = "${cryptocurrencyInfo.links.blockchain_site[1]}"
     }
 
     fun setUpLineDataSet(entries: List<Entry?>?): LineDataSet {
@@ -229,101 +234,6 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
             override fun onChartTranslate(me: MotionEvent, dX: Float, dY: Float) {}
         }
     }
-/*
-    private fun getCMCChart() {
-//        val percentChangeText: TextView = rootView.findViewById<TextView>(R.id.percent_change)
-//        val currPriceText: TextView = rootView.findViewById<TextView>(R.id.current_price)
-        binding.chart.isEnabled = true
-        binding.chart.clear()
-//        chartProgressBar.setVisibility(View.VISIBLE)
-        CoinMarketCapService.getCMCChartData(activity, cryptoID, object : afterTaskCompletion<CMCChartData?>() {
-            fun onTaskCompleted(cmcChartData: CMCChartData) {
-                val closePrices: MutableList<Entry> = ArrayList()
-                if (tsymbol == "USD") {
-                    for (priceTimeUnit in cmcChartData.getPriceUSD()) {
-                        closePrices.add(Entry(priceTimeUnit[0]!!, priceTimeUnit[1]!!))
-                    }
-                } else {
-                    for (priceTimeUnit in cmcChartData.getPriceBTC()) {
-                        closePrices.add(Entry(priceTimeUnit[0]!!, priceTimeUnit[1]!!))
-                    }
-                }
-                if (closePrices.size == 0) {
-                    binding.chart.data = null
-                    binding.chart.isEnabled = false
-                    binding.chart.invalidate()
-//                    percentChangeText.text = ""
-//                    currPriceText.text = ""
-                    binding.chart.setNoDataText(getString(R.string.no_chart_data_string))
-//                    chartProgressBar.setVisibility(View.GONE)
-                    return
-                }
-                val xAxis: XAxis = binding.chart.xAxis
-                xAxis.valueFormatter = xAxisFormatter
-//                val currentPriceTextView: TextView = binding.root.findViewById(R.id.current_price)
-//                val currPrice = closePrices[closePrices.size - 1].y
-//                val chartDateTextView: TextView = binding.root.findViewById(R.id.graphFragmentDateTextView)
-//                chartDateTextView.setText(getFormattedFullDate(closePrices[closePrices.size - 1].x))
-//                if (tsymbol == "USD") {
-//                    currentPriceTextView.text = String.format(getString(R.string.unrounded_usd_chart_price_format), currPrice.toString())
-//                } else {
-//                    currentPriceTextView.setText(currencyFormatter.format(currPrice, "BTC"))
-//                }
-//                currentPriceTextView.setTextColor(Color.BLACK)
-                var firstPrice = closePrices[0].y
-                // Handle edge case where we dont have data for the interval on the chart. E.g. user selects
-                // 3 month window, but we only have data for last month
-                for (e in closePrices) {
-                    firstPrice = if (firstPrice != 0f) {
-                        break
-                    } else {
-                        e.y
-                    }
-                }
-//                val difference = currPrice - firstPrice
-//                val percentChange = difference / firstPrice * 100
-//                if (percentChange < 0) {
-//                    if (tsymbol == "USD") {
-//                        percentChangeText.text = String.format(
-//                            getString(R.string.negative_variable_pct_change_with_dollars_format),
-//                            currentTimeWindow,
-//                            percentChange,
-//                            Math.abs(difference)
-//                        )
-//                    } else {
-//                        percentChangeText.text =
-//                            String.format(getString(R.string.negative_variable_pct_change_without_dollars_format), currentTimeWindow, percentChange)
-//                    }
-//                } else {
-//                    if (tsymbol == "USD") {
-//                        percentChangeText.text = String.format(
-//                            getString(R.string.positive_variable_pct_change_with_dollars_format),
-//                            currentTimeWindow,
-//                            percentChange,
-//                            Math.abs(difference)
-//                        )
-//                    } else {
-//                        percentChangeText.text =
-//                            String.format(getString(R.string.positive_variable_pct_change_without_dollars_format), currentTimeWindow, percentChange)
-//                    }
-//                }
-//                setColors(percentChange)
-//                percentChangeText.setTextColor(percentageColor)
-                val dataSet: LineDataSet = setUpLineDataSet(closePrices)
-                val lineData = LineData(dataSet)
-                binding.chart.data = lineData
-                binding.chart.animateX(800)
-//                chartProgressBar.setVisibility(View.GONE)
-            }
-        }, object : afterTaskFailure() {
-            fun onTaskFailed(o: Any?, e: Exception) {
-                Log.e("ERROR", "Server Error: " + e.message)
-                lineChart.setNoDataText(getString(R.string.noChartDataString))
-                chartProgressBar.setVisibility(View.GONE)
-            }
-        }, true)
-    }
-*/
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
         TODO("Not yet implemented")

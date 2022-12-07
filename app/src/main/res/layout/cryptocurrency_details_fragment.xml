@@ -96,6 +96,22 @@
             app:tbgChildSpacing="auto">
 
             <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/quarter_hour_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/quarter_hour"
+                android:textSize="16sp"
+                app:tbgMarkerColor="@color/title_item_name_color" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
+                android:id="@+id/hour_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hour"
+                android:textSize="16sp"
+                app:tbgMarkerColor="@color/title_item_name_color" />
+
+            <com.nex3z.togglebuttongroup.button.CircularToggle
                 android:id="@+id/day_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -192,7 +208,7 @@
             android:id="@+id/available_supply_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/market_cap"
+            android:text="@string/available_supply"
             android:textSize="16sp"
             android:layout_marginStart="@dimen/standard"
             android:layout_marginTop="@dimen/half_standard"
@@ -214,7 +230,7 @@
             android:id="@+id/total_supply_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/volume_24h"
+            android:text="@string/total_supply"
             android:textSize="16sp"
             android:layout_marginEnd="@dimen/standard"
             android:layout_marginTop="@dimen/half_standard"

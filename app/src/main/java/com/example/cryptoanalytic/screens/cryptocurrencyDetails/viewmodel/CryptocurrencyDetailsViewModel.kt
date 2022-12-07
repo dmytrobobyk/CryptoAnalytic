@@ -72,7 +72,7 @@ class CryptocurrencyDetailsViewModel @AssistedInject constructor(
                     is Result.Success -> {
                         Log.d(TAG, "SUCCESS")
                         result.data?.let {
-                            val s = it
+                            _cryptocurrencyHistoryPrices.value = it
                             val ss = ""
 
                         }

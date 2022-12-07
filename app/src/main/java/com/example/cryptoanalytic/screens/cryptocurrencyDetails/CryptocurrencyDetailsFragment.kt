@@ -7,11 +7,11 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.databinding.CryptocurrencyDetailsFragmentBinding
+import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyHistoryPrices
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.viewmodel.CryptocurrencyDetailsViewModel
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -23,12 +23,12 @@ import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.ChartTouchListener
 import com.github.mikephil.charting.listener.OnChartGestureListener
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.nex3z.togglebuttongroup.SingleSelectToggleGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
 class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
@@ -53,11 +53,6 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
         binding = DataBindingUtil.inflate(inflater, R.layout.cryptocurrency_details_fragment, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
-        val mWinMgr = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-        displayWidth = mWinMgr.defaultDisplay.width
-
-//        setUpChart()
         return binding.root
     }
 
@@ -65,35 +60,90 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val info = viewModel.cryptocurrencyDetailsInfo.value
-//        viewModel.viewModelScope.launch {
-//        lifecycleScope.launch {
-//            viewModel.cryptocurrencyDetailsInfo.collect {cryptocurrencyDetailsInfo ->
-//                cryptocurrencyDetailsInfo?.let {
-//                    val timeFrom = Calendar.getInstance().time.time
-//                    val timeTo = Calendar.getInstance().time.time
-//                    viewModel.getCryptocurrencyHistoryPrices(it.symbol, timeFrom, timeTo)
-//                }
-//            }
-//        }
 
-//        viewModel.viewModelScope.launch {
-//            viewModel.cryptocurrencyHistoryPrices.collect { historyPrices ->
-//                if (historyPrices?.prices?.isNotEmpty() == true) {
-//                    //create list
-//                    var list = arrayListOf<Entry>()
-//                    historyPrices.prices.forEachIndexed { index, currentRow ->
-//                        list.add(Entry(currentRow[0].toFloat(), currentRow[1].toFloat()))
-//                    }
-//                    setChartData(list)
-//                }
-//            }
-//        }
+        val mWinMgr = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        displayWidth = mWinMgr.defaultDisplay.width
+//        setUpChart()
+
+
+            //TODO: add correct date for historical data when initializing the screen
+            viewModel.viewModelScope.launch {
+                viewModel.cryptocurrencyDetailsInfo.collect { cryptocurrencyDetailsInfo ->
+                    cryptocurrencyDetailsInfo?.let {
+                        //set date range parameters
+                        val calendar = Calendar.getInstance()
+                        val dateStart = calendar.time.time / 1000
+                        calendar.add(Calendar.DAY_OF_MONTH, 1)
+                        val dateEnd = calendar.time.time / 1000
+                        viewModel.getCryptocurrencyHistoryPrices(it.id.lowercase(), 1670090199, 1670176599)
+                    }
+                }
+            }
+
+        viewModel.viewModelScope.launch {
+            viewModel.cryptocurrencyHistoryPrices.collect { historicalPrices ->
+                historicalPrices?.let {
+                    setChartData(historicalPrices)
+                }
+            }
+        }
     }
 
-    private fun setChartData(values: ArrayList<Entry>) {
-        var chartDataSet = LineDataSet(listOf(), "")
-        chartDataSet = LineDataSet(values, "")
+    private fun initViews() {
+        binding.chartIntervalButtonGroup.setOnCheckedChangeListener(SingleSelectToggleGroup.OnCheckedChangeListener { group, checkedId ->
+//            Calendar.getInstance()
+            when (checkedId) {
+                R.id.day_button -> {
+//                    setDayChecked(Calendar.getInstance())
+//                    getCMCChart()
+//                    viewModel.getCryptocurrencyHistoryPrices()
+                }
+                R.id.week_button -> {
+//                    setWeekChecked(Calendar.getInstance())
+//                    getCMCChart()
+//                    viewModel.getCryptocurrencyHistoryPrices()
+                }
+                R.id.month_button -> {
+//                    setMonthChecked(Calendar.getInstance())
+//                    getCMCChart()
+//                    viewModel.getCryptocurrencyHistoryPrices()
+                }
+                R.id.three_month_button -> {
+//                    setThreeMonthChecked(Calendar.getInstance())
+//                    getCMCChart()
+//                    viewModel.getCryptocurrencyHistoryPrices()
+                }
+                R.id.year_button -> {
+//                    setYearChecked(Calendar.getInstance())
+//                    getCMCChart()
+//                    viewModel.getCryptocurrencyHistoryPrices()
+                }
+                R.id.all_time_button -> {
+//                    setAllTimeChecked()
+//                    getCMCChart()
+//                    viewModel.getCryptocurrencyHistoryPrices()
+                }
+            }
+        })
+    }
+
+    private fun showChartProgress(state: Boolean) {
+        if (state) {
+            binding.chartProgressBar.visibility = View.VISIBLE
+        } else {
+            binding.chartProgressBar.visibility = View.GONE
+        }
+    }
+
+    private fun setChartData(historicalPrices: CryptocurrencyHistoryPrices) {
+        val list = mutableListOf<Entry>()
+        historicalPrices.prices.let {
+            it.forEachIndexed { index, currentRow ->
+                list.add(Entry(currentRow[0].toFloat(), currentRow[1].toFloat()))
+            }
+        }
+
+        val chartDataSet = LineDataSet(list, "")
 
         chartDataSet.color = Color.BLUE
         chartDataSet.setDrawCircles(false)
@@ -111,12 +161,12 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
             binding.chart.data.clearValues()
             binding.chart.data.addDataSet(chartDataSet)
         }
-        //chart.animateX(1000)
+        binding.chart.animateX(1000)
         binding.chart.notifyDataSetChanged()
         binding.chart.invalidate()
 
 //        setChartVisibility(true)
-//        setChartLoadingProgressBarVisibility(false)
+        setChartLoadingProgressBarVisibility(false)
     }
 
     fun setUpLineDataSet(entries: List<Entry?>?): LineDataSet {

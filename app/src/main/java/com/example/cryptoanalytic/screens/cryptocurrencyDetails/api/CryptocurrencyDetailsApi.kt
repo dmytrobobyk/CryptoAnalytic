@@ -11,7 +11,7 @@ import retrofit2.http.Query
 interface CryptocurrencyDetailsApi {
 
     @GET("coins/{id}")
-    suspend fun getCryptocurrencyInfo(@Query("id") id: String): Response<CryptocurrencyDetailsResponse>
+    suspend fun getCryptocurrencyInfo(@Path("id") id: String): Response<CryptocurrencyDetailsResponse>
 
     @GET("coins/{currency}/market_chart/range")
     suspend fun getHistoryOfPriceForDateRange(

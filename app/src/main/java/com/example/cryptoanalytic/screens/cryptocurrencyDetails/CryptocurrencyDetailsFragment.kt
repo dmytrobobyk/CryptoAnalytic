@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import android.widget.GridLayout
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +16,7 @@ import com.example.cryptoanalytic.databinding.CryptocurrencyDetailsFragmentBindi
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyDetailsResponse
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyHistoryPrices
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.viewmodel.CryptocurrencyDetailsViewModel
+import com.example.cryptoanalytic.utils.formatters.NumberFormatter
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
@@ -28,10 +31,10 @@ import com.nex3z.togglebuttongroup.SingleSelectToggleGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.text.DecimalFormat
-import java.text.NumberFormat
 import java.util.*
+import java.util.regex.Pattern
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
@@ -52,13 +55,21 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
     private val xAxisFormatter: IAxisValueFormatter? = null
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.cryptocurrency_details_fragment, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.cryptocurrency_details_fragment,
+            container,
+            false
+        )
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         return binding.root
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -116,7 +127,11 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
         val dateStart = calendar.time
 
         viewModel.cryptocurrencyDetailsInfo.value?.let {
-            viewModel.getCryptocurrencyHistoryPrices(it.id.lowercase(), dateStart.time / 1000, dateEnd.time / 1000)
+            viewModel.getCryptocurrencyHistoryPrices(
+                it.id.lowercase(),
+                dateStart.time / 1000,
+                dateEnd.time / 1000
+            )
         }
 
     }
@@ -165,14 +180,66 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
     }
 
     private fun setCryptocurrencyInfo(cryptocurrencyInfo: CryptocurrencyDetailsResponse) {
-        val formatter: NumberFormat = DecimalFormat("0.000")
-        val string: String = formatter.format(cryptocurrencyInfo.market_data.market_cap.usd)
-        binding.marketCap.text = "${cryptocurrencyInfo.market_data.market_cap.usd}$"
-        binding.volume24h.text = "${cryptocurrencyInfo.market_data.price_change_24h}$"
-        binding.availableSupply.text = "${cryptocurrencyInfo.market_data.max_supply}"
-        binding.totalSupply.text = "${cryptocurrencyInfo.market_data.total_supply}"
-        binding.explorers.text = "${cryptocurrencyInfo.links.blockchain_site[1]}"
+        binding.marketCap.text = "$${
+            NumberFormatter.formatDouble(
+                cryptocurrencyInfo.market_data.market_cap.usd,
+                withUnit = true
+            )
+        }"
+        binding.volume24h.text = "$${
+            NumberFormatter.formatDouble(
+                cryptocurrencyInfo.market_data.price_change_24h,
+                withUnit = true
+            )
+        }"
+        binding.availableSupply.text =
+            NumberFormatter.formatDouble(cryptocurrencyInfo.market_data.max_supply, withUnit = true)
+        binding.totalSupply.text = NumberFormatter.formatDouble(
+            cryptocurrencyInfo.market_data.total_supply,
+            withUnit = true
+        )
+        initGridLayoutWithItems(cryptocurrencyInfo.links.blockchain_site.filter { it.isNotEmpty() })
     }
+
+    private fun initGridLayoutWithItems(explorersList: List<String>) {
+        var gridLayout = binding.explorersGrid
+        gridLayout.alignmentMode = GridLayout.ALIGN_BOUNDS;
+        gridLayout.columnCount = 2
+        gridLayout.rowCount = if (explorersList.size / 2 == 0) {
+            explorersList.size / 2
+        } else {
+            (explorersList.size / 2) + 1
+        }
+        explorersList.forEachIndexed { index, item ->
+            val titleText = TextView(context)
+            titleText.text = getDomainFromUrl(item)
+            titleText.background = requireActivity().getDrawable(R.drawable.explorer_background)
+
+            val gridlayoutParams = GridLayout.LayoutParams()
+            gridlayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            gridlayoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+            val currentCol = index % 2
+            val currentRow = index / 2
+            // The last parameter in the specs is the weight, which gives equal size to the cells
+            gridlayoutParams.columnSpec = GridLayout.spec(currentCol, 1, 1f)
+            gridlayoutParams.rowSpec = GridLayout.spec(currentRow, 1, 1f)
+
+            // Optional, if you want the text to be centered within the cell
+            gridlayoutParams.setGravity(Gravity.CENTER)
+
+            gridLayout.addView(titleText, gridlayoutParams)
+        }
+    }
+
+    private fun getDomainFromUrl(url: String): String {
+        val pattern = Pattern.compile("(\\w+)\\.\\w{2,}\\.?\\w+(|\\?|\$)")
+        val matcher = pattern.matcher(url)
+        var domain = ""
+        if (matcher.find())
+            domain = matcher.group()
+        return domain
+    }
+
 
     fun setUpLineDataSet(entries: List<Entry?>?): LineDataSet {
         val dataSet = LineDataSet(entries, "Price")
@@ -210,7 +277,10 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
         binding.chart.setNoDataTextColor(R.color.red)
         binding.chart.setOnChartValueSelectedListener(this)
         binding.chart.onChartGestureListener = object : OnChartGestureListener {
-            override fun onChartGestureStart(me: MotionEvent, lastPerformedGesture: ChartTouchListener.ChartGesture) {
+            override fun onChartGestureStart(
+                me: MotionEvent,
+                lastPerformedGesture: ChartTouchListener.ChartGesture
+            ) {
                 val yAxis: YAxis = binding.chart.axisLeft
                 // Allow scrolling in the right and left margins
                 if (me.x > yAxis.longestLabel.length * yAxis.textSize &&
@@ -221,7 +291,10 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
                 }
             }
 
-            override fun onChartGestureEnd(me: MotionEvent, lastPerformedGesture: ChartTouchListener.ChartGesture) {
+            override fun onChartGestureEnd(
+                me: MotionEvent,
+                lastPerformedGesture: ChartTouchListener.ChartGesture
+            ) {
 //                viewPager.setPagingEnabled(true)
 //                nestedScrollView.setScrollingEnabled(true)
             }
@@ -229,7 +302,14 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
             override fun onChartLongPressed(me: MotionEvent) {}
             override fun onChartDoubleTapped(me: MotionEvent) {}
             override fun onChartSingleTapped(me: MotionEvent) {}
-            override fun onChartFling(me1: MotionEvent, me2: MotionEvent, velocityX: Float, velocityY: Float) {}
+            override fun onChartFling(
+                me1: MotionEvent,
+                me2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ) {
+            }
+
             override fun onChartScale(me: MotionEvent, scaleX: Float, scaleY: Float) {}
             override fun onChartTranslate(me: MotionEvent, dX: Float, dY: Float) {}
         }

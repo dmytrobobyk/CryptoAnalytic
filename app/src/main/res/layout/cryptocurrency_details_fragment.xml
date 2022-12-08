@@ -9,6 +9,10 @@
             type="com.example.cryptoanalytic.screens.cryptocurrencyDetails.viewmodel.CryptocurrencyDetailsViewModel" />
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -269,19 +273,15 @@
             app:layout_constraintTop_toBottomOf="@+id/market_cap_divider"
             app:layout_constraintStart_toStartOf="parent"/>
 
-        <TextView
-            android:id="@+id/explorers"
-            android:layout_width="wrap_content"
+        <GridLayout
+            android:id="@+id/explorers_grid"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/explorers"
-            android:textSize="14sp"
-            android:padding="@dimen/small"
-            android:background="@color/divider"
+            android:numColumns="auto_fit"
             android:layout_marginStart="@dimen/standard"
-            android:layout_marginTop="@dimen/half_standard"
+            android:layout_marginEnd="@dimen/standard"
             app:layout_constraintTop_toBottomOf="@+id/explorers_title"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="optimistic.offer.io"/>
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <View
             android:id="@+id/explorers_divider"
@@ -291,7 +291,7 @@
             android:layout_marginTop="@dimen/standard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/explorers"/>
+            app:layout_constraintTop_toBottomOf="@+id/explorers_grid"/>
 
         <TextView
             android:id="@+id/website_title"
@@ -316,4 +316,6 @@
             tools:text="https://bitcoin.coin.com"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </layout>

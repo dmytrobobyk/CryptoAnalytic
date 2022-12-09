@@ -1,6 +1,5 @@
 package com.example.cryptoanalytic.common
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 open class BaseViewModel : ViewModel() {

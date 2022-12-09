@@ -2,7 +2,7 @@ package com.example.cryptoanalytic.screens.cryptocurrencies.api.response
 
 import com.google.gson.annotations.SerializedName
 
-data class CoinMarketResponseItem(
+data class CryptocurrencyResponseItem(
     @SerializedName("ath") val ath: Double,
     @SerializedName("ath_change_percentage") val athChangePercentage: Double,
     @SerializedName("ath_date") val athDate: String,

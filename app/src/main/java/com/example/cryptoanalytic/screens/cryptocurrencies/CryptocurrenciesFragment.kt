@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.example.cryptoanalytic.R
-import com.example.cryptoanalytic.screens.cryptocurrencies.viewmodel.CryptocurrenciesViewModel
 import com.example.cryptoanalytic.databinding.CryptocurrencyListFragmentBinding
+import com.example.cryptoanalytic.screens.cryptocurrencies.viewmodel.CryptocurrenciesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

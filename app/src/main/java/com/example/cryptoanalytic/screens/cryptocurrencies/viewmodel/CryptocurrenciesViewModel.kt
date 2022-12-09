@@ -3,11 +3,14 @@ package com.example.cryptoanalytic.screens.cryptocurrencies.viewmodel
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.cryptoanalytic.common.BaseViewModel
-import com.example.cryptoanalytic.screens.cryptocurrencies.repository.CryptocurrenciesRepository
 import com.example.cryptoanalytic.common.Result
-import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CoinMarketResponseItem
+import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CryptocurrencyResponseItem
+import com.example.cryptoanalytic.screens.cryptocurrencies.repository.CryptocurrenciesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,13 +18,8 @@ import javax.inject.Inject
 class CryptocurrenciesViewModel @Inject constructor(private val repository: CryptocurrenciesRepository) : BaseViewModel() {
 //    private val TAG = CryptocurrenciesViewModel::class.java.name
 
-    //CoinMarketCap API
-//    private val _cryptocurrenciesList = MutableStateFlow<List<LatestResponse>>(emptyList())
-//    val cryptocurrenciesList: StateFlow<List<LatestResponse>> = _cryptocurrenciesList.asStateFlow()
-
-    //CoinGecko API
-    private val _cryptocurrenciesList = MutableStateFlow<List<CoinMarketResponseItem>>(emptyList())
-    val cryptocurrenciesList: StateFlow<List<CoinMarketResponseItem>> = _cryptocurrenciesList.asStateFlow()
+    private val _cryptocurrenciesList = MutableStateFlow<List<CryptocurrencyResponseItem>>(emptyList())
+    val cryptocurrenciesList: StateFlow<List<CryptocurrencyResponseItem>> = _cryptocurrenciesList.asStateFlow()
 
     init {
         viewModelScope.launch {

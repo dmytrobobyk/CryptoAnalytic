@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.databinding.CryptocurrencyDetailsFragmentBinding
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyDetailsResponse
@@ -77,7 +78,7 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
 
         val mWinMgr = activity?.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         displayWidth = mWinMgr.defaultDisplay.width
-//        setUpChart()
+        setUpChart()
         initViews()
 
 
@@ -180,6 +181,10 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
     }
 
     private fun setCryptocurrencyInfo(cryptocurrencyInfo: CryptocurrencyDetailsResponse) {
+        Glide.with(this).load(cryptocurrencyInfo.image.small).into(binding.cryptocurrencyImageView)
+        binding.cryptocurrencyName.text = cryptocurrencyInfo.name
+        binding.cryptocurrencyPrice.text = "$${cryptocurrencyInfo.market_data.current_price.usd}"
+        binding.cryptocurrencyPercentChange.text = "${cryptocurrencyInfo.market_data.price_change_percentage_1h_in_currency.usd}%"
         binding.marketCap.text = "$${
             NumberFormatter.formatDouble(
                 cryptocurrencyInfo.market_data.market_cap.usd,
@@ -199,10 +204,11 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
             withUnit = true
         )
         initGridLayoutWithItems(cryptocurrencyInfo.links.blockchain_site.filter { it.isNotEmpty() })
+        binding.website.text = "${cryptocurrencyInfo.links.homepage[0]}"
     }
 
     private fun initGridLayoutWithItems(explorersList: List<String>) {
-        var gridLayout = binding.explorersGrid
+        val gridLayout = binding.explorersGrid
         gridLayout.alignmentMode = GridLayout.ALIGN_BOUNDS;
         gridLayout.columnCount = 2
         gridLayout.rowCount = if (explorersList.size / 2 == 0) {
@@ -211,23 +217,24 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
             (explorersList.size / 2) + 1
         }
         explorersList.forEachIndexed { index, item ->
-            val titleText = TextView(context)
-            titleText.text = getDomainFromUrl(item)
-            titleText.background = requireActivity().getDrawable(R.drawable.explorer_background)
+            val textView = TextView(context).apply {
+                text = getDomainFromUrl(item)
+                background = requireActivity().getDrawable(R.drawable.explorer_background)
+            }
 
-            val gridlayoutParams = GridLayout.LayoutParams()
-            gridlayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
-            gridlayoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
-            val currentCol = index % 2
-            val currentRow = index / 2
-            // The last parameter in the specs is the weight, which gives equal size to the cells
-            gridlayoutParams.columnSpec = GridLayout.spec(currentCol, 1, 1f)
-            gridlayoutParams.rowSpec = GridLayout.spec(currentRow, 1, 1f)
+            val gridlayoutParams = GridLayout.LayoutParams().apply {
+                height = ViewGroup.LayoutParams.WRAP_CONTENT
+                width = ViewGroup.LayoutParams.WRAP_CONTENT
+                val currentCol = index % 2
+                val currentRow = index / 2
+                // The last parameter in the specs is the weight, which gives equal size to the cells
+                columnSpec = GridLayout.spec(currentCol, 1, 1f)
+                rowSpec = GridLayout.spec(currentRow, 1, 1f)
+                // Optional, if you want the text to be centered within the cell
+                setGravity(Gravity.CENTER_HORIZONTAL)
+            }
 
-            // Optional, if you want the text to be centered within the cell
-            gridlayoutParams.setGravity(Gravity.CENTER)
-
-            gridLayout.addView(titleText, gridlayoutParams)
+            gridLayout.addView(textView, gridlayoutParams)
         }
     }
 
@@ -315,12 +322,12 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
         }
     }
 
+
+    //TODO: add marker for showing price
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-        TODO("Not yet implemented")
     }
 
     override fun onNothingSelected() {
-        TODO("Not yet implemented")
     }
 
 //    private fun setUpChart() {

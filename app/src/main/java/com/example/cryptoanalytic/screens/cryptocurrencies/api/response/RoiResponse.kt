@@ -1,7 +1,9 @@
 package com.example.cryptoanalytic.screens.cryptocurrencies.api.response
 
+import com.google.gson.annotations.SerializedName
+
 data class RoiResponse(
-    val currency: String,
-    val percentage: Double,
-    val times: Double
+    @SerializedName("currency") val currency: String,
+    @SerializedName("percentage") val percentage: Double,
+    @SerializedName("times") val times: Double
 )

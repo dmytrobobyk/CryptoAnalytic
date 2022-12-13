@@ -1,16 +1,17 @@
 package com.example.cryptoanalytic.screens.cryptocurrencies
 
+//import com.example.cryptoanalytic.MainFragmentDirections
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptoanalytic.databinding.CryptocurrencyListItemBinding
 import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CryptocurrencyResponseItem
+import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
 
-class CryptocurrenciesListAdapter : ListAdapter<CryptocurrencyResponseItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class CryptocurrenciesListAdapter(private val listener: OnItemClickListener<CryptocurrencyResponseItem>) : ListAdapter<CryptocurrencyResponseItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CryptocurrencyResponseItem>() {
             override fun areItemsTheSame(oldItem: CryptocurrencyResponseItem, newItem: CryptocurrencyResponseItem): Boolean = oldItem.id == newItem.id
@@ -35,8 +36,7 @@ class CryptocurrenciesListAdapter : ListAdapter<CryptocurrencyResponseItem, Recy
             itemBinding.cryptoItem = item
             Glide.with(itemBinding.root.context).load(item.image).into(itemBinding.cryptocurrencyItemImageView)
             itemBinding.root.setOnClickListener {
-                val action = CryptocurrenciesFragmentDirections.actionCryptocurrenciesFragmentToCryptocurrencyDetails(item.id.lowercase())
-                it.findNavController().navigate(action)
+                listener.onItemClicked(item)
             }
         }
     }

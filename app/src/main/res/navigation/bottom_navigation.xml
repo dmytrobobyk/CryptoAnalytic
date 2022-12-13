@@ -3,7 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_navigation"
-    app:startDestination="@id/cryptocurrencies">
+    app:startDestination="@id/favorites">
+
+    <navigation
+        android:id="@+id/favorites"
+        app:startDestination="@id/favoritesFragment">
+        <fragment
+            android:id="@+id/favoritesFragment"
+            android:name="com.example.cryptoanalytic.screens.favorites.FavoritesFragment"
+            android:label="FavoritesFragment"
+            tools:layout="@layout/fragment_favorites"/>
+    </navigation>
 
     <navigation
         android:id="@+id/cryptocurrencies"
@@ -29,6 +39,36 @@
                 android:name="cryptocurrencyId"
                 app:argType="string" />
         </fragment>
+    </navigation>
+
+    <navigation
+        android:id="@+id/notifications"
+        app:startDestination="@id/notificationsFragment">
+        <fragment
+            android:id="@+id/notificationsFragment"
+            android:name="com.example.cryptoanalytic.screens.notifications.NotificationFragment"
+            android:label="NotificationsFragment"
+            tools:layout="@layout/fragment_notifications"/>
+    </navigation>
+
+    <navigation
+        android:id="@+id/news"
+        app:startDestination="@id/newsFragment">
+        <fragment
+            android:id="@+id/newsFragment"
+            android:name="com.example.cryptoanalytic.screens.news.NewsFragment"
+            android:label="NewsFragment"
+            tools:layout="@layout/fragment_news"/>
+    </navigation>
+
+    <navigation
+        android:id="@+id/launchpads"
+        app:startDestination="@id/launchpadsFragment">
+        <fragment
+            android:id="@+id/launchpadsFragment"
+            android:name="com.example.cryptoanalytic.screens.launchads.LaunchpadsFragment"
+            android:label="LaunchpadsFragment"
+            tools:layout="@layout/fragment_launchpads"/>
     </navigation>
 
 </navigation>

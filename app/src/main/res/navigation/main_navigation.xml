@@ -4,8 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
     app:startDestination="@id/mainFragment">
+
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.example.cryptoanalytic.MainFragment"
-        android:label="MainFragment" />
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main"/>
+
+    <include app:graph="@navigation/bottom_navigation"/>
 </navigation>

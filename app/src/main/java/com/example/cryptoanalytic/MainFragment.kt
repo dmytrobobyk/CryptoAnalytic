@@ -40,8 +40,7 @@ class MainFragment : Fragment() {
         val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
         binding.toolbarLayout.toolbar.setupWithNavController(navController, appBarConfiguration)
         binding.toolbarLayout.toolbar.title = "Cryptoanalytic"
-
-
+        binding.bottomNavigationView.setupWithNavController(navController)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

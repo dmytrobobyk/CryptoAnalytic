@@ -10,29 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesListAdapter
 import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CryptocurrencyResponseItem
+import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 
 
 object BindingAdapters {
-
-    //CoinMarketCap API
-//    @BindingAdapter("cryptocurrencyItems")
-//    @JvmStatic
-//    fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<LatestResponse>) {
-//        recyclerView.adapter ?: run {
-//            recyclerView.adapter = CryptocurrenciesListAdapter()
-//        }
-//        (recyclerView.adapter as CryptocurrenciesListAdapter).submitList(cryptocurrencyItems.toMutableList())
-//    }
-
-    //CoinGecko API
-    @BindingAdapter("cryptocurrencyItems")
+    @BindingAdapter(value = ["cryptocurrencyItems", "clickListener"])
     @JvmStatic
-    fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<CryptocurrencyResponseItem>) {
+    fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<CryptocurrencyResponseItem>, listener: OnItemClickListener<CryptocurrencyResponseItem>) {
         recyclerView.adapter ?: run {
-            recyclerView.adapter = CryptocurrenciesListAdapter()
+            recyclerView.adapter = CryptocurrenciesListAdapter(listener)
         }
         (recyclerView.adapter as CryptocurrenciesListAdapter).submitList(cryptocurrencyItems.toMutableList())
     }

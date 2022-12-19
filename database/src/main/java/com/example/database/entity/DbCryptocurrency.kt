@@ -1,23 +1,30 @@
 package com.example.database.entity
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
+import com.example.database.DB_CRYPTOCURRENCY
 
-@Entity
+@Entity(tableName = DB_CRYPTOCURRENCY)
 data class DbCryptocurrency(
+    @PrimaryKey(autoGenerate = false)
     val id: String,
     val categories: List<String>,
-    val coingecko_rank: Int,
-    val coingecko_score: Double,
+    val coingeckoRank: Int,
+    val coingeckoScore: Double,
     val description: String,
-    val genesis_date: String,
-    val hashing_algorithm: String,
-    val last_updated: String,
-    val links: DbLinks,
-    val market_cap_rank: Int,
-    val market_data: DbMarketData,
+    val genesisDate: String,
+    val hashingAlgorithm: String,
+    val lastUpdated: String,
+    val marketCap_rank: Int,
     val name: String,
-    val sentiment_votes_down_percentage: Double,
-    val sentiment_votes_up_percentage: Double,
+    val sentimentVotesDownPercentage: Double,
+    val sentimentVotesUpPercentage: Double,
     val symbol: String,
-)
+    @Embedded
+    val marketData: DbMarketData,
+    @Embedded
+    val links: DbLinks
+    )

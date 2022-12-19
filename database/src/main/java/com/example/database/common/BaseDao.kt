@@ -4,23 +4,29 @@ import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 
 @Dao
-abstract class BaseDao<T>(val database: RoomDatabase) {
+interface BaseDao<T> {
 
+    @Transaction
     @Insert(onConflict = REPLACE)
-    abstract suspend fun insert(item: T): Long
+    suspend fun insert(item: T): Long
 
+    @Transaction
     @Insert(onConflict = REPLACE)
-    abstract suspend fun insert(items: List<T>): List<Long>
+    suspend fun insert(items: List<T>): List<Long>
 
+    @Transaction
     @Update(onConflict = REPLACE)
-    abstract suspend fun update(item: T): Int
+    suspend fun update(item: T): Int
 
+    @Transaction
     @Update(onConflict = REPLACE)
-    abstract suspend fun update(items: List<T>): Int
+    suspend fun update(items: List<T>): Int
 
+    @Transaction
     @Delete
-    abstract suspend fun delete(item: T): Int
+    suspend fun delete(item: T): Int
 
+    @Transaction
     @Delete
-    abstract suspend fun delete(items: List<T>): Int
+    suspend fun delete(items: List<T>): Int
 }

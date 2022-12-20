@@ -3,14 +3,18 @@ package com.example.database.entity
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.CASCADE
+import androidx.room.PrimaryKey
 import androidx.room.Relation
+import com.example.database.DB_LINKS
 
-@Entity
+@Entity(tableName = DB_LINKS)
 data class DbLinks(
-    @Relation(parentColumn = "id", entityColumn = "cryptocurrencyId")
+    @PrimaryKey(autoGenerate = true)
+    val linksId: Int,
+//    @Relation(parentColumn = "cryptocurrencyDetailsId", entityColumn = "cryptocurrencyId", entity = DbCryptocurrencyDetails::class)
     val cryptocurrencyId: String,
     val announcementUrl: List<String>,
-    val bitcointalkThreadIdentifier: Any,
+    val bitcoinTalkThreadIdentifier: String,
     val blockchainSite: List<String>,
     val chatUrl: List<String>,
     val facebookUsername: String,

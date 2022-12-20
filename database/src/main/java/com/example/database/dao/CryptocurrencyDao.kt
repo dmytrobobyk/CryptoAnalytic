@@ -1,20 +1,24 @@
 package com.example.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Transaction
 import com.example.database.entity.DbCryptocurrency
 
 @Dao
 interface CryptocurrencyDao {
 
-    @Query("SELECT * FROM DB_CRYPTOCURRENCY WHERE id = :id")
-    fun getCryptocurrencyById(id: String): DbCryptocurrency?
+    @Query("SELECT * from DB_CRYPTOCURRENCY_DETAILS")
+    fun getAll(): List<DbCryptocurrency>?
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(connection: DbCryptocurrency)
+    fun insert(cryptocurrencyItemList: List<DbCryptocurrency>)
 
-    @Update
-    fun update(connection: DbCryptocurrency)
-
+    @Transaction
     @Delete
-    fun delete(connection: DbCryptocurrency)
+    fun deleteAll(cryptocurrencyList: List<DbCryptocurrency>)
 }

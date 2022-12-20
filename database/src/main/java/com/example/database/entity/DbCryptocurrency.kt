@@ -2,29 +2,37 @@ package com.example.database.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.example.database.DB_CRYPTOCURRENCY
+import com.example.database.DB_CRYPTOCURRENCY_DETAILS
 
-@Entity(tableName = DB_CRYPTOCURRENCY)
+@Entity(tableName = DB_CRYPTOCURRENCY_DETAILS)
 data class DbCryptocurrency(
     @PrimaryKey(autoGenerate = false)
     val id: String,
-    val categories: List<String>,
-    val coingeckoRank: Int,
-    val coingeckoScore: Double,
-    val description: String,
-    val genesisDate: String,
-    val hashingAlgorithm: String,
+    val ath: Double,
+    val athChangePercentage: Double,
+    val athDate: String,
+    val atl: Double,
+    val atlChangePercentage: Double,
+    val atlDate: String,
+    val circulatingSupply: Double,
+    val currentPrice: Double,
+    val fullyDilutedValuation: Long,
+    val high24h: Double,
+    val image: String,
     val lastUpdated: String,
-    val marketCap_rank: Int,
+    val low24h: Double,
+    val marketCap: Long,
+    val marketCapChange24h: Double,
+    val marketCapChangePercentage24h: Double,
+    val marketCapRank: Int,
+    val maxSupply: Double,
     val name: String,
-    val sentimentVotesDownPercentage: Double,
-    val sentimentVotesUpPercentage: Double,
+    val priceChange24h: Double,
+    val priceChangePercentage24h: Double,
     val symbol: String,
+    val totalSupply: Double,
+    val totalVolume: Double,
     @Embedded
-    val marketData: DbMarketData,
-    @Embedded
-    val links: DbLinks
-    )
+    val roi: DbRoi
+)

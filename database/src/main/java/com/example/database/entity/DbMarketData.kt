@@ -2,11 +2,15 @@ package com.example.database.entity
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.PrimaryKey
 import androidx.room.Relation
+import com.example.database.DB_MARKET_DATA
 
-@Entity
+@Entity(tableName = DB_MARKET_DATA)
 data class DbMarketData (
-    @Relation(parentColumn = "id", entityColumn = "cryptocurrencyId")
+    @PrimaryKey(autoGenerate = true)
+    val marketDataId: Int,
+//    @Relation(parentColumn = "cryptocurrencyDetailsId", entityColumn = "cryptocurrencyId", entity = DbCryptocurrencyDetails::class)
     val cryptocurrencyId: String,
     val currentPrice: Double, // set price only in USD
     val marketCap: Double,

@@ -2,7 +2,7 @@ package com.example.cryptoanalytic.screens.cryptocurrencies.di
 
 import com.example.cryptoanalytic.common.utils.createService
 import com.example.cryptoanalytic.screens.cryptocurrencies.api.CryptocurrenciesApi
-import com.example.cryptoanalytic.screens.cryptocurrencies.datasource.CryptocurrenciesDataSource
+import com.example.cryptoanalytic.screens.cryptocurrencies.datasource.CryptocurrenciesRemoteDataSource
 import com.example.cryptoanalytic.screens.cryptocurrencies.repository.CryptocurrenciesLocalRepository
 import com.example.cryptoanalytic.screens.cryptocurrencies.repository.CryptocurrenciesRepository
 import com.example.cryptoanalytic.screens.cryptocurrencies.viewmodel.CryptocurrenciesViewModel
@@ -24,11 +24,11 @@ class CryptocurrenciesModule {
 
     @Provides
     @Singleton
-    fun provideCryptocurrenciesDataSource(api: CryptocurrenciesApi): CryptocurrenciesDataSource = CryptocurrenciesDataSource(api)
+    fun provideCryptocurrenciesDataSource(api: CryptocurrenciesApi): CryptocurrenciesRemoteDataSource = CryptocurrenciesRemoteDataSource(api)
 
     @Provides
     @Singleton
-    fun provideCryptocurrenciesRepository(dataSource: CryptocurrenciesDataSource): CryptocurrenciesRepository = CryptocurrenciesLocalRepository(dataSource)
+    fun provideCryptocurrenciesRepository(dataSource: CryptocurrenciesRemoteDataSource): CryptocurrenciesRepository = CryptocurrenciesLocalRepository(dataSource)
 
     @Provides
     @Singleton

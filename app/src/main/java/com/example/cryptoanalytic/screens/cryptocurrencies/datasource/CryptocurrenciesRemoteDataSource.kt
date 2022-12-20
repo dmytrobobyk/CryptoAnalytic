@@ -6,7 +6,7 @@ import com.example.cryptoanalytic.screens.cryptocurrencies.api.CryptocurrenciesA
 import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CryptocurrencyResponseItem
 import javax.inject.Inject
 
-class CryptocurrenciesDataSource @Inject constructor(private val api: CryptocurrenciesApi) : BaseDataSource() {
+class CryptocurrenciesRemoteDataSource @Inject constructor(private val api: CryptocurrenciesApi) : BaseDataSource() {
 
     suspend fun getLatestCryptocurrencies(): Result<List<CryptocurrencyResponseItem>> {
         return getResponse(request = { api.getLatestCryptocurrencies() })

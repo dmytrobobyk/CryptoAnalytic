@@ -1,12 +1,18 @@
 package com.example.database.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import androidx.room.Relation
+import com.example.database.DB_ROI
 
-@Entity
+@Entity(tableName = DB_ROI)
 data class DbRoi(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val roiId: Int,
+//    @Relation(parentColumn = "id", entityColumn = "cryptocurrencyId")
+    @ForeignKey(parentColumns = "id", childColumns = "cryptocurrencyId")
+    val cryptocurrencyId: String,
     val currency: String,
     val percentage: Double,
     val times: Double

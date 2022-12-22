@@ -6,12 +6,20 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.example.database.DB_ROI
 
-@Entity(tableName = DB_ROI)
+@Entity(
+    tableName = DB_ROI, foreignKeys = [
+        ForeignKey(
+            entity = DbCryptocurrency::class,
+            parentColumns = ["id"],
+            childColumns = ["cryptocurrencyId"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
+        )
+    ]
+)
 data class DbRoi(
     @PrimaryKey(autoGenerate = true)
     val roiId: Int,
-//    @Relation(parentColumn = "id", entityColumn = "cryptocurrencyId")
-    @ForeignKey(parentColumns = "id", childColumns = "cryptocurrencyId")
     val cryptocurrencyId: String,
     val currency: String,
     val percentage: Double,

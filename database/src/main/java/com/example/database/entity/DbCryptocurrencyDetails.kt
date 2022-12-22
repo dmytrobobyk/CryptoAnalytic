@@ -2,10 +2,11 @@ package com.example.database.entity
 
 import androidx.room.Embedded
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.example.database.DB_CRYPTOCURRENCY
+import com.example.database.DB_CRYPTOCURRENCY_DETAILS
 
-@Entity(tableName = DB_CRYPTOCURRENCY)
+@Entity(tableName = DB_CRYPTOCURRENCY_DETAILS)
 data class DbCryptocurrencyDetails(
     @PrimaryKey(autoGenerate = false)
     val cryptocurrencyDetailsId: String,
@@ -21,8 +22,10 @@ data class DbCryptocurrencyDetails(
     val sentimentVotesDownPercentage: Double,
     val sentimentVotesUpPercentage: Double,
     val symbol: String,
+    @Ignore
     @Embedded
     val marketData: DbMarketData,
+    @Ignore
     @Embedded
     val links: DbLinks
     )

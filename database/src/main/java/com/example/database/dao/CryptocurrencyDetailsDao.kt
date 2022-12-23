@@ -6,7 +6,7 @@ import com.example.database.entity.DbCryptocurrencyDetails
 @Dao
 interface CryptocurrencyDetailsDao {
 
-    @Query("SELECT * FROM DB_CRYPTOCURRENCY_DETAILS WHERE id = :id")
+    @Query("SELECT * FROM DB_CRYPTOCURRENCY_DETAILS WHERE DB_CRYPTOCURRENCY_DETAILS.cryptocurrencyDetailsId = :id")
     fun getCryptocurrencyById(id: String): DbCryptocurrencyDetails?
 
     @Transaction

@@ -11,6 +11,7 @@ import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesListAdapter
 import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CryptocurrencyResponseItem
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
+import com.example.database.embeeded.Cryptocurrency
 import com.example.database.entity.DbCryptocurrency
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -20,7 +21,6 @@ import java.text.SimpleDateFormat
 object BindingAdapters {
     @BindingAdapter(value = ["cryptocurrencyItems", "clickListener"])
     @JvmStatic
-//    fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<CryptocurrencyResponseItem>, listener: OnItemClickListener<CryptocurrencyResponseItem>) {
     fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<DbCryptocurrency>, listener: OnItemClickListener<DbCryptocurrency>) {
         recyclerView.adapter ?: run {
             recyclerView.adapter = CryptocurrenciesListAdapter(listener)

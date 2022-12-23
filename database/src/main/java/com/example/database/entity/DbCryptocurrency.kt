@@ -1,8 +1,6 @@
 package com.example.database.entity
 
-import androidx.room.Embedded
 import androidx.room.Entity
-import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.example.database.DB_CRYPTOCURRENCY
 
@@ -34,7 +32,4 @@ data class DbCryptocurrency(
     val symbol: String,
     val totalSupply: Double,
     val totalVolume: Double,
-    @Ignore
-    @Embedded
-    val roi: DbRoi
 )

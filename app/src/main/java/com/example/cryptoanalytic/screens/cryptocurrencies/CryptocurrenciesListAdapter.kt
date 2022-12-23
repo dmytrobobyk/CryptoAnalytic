@@ -1,6 +1,5 @@
 package com.example.cryptoanalytic.screens.cryptocurrencies
 
-//import com.example.cryptoanalytic.MainFragmentDirections
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,8 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptoanalytic.databinding.CryptocurrencyListItemBinding
-import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CryptocurrencyResponseItem
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
+import com.example.database.embeeded.Cryptocurrency
 import com.example.database.entity.DbCryptocurrency
 
 //class CryptocurrenciesListAdapter(private val listener: OnItemClickListener<CryptocurrencyResponseItem>) : ListAdapter<CryptocurrencyResponseItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {

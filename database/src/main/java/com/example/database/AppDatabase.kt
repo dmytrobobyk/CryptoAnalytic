@@ -7,6 +7,7 @@ import com.example.database.converters.CollectionsConverter
 import com.example.database.converters.DateConverter
 import com.example.database.dao.CryptocurrencyDao
 import com.example.database.dao.CryptocurrencyDetailsDao
+import com.example.database.dao.RoiDao
 import com.example.database.entity.*
 
 @Database(entities = [DbCryptocurrencyDetails::class, DbCryptocurrency::class, DbLinks::class, DbMarketData::class, DbRoi::class], version = APP_DATABASE_VERSION)
@@ -14,4 +15,5 @@ import com.example.database.entity.*
 abstract class AppDatabase : RoomDatabase() {
     abstract fun cryptocurrencyDetailsDao() : CryptocurrencyDetailsDao
     abstract fun cryptocurrencyDao() : CryptocurrencyDao
+    abstract fun roiDao() : RoiDao
 }

@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.example.cryptoanalytic.MainViewModel
 import com.example.database.APP_DATABASE_NAME
 import com.example.database.AppDatabase
+import com.example.database.DaoAggregator
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -56,6 +57,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase = Room.databaseBuilder(context, AppDatabase::class.java, APP_DATABASE_NAME).build()
+
+    @Provides
+    @Singleton
+    fun provideDaoAggregator(appDatabase: AppDatabase) = DaoAggregator(appDatabase)
 
     @Provides
     @Singleton

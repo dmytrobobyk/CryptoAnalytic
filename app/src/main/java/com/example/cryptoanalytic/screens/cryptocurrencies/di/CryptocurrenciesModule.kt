@@ -6,6 +6,7 @@ import com.example.cryptoanalytic.screens.cryptocurrencies.datasource.Cryptocurr
 import com.example.cryptoanalytic.screens.cryptocurrencies.repository.CryptocurrenciesLocalRepository
 import com.example.cryptoanalytic.screens.cryptocurrencies.repository.CryptocurrenciesRepository
 import com.example.cryptoanalytic.screens.cryptocurrencies.viewmodel.CryptocurrenciesViewModel
+import com.example.database.DaoAggregator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,7 +29,7 @@ class CryptocurrenciesModule {
 
     @Provides
     @Singleton
-    fun provideCryptocurrenciesRepository(dataSource: CryptocurrenciesRemoteDataSource): CryptocurrenciesRepository = CryptocurrenciesLocalRepository(dataSource)
+    fun provideCryptocurrenciesRepository(dataSource: CryptocurrenciesRemoteDataSource, daoAggregator: DaoAggregator): CryptocurrenciesRepository = CryptocurrenciesLocalRepository(dataSource, daoAggregator)
 
     @Provides
     @Singleton

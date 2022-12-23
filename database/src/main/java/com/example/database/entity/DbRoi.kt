@@ -18,8 +18,7 @@ import com.example.database.DB_ROI
     ]
 )
 data class DbRoi(
-    @PrimaryKey(autoGenerate = true)
-    val roiId: Int,
+    @PrimaryKey(autoGenerate = false)
     val cryptocurrencyId: String,
     val currency: String,
     val percentage: Double,

@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.cryptoanalytic.common.BaseViewModel
 import com.example.cryptoanalytic.common.Result
-import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CryptocurrencyResponseItem
 import com.example.cryptoanalytic.screens.cryptocurrencies.repository.CryptocurrenciesRepository
+import com.example.database.embeeded.Cryptocurrency
 import com.example.database.entity.DbCryptocurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,13 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CryptocurrenciesViewModel @Inject constructor(private val repository: CryptocurrenciesRepository) : BaseViewModel() {
-//    private val TAG = CryptocurrenciesViewModel::class.java.name
 
-//    private val _cryptocurrenciesList = MutableStateFlow<List<CryptocurrencyResponseItem>>(emptyList())
-//    val cryptocurrenciesList: StateFlow<List<CryptocurrencyResponseItem>> = _cryptocurrenciesList.asStateFlow()
-
-    private val _cryptocurrenciesList = MutableStateFlow<List<DbCryptocurrency>>(emptyList())
-    val cryptocurrenciesList: StateFlow<List<DbCryptocurrency>> = _cryptocurrenciesList.asStateFlow()
+    private val _cryptocurrenciesList = MutableStateFlow<List<Cryptocurrency>>(emptyList())
+    val cryptocurrenciesList: StateFlow<List<Cryptocurrency>> = _cryptocurrenciesList.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -41,7 +37,6 @@ class CryptocurrenciesViewModel @Inject constructor(private val repository: Cryp
                         Log.d(TAG, "SUCCESS")
                         result.data?.let {
                             _cryptocurrenciesList.value = it
-
                         }
 
                     }

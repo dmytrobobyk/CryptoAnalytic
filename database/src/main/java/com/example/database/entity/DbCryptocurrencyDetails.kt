@@ -22,10 +22,10 @@ data class DbCryptocurrencyDetails(
     val sentimentVotesDownPercentage: Double,
     val sentimentVotesUpPercentage: Double,
     val symbol: String,
-    @Ignore
-    @Embedded
-    val marketData: DbMarketData,
-    @Ignore
-    @Embedded
-    val links: DbLinks
+//    @Ignore
+//    @Embedded
+//    val marketData: DbMarketData,
+//    @Ignore
+//    @Embedded
+//    val links: DbLinks
     )

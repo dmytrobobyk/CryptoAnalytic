@@ -6,7 +6,6 @@ import com.example.cryptoanalytic.common.BaseViewModel
 import com.example.cryptoanalytic.common.Result
 import com.example.cryptoanalytic.screens.cryptocurrencies.repository.CryptocurrenciesRepository
 import com.example.database.embeeded.Cryptocurrency
-import com.example.database.entity.DbCryptocurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,7 +1,6 @@
 package com.example.database
 
 import com.example.database.embeeded.Cryptocurrency
-import com.example.database.entity.DbRoi
 
 class DaoAggregator(private val database: AppDatabase) {
 
@@ -12,15 +11,16 @@ class DaoAggregator(private val database: AppDatabase) {
     }
 
     suspend fun saveCryptocurrencyList(cryptocurrencyList: List<Cryptocurrency>) {
-        cryptocurrencyList.forEach {
-            database.cryptocurrencyDao().insert(it.dbCryptocurrency)
-            database.roiDao().insert(it.dbRoi)
+        cryptocurrencyList.forEach { cryptocurrency ->
+            database.cryptocurrencyDao().insert(cryptocurrency.dbCryptocurrency)
+            cryptocurrency.dbRoi?.let { it -> database.roiDao().insert(it) }
         }
     }
 
     suspend fun deleteCryptocurrencyList(cryptocurrencyList: List<Cryptocurrency>) {
         cryptocurrencyList.forEach {
             database.cryptocurrencyDao().delete(it.dbCryptocurrency)
+            it.dbRoi?.let { it1 -> database.roiDao().delete(it1) }
         }
     }
 

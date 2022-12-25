@@ -9,14 +9,12 @@ import com.bumptech.glide.Glide
 import com.example.cryptoanalytic.databinding.CryptocurrencyListItemBinding
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
 import com.example.database.embeeded.Cryptocurrency
-import com.example.database.entity.DbCryptocurrency
 
-//class CryptocurrenciesListAdapter(private val listener: OnItemClickListener<CryptocurrencyResponseItem>) : ListAdapter<CryptocurrencyResponseItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
-class CryptocurrenciesListAdapter(private val listener: OnItemClickListener<DbCryptocurrency>) : ListAdapter<DbCryptocurrency, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class CryptocurrenciesListAdapter(private val listener: OnItemClickListener<Cryptocurrency>) : ListAdapter<Cryptocurrency, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DbCryptocurrency>() {
-            override fun areItemsTheSame(oldItem: DbCryptocurrency, newItem: DbCryptocurrency): Boolean = oldItem.id == newItem.id
-            override fun areContentsTheSame(oldItem: DbCryptocurrency, newItem: DbCryptocurrency): Boolean = oldItem == newItem
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Cryptocurrency>() {
+            override fun areItemsTheSame(oldItem: Cryptocurrency, newItem: Cryptocurrency): Boolean = oldItem.dbCryptocurrency.id == newItem.dbCryptocurrency.id
+            override fun areContentsTheSame(oldItem: Cryptocurrency, newItem: Cryptocurrency): Boolean = oldItem == newItem
         }
     }
 
@@ -33,9 +31,9 @@ class CryptocurrenciesListAdapter(private val listener: OnItemClickListener<DbCr
 
 
     inner class CryptocurrencyItemViewHolder(private val itemBinding: CryptocurrencyListItemBinding) : RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(item: DbCryptocurrency) {
-            itemBinding.cryptoItem = item
-            Glide.with(itemBinding.root.context).load(item.image).into(itemBinding.cryptocurrencyItemImageView)
+        fun bind(item: Cryptocurrency) {
+            itemBinding.cryptoItem = item.dbCryptocurrency
+            Glide.with(itemBinding.root.context).load(item.dbCryptocurrency.image).into(itemBinding.cryptocurrencyItemImageView)
             itemBinding.root.setOnClickListener {
                 listener.onItemClicked(item)
             }

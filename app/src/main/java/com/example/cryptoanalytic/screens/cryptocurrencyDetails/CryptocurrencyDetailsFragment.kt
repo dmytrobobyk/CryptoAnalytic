@@ -46,8 +46,7 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
     lateinit var articlesFeedViewModelFactory: CryptocurrencyDetailsViewModel.CryptocurrencyDetailsViewModelFactory
     private val viewModel: CryptocurrencyDetailsViewModel by viewModels {
         CryptocurrencyDetailsViewModel.providesFactory(
-            assistedFactory = articlesFeedViewModelFactory,
-            cryptocurrencyId = args.cryptocurrencyId
+            assistedFactory = articlesFeedViewModelFactory, cryptocurrencyId = args.cryptocurrencyId
         )
     }
     private lateinit var binding: CryptocurrencyDetailsFragmentBinding
@@ -56,17 +55,8 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
     private val xAxisFormatter: IAxisValueFormatter? = null
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.cryptocurrency_details_fragment,
-            container,
-            false
-        )
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        binding = DataBindingUtil.inflate(inflater, R.layout.cryptocurrency_details_fragment, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         return binding.root
@@ -128,9 +118,7 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
 
         viewModel.cryptocurrencyDetailsInfo.value?.let {
             viewModel.getCryptocurrencyHistoryPrices(
-                it.id.lowercase(),
-                dateStart.time / 1000,
-                dateEnd.time / 1000
+                it.id.lowercase(), dateStart.time / 1000, dateEnd.time / 1000
             )
         }
 
@@ -186,21 +174,17 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
         binding.cryptocurrencyPercentChange.text = "${cryptocurrencyInfo.market_data.price_change_percentage_1h_in_currency.usd}%"
         binding.marketCap.text = "$${
             NumberFormatter.formatDouble(
-                cryptocurrencyInfo.market_data.market_cap.usd,
-                withUnit = true
+                cryptocurrencyInfo.market_data.market_cap.usd, withUnit = true
             )
         }"
         binding.volume24h.text = "$${
             NumberFormatter.formatDouble(
-                cryptocurrencyInfo.market_data.price_change_24h,
-                withUnit = true
+                cryptocurrencyInfo.market_data.price_change_24h, withUnit = true
             )
         }"
-        binding.availableSupply.text =
-            NumberFormatter.formatDouble(cryptocurrencyInfo.market_data.max_supply, withUnit = true)
+        binding.availableSupply.text = NumberFormatter.formatDouble(cryptocurrencyInfo.market_data.max_supply, withUnit = true)
         binding.totalSupply.text = NumberFormatter.formatDouble(
-            cryptocurrencyInfo.market_data.total_supply,
-            withUnit = true
+            cryptocurrencyInfo.market_data.total_supply, withUnit = true
         )
         initGridLayoutWithItems(cryptocurrencyInfo.links.blockchain_site.filter { it.isNotEmpty() })
         binding.website.text = "${cryptocurrencyInfo.links.homepage[0]}"
@@ -241,8 +225,7 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
         val pattern = Pattern.compile("(\\w+)\\.\\w{2,}\\.?\\w+(|\\?|\$)")
         val matcher = pattern.matcher(url)
         var domain = ""
-        if (matcher.find())
-            domain = matcher.group()
+        if (matcher.find()) domain = matcher.group()
         return domain
     }
 
@@ -284,22 +267,18 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
         binding.chart.setOnChartValueSelectedListener(this)
         binding.chart.onChartGestureListener = object : OnChartGestureListener {
             override fun onChartGestureStart(
-                me: MotionEvent,
-                lastPerformedGesture: ChartTouchListener.ChartGesture
+                me: MotionEvent, lastPerformedGesture: ChartTouchListener.ChartGesture
             ) {
                 val yAxis: YAxis = binding.chart.axisLeft
                 // Allow scrolling in the right and left margins
-                if (me.x > yAxis.longestLabel.length * yAxis.textSize &&
-                    me.x < displayWidth - binding.chart.viewPortHandler.offsetRight()
-                ) {
+                if (me.x > yAxis.longestLabel.length * yAxis.textSize && me.x < displayWidth - binding.chart.viewPortHandler.offsetRight()) {
 //                    viewPager.setPagingEnabled(false)
 //                    nestedScrollView.setScrollingEnabled(false)
                 }
             }
 
             override fun onChartGestureEnd(
-                me: MotionEvent,
-                lastPerformedGesture: ChartTouchListener.ChartGesture
+                me: MotionEvent, lastPerformedGesture: ChartTouchListener.ChartGesture
             ) {
 //                viewPager.setPagingEnabled(true)
 //                nestedScrollView.setScrollingEnabled(true)
@@ -309,10 +288,7 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
             override fun onChartDoubleTapped(me: MotionEvent) {}
             override fun onChartSingleTapped(me: MotionEvent) {}
             override fun onChartFling(
-                me1: MotionEvent,
-                me2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
+                me1: MotionEvent, me2: MotionEvent, velocityX: Float, velocityY: Float
             ) {
             }
 

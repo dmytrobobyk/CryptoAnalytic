@@ -5,9 +5,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-<!--        <variable-->
-<!--            name="cryptoItem"-->
-<!--            type="com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CryptocurrencyResponseItem" />-->
         <variable
             name="cryptoItem"
             type="com.example.database.entity.DbCryptocurrency" />

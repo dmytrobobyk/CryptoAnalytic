@@ -8,5 +8,5 @@ data class Cryptocurrency(
     @Embedded
     val dbCryptocurrency: DbCryptocurrency,
     @Embedded
-    val dbRoi: DbRoi
+    val dbRoi: DbRoi?
 )

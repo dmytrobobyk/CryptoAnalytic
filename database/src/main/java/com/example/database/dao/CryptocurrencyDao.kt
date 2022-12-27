@@ -10,6 +10,9 @@ interface CryptocurrencyDao {
     @Query("SELECT * FROM DB_CRYPTOCURRENCY")
     fun getAll(): List<Cryptocurrency>
 
+    @Query("SELECT * FROM DB_CRYPTOCURRENCY WHERE DB_CRYPTOCURRENCY.isFavorite = 'true'")
+    fun getFavorites(): List<Cryptocurrency>
+
     @Transaction
     @Insert
     fun insert(cryptocurrencies: MutableList<DbCryptocurrency>)

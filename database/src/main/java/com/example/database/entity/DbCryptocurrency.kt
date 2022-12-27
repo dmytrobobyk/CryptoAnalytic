@@ -32,4 +32,5 @@ data class DbCryptocurrency(
     val symbol: String,
     val totalSupply: Double,
     val totalVolume: Double,
+    val isFavorite: Boolean = false
 )

@@ -24,6 +24,14 @@ class DaoAggregator(private val database: AppDatabase) {
         }
     }
 
+    suspend fun getFavoriteCryptocurrencies(): List<Cryptocurrency> {
+        return database.cryptocurrencyDao().getFavorites()
+    }
+
+    suspend fun saveCryptocurrencyFavoriteState(cryptocurrency: Cryptocurrency) {
+        database.cryptocurrencyDao().insert(cryptocurrency.dbCryptocurrency)
+    }
+
 
 
 

@@ -2,6 +2,7 @@ package com.example.cryptoanalytic.utils.databinding
 
 import android.content.res.ColorStateList
 import android.os.Build
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -24,6 +25,13 @@ object BindingAdapters {
             recyclerView.adapter = CryptocurrenciesListAdapter(listener)
         }
         (recyclerView.adapter as CryptocurrenciesListAdapter).submitList(cryptocurrencyItems)
+    }
+
+    @BindingAdapter("favoriteIcon")
+    fun bindFavoriteIcon(imageView: ImageView, isFavorite: Boolean) {
+        imageView.setImageResource(
+            if (isFavorite) R.drawable.ic_baseline_star_24 else R.drawable.ic_baseline_star_border_24
+        )
     }
 
     @BindingAdapter("time")

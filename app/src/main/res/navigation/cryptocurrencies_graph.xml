@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cryptocurrencies_graph"
+    app:startDestination="@id/cryptocurrenciesFragment">
+
+    <fragment
+        android:id="@+id/cryptocurrenciesFragment"
+        android:name="com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesFragment"
+        android:label="CryptocurrenciesFragment"
+        tools:layout="@layout/cryptocurrency_list_fragment">
+
+        <action
+            android:id="@+id/action_cryptocurrenciesFragment_to_cryptocurrencyDetails"
+            app:destination="@id/cryptocurrencyDetails" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cryptocurrencyDetails"
+        android:name="com.example.cryptoanalytic.screens.cryptocurrencyDetails.CryptocurrencyDetailsFragment"
+        android:label="CryptocurrencyDetailsFragment"
+        tools:layout="@layout/cryptocurrency_details_fragment">
+
+        <argument
+            android:name="cryptocurrencyId"
+            app:argType="string" />
+    </fragment>
+
+</navigation>

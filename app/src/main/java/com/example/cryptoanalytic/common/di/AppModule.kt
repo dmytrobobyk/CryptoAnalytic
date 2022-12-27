@@ -1,13 +1,18 @@
 package com.example.cryptoanalytic.common.di
 
+import android.content.Context
 import androidx.annotation.Nullable
-import com.example.cryptoanalytic.BuildConfig
+import androidx.room.Room
 import com.example.cryptoanalytic.MainViewModel
+import com.example.database.APP_DATABASE_NAME
+import com.example.database.AppDatabase
+import com.example.database.DaoAggregator
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -40,14 +45,22 @@ object AppModule {
         logging.level = HttpLoggingInterceptor.Level.BODY
         return OkHttpClient.Builder()
             .addInterceptor(logging)
-            .addInterceptor(Interceptor { chain ->
-                val request = chain.request().newBuilder()
-                    .header(BuildConfig.API_AUTH_HEADER, BuildConfig.API_KEY)
-                    .build();
+            .addInterceptor(Interceptor {chain ->
+                var request = chain.request()
+                val url = request.url.newBuilder().addQueryParameter("vs_currency","USD").build()
+                request = request.newBuilder().url(url).build()
                 chain.proceed(request)
             })
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase = Room.databaseBuilder(context, AppDatabase::class.java, APP_DATABASE_NAME).build()
+
+    @Provides
+    @Singleton
+    fun provideDaoAggregator(appDatabase: AppDatabase) = DaoAggregator(appDatabase)
 
     @Provides
     @Singleton

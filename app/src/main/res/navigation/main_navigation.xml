@@ -2,10 +2,20 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation_graph"
-    app:startDestination="@id/mainFragment">
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/bottom_navigation">
+
+    <include app:graph="@navigation/bottom_navigation"/>
+
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.cryptoanalytic.MainFragment"
-        android:label="MainFragment" />
+    android:id="@+id/about_app_fragment"
+    android:name="com.example.cryptoanalytic.screens.about_app.AboutAppFragment"
+    android:label="AboutAppFragment"
+    tools:layout="@layout/fragment_about_app" />
+
+    <fragment
+        android:id="@+id/calculator_fragment"
+        android:name="com.example.cryptoanalytic.screens.calculator.CalculatorFragment"
+        android:label="Calculator"
+        tools:layout="@layout/fragment_calculator" />
 </navigation>

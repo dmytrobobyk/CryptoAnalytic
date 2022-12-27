@@ -7,10 +7,7 @@
     <data>
         <variable
             name="cryptoItem"
-            type="com.example.cryptoanalytic.common.responses.latest.LatestResponse" />
-        <variable
-            name="currencyItem"
-            type="com.example.cryptoanalytic.common.responses.base.currencyResponses.CurrencyItemResponse" />
+            type="com.example.database.entity.DbCryptocurrency" />
     </data>
 
     <FrameLayout
@@ -82,7 +79,7 @@
                         android:background="@drawable/cryptocurrency_item_position_background"
                         android:paddingStart="2dp"
                         android:paddingEnd="2dp"
-                        android:text="@{String.valueOf(cryptoItem.cmcRank.intValue())}"
+                        android:text="@{String.valueOf(cryptoItem.marketCapRank)}"
                         tools:text="1" />
 
                     <TextView
@@ -101,8 +98,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintHorizontal_weight="3"
-                    percentChanged="@{currencyItem.percentChange24h}"
-                    changeColor="@{currencyItem.percentChange24h}"
+                    percentChanged="@{cryptoItem.priceChangePercentage24h}"
+                    changeColor="@{cryptoItem.priceChangePercentage24h}"
                     app:layout_constraintStart_toEndOf="@+id/cryptocurrency_item_name_layout"
                     app:layout_constraintEnd_toStartOf="@+id/cryptocurrency_price"
                     app:layout_constraintTop_toTopOf="@+id/cryptocurrency_item_name_layout"
@@ -119,7 +116,7 @@
                     app:layout_constraintStart_toEndOf="@+id/cryptocurrency_item_change"
                     app:layout_constraintTop_toTopOf="@+id/cryptocurrency_item_name_layout"
                     app:layout_constraintBottom_toBottomOf="@+id/cryptocurrency_item_name_layout"
-                    android:text="@{String.format(@string/double_three_signs, currencyItem.price)}"
+                    android:text="@{String.format(@string/double_three_signs, cryptoItem.currentPrice)}"
                     tools:text="$16,456.34"
                     />
 

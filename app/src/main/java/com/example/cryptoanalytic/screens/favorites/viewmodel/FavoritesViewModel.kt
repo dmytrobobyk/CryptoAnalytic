@@ -50,8 +50,34 @@ class FavoritesViewModel @Inject constructor(private val repository: FavoritesRe
         }
     }
 
-    //TODO: add logic to remove the item from favorites
-    fun removeCryptocurrencyFromFavorite() {
+    fun removeCryptocurrencyFromFavorite(cryptocurrency: Cryptocurrency) {
+        viewModelScope.launch {
+            repository.removeCryptocurrencyFromFavorite(cryptocurrency).collect { result ->
+                when(result) {
+                    is Result.Loading -> {
+                        Log.d(TAG, "LOADING")
+
+                    }
+
+                    is Result.Finish -> {
+                        Log.d(TAG, "FINISH")
+
+                    }
+
+                    is Result.Success -> {
+                        Log.d(TAG, "SUCCESS REMOVED FROM FAVORITE")
+                        result.data?.let {
+
+                        }
+
+                    }
+
+                    is Result.Error -> {
+                        Log.d(TAG, "ERROR")
+                    }
+                }
+            }
+        }
 
     }
 

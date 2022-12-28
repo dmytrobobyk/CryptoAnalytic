@@ -10,13 +10,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.databinding.CryptocurrencyListFragmentBinding
 import com.example.cryptoanalytic.screens.cryptocurrencies.viewmodel.CryptocurrenciesViewModel
+import com.example.cryptoanalytic.utils.listeners.OnFavoriteClickListener
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
 import com.example.database.embeeded.Cryptocurrency
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CryptocurrenciesFragment : Fragment(), OnItemClickListener<Cryptocurrency> {
+class CryptocurrenciesFragment : Fragment(), OnItemClickListener<Cryptocurrency>, OnFavoriteClickListener<Cryptocurrency> {
 
     @Inject
     lateinit var viewModel: CryptocurrenciesViewModel
@@ -28,11 +29,16 @@ class CryptocurrenciesFragment : Fragment(), OnItemClickListener<Cryptocurrency>
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.clickListener = this
+        binding.favoriteListener = this
         return binding.root
     }
 
     override fun onItemClicked(item: Cryptocurrency) {
         val action = CryptocurrenciesFragmentDirections.actionCryptocurrenciesFragmentToCryptocurrencyDetails(item.dbCryptocurrency.id.lowercase())
         this.findNavController().navigate(action)
+    }
+
+    override fun onFavoriteClicked(item: Cryptocurrency) {
+        viewModel.saveFavoriteCryptocurrencyState(item)
     }
 }

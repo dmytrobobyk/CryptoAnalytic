@@ -10,6 +10,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesListAdapter
+import com.example.cryptoanalytic.utils.listeners.OnFavoriteClickListener
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
 import com.example.database.embeeded.Cryptocurrency
 import java.math.RoundingMode
@@ -18,11 +19,13 @@ import java.text.SimpleDateFormat
 
 
 object BindingAdapters {
-    @BindingAdapter(value = ["cryptocurrencyItems", "clickListener"])
+    @BindingAdapter(value = ["cryptocurrencyItems", "clickListener", "favoriteListener"])
     @JvmStatic
-    fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<Cryptocurrency>, listener: OnItemClickListener<Cryptocurrency>) {
+    fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<Cryptocurrency>,
+                                listener: OnItemClickListener<Cryptocurrency>,
+    favoriteListener: OnFavoriteClickListener<Cryptocurrency>) {
         recyclerView.adapter ?: run {
-            recyclerView.adapter = CryptocurrenciesListAdapter(listener)
+            recyclerView.adapter = CryptocurrenciesListAdapter(listener, favoriteListener)
         }
         (recyclerView.adapter as CryptocurrenciesListAdapter).submitList(cryptocurrencyItems)
     }

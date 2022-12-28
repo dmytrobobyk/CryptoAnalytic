@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface CryptocurrenciesRepository {
     suspend fun getLatestCryptocurrencies(): Flow<Result<List<Cryptocurrency>>>
+    suspend fun saveFavoriteCryptocurrencyState(cryptocurrency: Cryptocurrency): Flow<Result<Any>>
 }

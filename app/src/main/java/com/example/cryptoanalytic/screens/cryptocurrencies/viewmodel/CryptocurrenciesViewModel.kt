@@ -47,5 +47,31 @@ class CryptocurrenciesViewModel @Inject constructor(private val repository: Cryp
         }
     }
 
+    fun saveFavoriteCryptocurrencyState(cryptocurrency: Cryptocurrency) {
+        viewModelScope.launch {
+            repository.saveFavoriteCryptocurrencyState(cryptocurrency).collect { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        Log.d(TAG, "LOADING")
+
+                    }
+                    is Result.Finish -> {
+                        Log.d(TAG, "FINISH")
+
+                    }
+                    is Result.Success -> {
+                        Log.d(TAG, "SUCCESS FAVORITE STATE SAVED")
+                        result.data?.let {
+                        }
+
+                    }
+                    is Result.Error -> {
+                        Log.d(TAG, "ERROR")
+                    }
+                }
+            }
+        }
+    }
+
 
 }

@@ -7,10 +7,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptoanalytic.databinding.CryptocurrencyListItemBinding
+import com.example.cryptoanalytic.utils.listeners.OnFavoriteClickListener
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
 import com.example.database.embeeded.Cryptocurrency
 
-class CryptocurrenciesListAdapter(private val listener: OnItemClickListener<Cryptocurrency>) : ListAdapter<Cryptocurrency, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class CryptocurrenciesListAdapter(
+    private val clickListener: OnItemClickListener<Cryptocurrency>,
+    private val favoriteClickListener: OnFavoriteClickListener<Cryptocurrency>) : ListAdapter<Cryptocurrency, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Cryptocurrency>() {
             override fun areItemsTheSame(oldItem: Cryptocurrency, newItem: Cryptocurrency): Boolean = oldItem.dbCryptocurrency.id == newItem.dbCryptocurrency.id
@@ -35,7 +38,10 @@ class CryptocurrenciesListAdapter(private val listener: OnItemClickListener<Cryp
             itemBinding.cryptoItem = item.dbCryptocurrency
             Glide.with(itemBinding.root.context).load(item.dbCryptocurrency.image).into(itemBinding.cryptocurrencyItemImageView)
             itemBinding.root.setOnClickListener {
-                listener.onItemClicked(item)
+                clickListener.onItemClicked(item)
+            }
+            itemBinding.addFavoriteImageView.setOnClickListener {
+                favoriteClickListener.onFavoriteClicked(item)
             }
         }
     }

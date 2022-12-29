@@ -28,8 +28,7 @@ class CryptocurrenciesFragment : Fragment(), OnItemClickListener<Cryptocurrency>
         val binding: CryptocurrencyListFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.cryptocurrency_list_fragment, container, false)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.clickListener = this
-        binding.favoriteListener = this
+        binding.listener = this
         return binding.root
     }
 

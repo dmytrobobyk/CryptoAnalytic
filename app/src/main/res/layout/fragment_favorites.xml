@@ -10,12 +10,8 @@
             type="com.example.cryptoanalytic.screens.favorites.viewmodel.FavoritesViewModel" />
 
         <variable
-            name="clickListener"
+            name="listener"
             type="com.example.cryptoanalytic.screens.favorites.FavoritesFragment" />
-        <variable
-            name="favoriteListener"
-            type="com.example.cryptoanalytic.screens.favorites.FavoritesFragment" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,8 +26,8 @@
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             cryptocurrencyItems="@{viewModel.favoritesList}"
-            clickListener="@{clickListener}"
-            favoriteListener="@{favoriteListener}"
+            clickListener="@{listener}"
+            favoriteListener="@{listener}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

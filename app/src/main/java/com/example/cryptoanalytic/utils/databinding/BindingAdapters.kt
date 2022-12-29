@@ -31,6 +31,7 @@ object BindingAdapters {
     }
 
     @BindingAdapter("favoriteIcon")
+    @JvmStatic
     fun bindFavoriteIcon(imageView: ImageView, isFavorite: Boolean) {
         imageView.setImageResource(
             if (isFavorite) R.drawable.ic_baseline_star_24 else R.drawable.ic_baseline_star_border_24

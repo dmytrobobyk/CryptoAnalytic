@@ -5,17 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-    <variable
+        <variable
         name="viewModel"
         type="com.example.cryptoanalytic.screens.cryptocurrencies.viewmodel.CryptocurrenciesViewModel" />
 
         <variable
-            name="clickListener"
+            name="listener"
             type="com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesFragment" />
-        <variable
-            name="favoriteListener"
-            type="com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesFragment" />
-
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,8 +26,8 @@
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         cryptocurrencyItems="@{viewModel.cryptocurrenciesList}"
-        clickListener="@{clickListener}"
-        favoriteListener="@{favoriteListener}"
+        clickListener="@{listener}"
+        favoriteListener="@{listener}"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

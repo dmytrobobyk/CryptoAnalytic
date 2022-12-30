@@ -6,6 +6,7 @@ import com.example.database.embeeded.Cryptocurrency
 import com.example.database.entity.DbCryptocurrency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
@@ -14,7 +15,7 @@ class FavoritesLocalRepository(private val daoAggregator: DaoAggregator): Favori
     override suspend fun getFavoritesCryptocurrencies(): Flow<Result<List<Cryptocurrency>>> {
         return flow {
             emit(Result.Loading)
-            emit(Result.Success(daoAggregator.getFavoriteCryptocurrencies()))
+            daoAggregator.getFavoriteCryptocurrencies().collect { emit(Result.Success(it)) }
             emit(Result.Finish)
         }.flowOn(Dispatchers.IO)
     }

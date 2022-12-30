@@ -26,7 +26,7 @@ class CryptocurrenciesFragment : Fragment(), OnItemClickListener<Cryptocurrency>
     //TODO: Add pull to refresh
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val binding: CryptocurrencyListFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.cryptocurrency_list_fragment, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         binding.listener = this
         return binding.root

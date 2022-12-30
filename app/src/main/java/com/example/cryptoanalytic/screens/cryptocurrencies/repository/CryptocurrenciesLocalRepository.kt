@@ -8,6 +8,7 @@ import com.example.database.entity.DbCryptocurrency
 import com.example.database.entity.DbRoi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
@@ -20,7 +21,7 @@ class CryptocurrenciesLocalRepository @Inject constructor(
     override suspend fun getLatestCryptocurrencies(): Flow<Result<List<Cryptocurrency>>> {
         return flow {
             emit(Result.Loading)
-            emit(Result.Success(daoAggregator.getCryptocurrencyList()))
+//            daoAggregator.getCryptocurrencyList().collect { emit(Result.Success(it)) }
 
             val result = remoteDataSource.getLatestCryptocurrencies()
             if (result is Result.Success) {
@@ -39,8 +40,8 @@ class CryptocurrenciesLocalRepository @Inject constructor(
                 }?.let {
                     daoAggregator.deleteCryptocurrencyList(it)
                     daoAggregator.saveCryptocurrencyList(it)
+                    daoAggregator.getCryptocurrencyList().collect { emit(Result.Success(it)) }
                 }
-                Result.Success(daoAggregator.getCryptocurrencyList())
             }
             emit(Result.Finish)
         }.flowOn(Dispatchers.IO)

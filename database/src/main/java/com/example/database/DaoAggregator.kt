@@ -1,36 +1,48 @@
 package com.example.database
 
 import com.example.database.embeeded.Cryptocurrency
-import kotlinx.coroutines.flow.Flow
+import com.example.database.wrapper.Result
+import kotlinx.coroutines.flow.*
 
 class DaoAggregator(private val database: AppDatabase) {
 
     // Cryptocurrency list
-
-    fun getCryptocurrencyList(): Flow<List<Cryptocurrency>> {
-        return database.cryptocurrencyDao().getAll()
-    }
-
-    fun saveCryptocurrencyList(cryptocurrencyList: List<Cryptocurrency>) {
-        cryptocurrencyList.forEach { cryptocurrency ->
-            database.cryptocurrencyDao().insert(cryptocurrency.dbCryptocurrency)
-            cryptocurrency.dbRoi?.let { it -> database.roiDao().insert(it) }
+    suspend fun getCryptocurrencyList(): Flow<Result<List<Cryptocurrency>>> {
+        return flow {
+            database.cryptocurrencyDao().getAll().collect {
+                emit(Result.Success(it))
+            }
         }
     }
 
-    fun deleteCryptocurrencyList(cryptocurrencyList: List<Cryptocurrency>) {
-        cryptocurrencyList.forEach {
-            database.cryptocurrencyDao().delete(it.dbCryptocurrency)
-            it.dbRoi?.let { it1 -> database.roiDao().delete(it1) }
+    suspend fun saveCryptocurrencyList(cryptocurrencyList: List<Cryptocurrency>): Flow<Result<Unit>> {
+        return flow {
+            emit(Result.Success(cryptocurrencyList.forEach { cryptocurrency ->
+                database.cryptocurrencyDao().insert(cryptocurrency.dbCryptocurrency)
+                cryptocurrency.dbRoi?.let { it -> database.roiDao().insert(it) }
+            }))
         }
     }
 
-    fun getFavoriteCryptocurrencies(): Flow<List<Cryptocurrency>> {
-        return database.cryptocurrencyDao().getFavorites()
+    suspend fun deleteCryptocurrencyList(cryptocurrencyList: List<Cryptocurrency>): Flow<Result<Unit>> {
+        return flow {
+            emit(Result.Success(cryptocurrencyList.forEach {
+                database.cryptocurrencyDao().delete(it.dbCryptocurrency)
+                it.dbRoi?.let { it1 -> database.roiDao().delete(it1) }
+            }))
+        }
     }
 
-    fun saveCryptocurrencyFavoriteState(cryptocurrency: Cryptocurrency) {
-        database.cryptocurrencyDao().update(cryptocurrency.dbCryptocurrency)
+    suspend fun getFavoriteCryptocurrencies(): Flow<Result<List<Cryptocurrency>>> {
+        return flow{
+            database.cryptocurrencyDao().getFavorites().collect { emit(Result.Success(it)) }
+        }
+    }
+
+    suspend fun saveCryptocurrencyFavoriteState(cryptocurrency: Cryptocurrency): Flow<Result<Unit>> {
+        return flow {
+            emit(Result.Success(database.cryptocurrencyDao().update(cryptocurrency.dbCryptocurrency)))
+        }
     }
 
 

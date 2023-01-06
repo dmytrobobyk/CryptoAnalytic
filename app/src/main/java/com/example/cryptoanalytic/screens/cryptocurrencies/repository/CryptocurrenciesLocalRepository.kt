@@ -1,6 +1,6 @@
 package com.example.cryptoanalytic.screens.cryptocurrencies.repository
 
-import com.example.cryptoanalytic.common.Result
+import com.example.database.wrapper.Result
 import com.example.cryptoanalytic.screens.cryptocurrencies.datasource.CryptocurrenciesRemoteDataSource
 import com.example.database.DaoAggregator
 import com.example.database.embeeded.Cryptocurrency
@@ -21,7 +21,7 @@ class CryptocurrenciesLocalRepository @Inject constructor(
     override suspend fun getLatestCryptocurrencies(): Flow<Result<List<Cryptocurrency>>> {
         return flow {
             emit(Result.Loading)
-//            daoAggregator.getCryptocurrencyList().collect { emit(Result.Success(it)) }
+//            daoAggregator.getCryptocurrencyList().collect { emit(it) }
 
             val result = remoteDataSource.getLatestCryptocurrencies()
             if (result is Result.Success) {
@@ -38,10 +38,13 @@ class CryptocurrenciesLocalRepository @Inject constructor(
                         }
                     }
                 }?.let {
-                    daoAggregator.deleteCryptocurrencyList(it)
-                    daoAggregator.saveCryptocurrencyList(it)
-                    daoAggregator.getCryptocurrencyList().collect { emit(Result.Success(it)) }
+                    daoAggregator.deleteCryptocurrencyList(it).collect()
+                    daoAggregator.saveCryptocurrencyList(it).collect()
+//                    daoAggregator.getCryptocurrencyList().collect { emit(it) }
                 }
+            }
+            daoAggregator.getCryptocurrencyList().collect {
+                emit(it)
             }
             emit(Result.Finish)
         }.flowOn(Dispatchers.IO)
@@ -50,7 +53,7 @@ class CryptocurrenciesLocalRepository @Inject constructor(
     override suspend fun saveFavoriteCryptocurrencyState(cryptocurrency: Cryptocurrency): Flow<Result<Any>> {
         return flow {
             emit(Result.Loading)
-            emit(Result.Success(daoAggregator.saveCryptocurrencyFavoriteState(cryptocurrency)))
+            daoAggregator.saveCryptocurrencyFavoriteState(cryptocurrency).collect()
             emit(Result.Finish)
         }.flowOn(Dispatchers.IO)
     }

@@ -1,7 +1,7 @@
 package com.example.cryptoanalytic.screens.cryptocurrencyDetails.datasource
 
 import com.example.cryptoanalytic.common.BaseDataSource
-import com.example.cryptoanalytic.common.Result
+import com.example.database.wrapper.Result
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.CryptocurrencyDetailsApi
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyDetailsResponse
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyHistoryPrices

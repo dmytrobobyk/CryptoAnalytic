@@ -17,7 +17,8 @@ class CryptocurrenciesListAdapter(
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Cryptocurrency>() {
             override fun areItemsTheSame(oldItem: Cryptocurrency, newItem: Cryptocurrency): Boolean = oldItem.dbCryptocurrency.id == newItem.dbCryptocurrency.id
-            override fun areContentsTheSame(oldItem: Cryptocurrency, newItem: Cryptocurrency): Boolean = oldItem == newItem && oldItem.dbCryptocurrency.isFavorite == newItem.dbCryptocurrency.isFavorite
+            override fun areContentsTheSame(oldItem: Cryptocurrency, newItem: Cryptocurrency): Boolean =
+                oldItem == newItem && oldItem.dbCryptocurrency.isFavorite == newItem.dbCryptocurrency.isFavorite
         }
     }
 

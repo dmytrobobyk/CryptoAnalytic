@@ -1,6 +1,6 @@
 package com.example.cryptoanalytic.screens.favorites.repository
 
-import com.example.cryptoanalytic.common.Result
+import com.example.database.wrapper.Result
 import com.example.database.embeeded.Cryptocurrency
 import kotlinx.coroutines.flow.Flow
 

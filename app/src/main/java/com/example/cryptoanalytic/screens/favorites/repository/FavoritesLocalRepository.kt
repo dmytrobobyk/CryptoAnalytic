@@ -1,9 +1,8 @@
 package com.example.cryptoanalytic.screens.favorites.repository
 
-import com.example.cryptoanalytic.common.Result
+import com.example.database.wrapper.Result
 import com.example.database.DaoAggregator
 import com.example.database.embeeded.Cryptocurrency
-import com.example.database.entity.DbCryptocurrency
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -15,7 +14,7 @@ class FavoritesLocalRepository(private val daoAggregator: DaoAggregator): Favori
     override suspend fun getFavoritesCryptocurrencies(): Flow<Result<List<Cryptocurrency>>> {
         return flow {
             emit(Result.Loading)
-            daoAggregator.getFavoriteCryptocurrencies().collect { emit(Result.Success(it)) }
+            daoAggregator.getFavoriteCryptocurrencies().collect { emit(it) }
             emit(Result.Finish)
         }.flowOn(Dispatchers.IO)
     }
@@ -23,7 +22,7 @@ class FavoritesLocalRepository(private val daoAggregator: DaoAggregator): Favori
     override suspend fun removeCryptocurrencyFromFavorite(cryptocurrency: Cryptocurrency): Flow<Result<Any>> {
         return flow {
             emit(Result.Loading)
-            emit(Result.Success(daoAggregator.saveCryptocurrencyFavoriteState(cryptocurrency)))
+            daoAggregator.saveCryptocurrencyFavoriteState(cryptocurrency).collect()
             emit(Result.Finish)
         }.flowOn(Dispatchers.IO)
     }

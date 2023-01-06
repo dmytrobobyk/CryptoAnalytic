@@ -11,7 +11,7 @@ interface CryptocurrencyDao {
     @Query("SELECT * FROM DB_CRYPTOCURRENCY")
     fun getAll(): Flow<List<Cryptocurrency>>
 
-    @Query("SELECT * FROM DB_CRYPTOCURRENCY WHERE DB_CRYPTOCURRENCY.isFavorite = 'true'")
+    @Query("SELECT * FROM DB_CRYPTOCURRENCY WHERE DB_CRYPTOCURRENCY.isFavorite = 1")
     fun getFavorites(): Flow<List<Cryptocurrency>>
 
     @Transaction

@@ -3,7 +3,7 @@ package com.example.cryptoanalytic.screens.cryptocurrencies.viewmodel
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.cryptoanalytic.common.BaseViewModel
-import com.example.cryptoanalytic.common.Result
+import com.example.database.wrapper.Result
 import com.example.cryptoanalytic.screens.cryptocurrencies.repository.CryptocurrenciesRepository
 import com.example.database.embeeded.Cryptocurrency
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -1,5 +1,6 @@
 package com.example.cryptoanalytic.common
 
+import com.example.database.wrapper.Result
 import retrofit2.Response
 
 

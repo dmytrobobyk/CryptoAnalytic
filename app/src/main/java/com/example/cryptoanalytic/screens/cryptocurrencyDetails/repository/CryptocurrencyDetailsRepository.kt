@@ -1,6 +1,6 @@
 package com.example.cryptoanalytic.screens.cryptocurrencyDetails.repository
 
-import com.example.cryptoanalytic.common.Result
+import com.example.database.wrapper.Result
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyDetailsResponse
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyHistoryPrices
 import kotlinx.coroutines.flow.Flow

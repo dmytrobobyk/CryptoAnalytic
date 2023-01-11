@@ -1,4 +1,4 @@
-package com.example.cryptoanalytic.common
+package com.example.database.wrapper
 
 sealed class Result<out T> {
 

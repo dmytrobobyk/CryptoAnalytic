@@ -1,6 +1,6 @@
 package com.example.cryptoanalytic.screens.cryptocurrencies.repository
 
-import com.example.cryptoanalytic.common.Result
+import com.example.database.wrapper.Result
 import com.example.cryptoanalytic.screens.cryptocurrencies.datasource.CryptocurrenciesRemoteDataSource
 import com.example.database.DaoAggregator
 import com.example.database.embeeded.Cryptocurrency
@@ -8,6 +8,7 @@ import com.example.database.entity.DbCryptocurrency
 import com.example.database.entity.DbRoi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
@@ -20,7 +21,7 @@ class CryptocurrenciesLocalRepository @Inject constructor(
     override suspend fun getLatestCryptocurrencies(): Flow<Result<List<Cryptocurrency>>> {
         return flow {
             emit(Result.Loading)
-            emit(Result.Success(daoAggregator.getCryptocurrencyList()))
+//            daoAggregator.getCryptocurrencyList().collect { emit(it) }
 
             val result = remoteDataSource.getLatestCryptocurrencies()
             if (result is Result.Success) {
@@ -37,11 +38,22 @@ class CryptocurrenciesLocalRepository @Inject constructor(
                         }
                     }
                 }?.let {
-                    daoAggregator.deleteCryptocurrencyList(it)
-                    daoAggregator.saveCryptocurrencyList(it)
+                    daoAggregator.deleteCryptocurrencyList(it).collect()
+                    daoAggregator.saveCryptocurrencyList(it).collect()
+//                    daoAggregator.getCryptocurrencyList().collect { emit(it) }
                 }
-                Result.Success(daoAggregator.getCryptocurrencyList())
             }
+            daoAggregator.getCryptocurrencyList().collect {
+                emit(it)
+            }
+            emit(Result.Finish)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    override suspend fun saveFavoriteCryptocurrencyState(cryptocurrencyId: String, state: Boolean): Flow<Result<Any>> {
+        return flow {
+            emit(Result.Loading)
+            daoAggregator.saveCryptocurrencyFavoriteState(cryptocurrencyId, state).collect()
             emit(Result.Finish)
         }.flowOn(Dispatchers.IO)
     }

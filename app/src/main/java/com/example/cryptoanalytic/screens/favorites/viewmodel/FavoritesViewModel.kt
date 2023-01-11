@@ -6,11 +6,8 @@ import com.example.cryptoanalytic.common.BaseViewModel
 import com.example.cryptoanalytic.screens.favorites.repository.FavoritesRepository
 import com.example.database.embeeded.Cryptocurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import com.example.database.wrapper.Result
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -50,9 +47,9 @@ class FavoritesViewModel @Inject constructor(private val repository: FavoritesRe
         }
     }
 
-    fun removeCryptocurrencyFromFavorite(cryptocurrency: Cryptocurrency) {
+    fun removeCryptocurrencyFromFavorite(cryptocurrencyId: String, state: Boolean) {
         viewModelScope.launch {
-            repository.removeCryptocurrencyFromFavorite(cryptocurrency).collect { result ->
+            repository.removeCryptocurrencyFromFavorite(cryptocurrencyId, state).collect { result ->
                 when(result) {
                     is Result.Loading -> {
                         Log.d(TAG, "LOADING")

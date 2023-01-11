@@ -19,10 +19,10 @@ class FavoritesLocalRepository(private val daoAggregator: DaoAggregator): Favori
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun removeCryptocurrencyFromFavorite(cryptocurrency: Cryptocurrency): Flow<Result<Any>> {
+    override suspend fun removeCryptocurrencyFromFavorite(cryptocurrencyId: String, state: Boolean): Flow<Result<Any>> {
         return flow {
             emit(Result.Loading)
-            daoAggregator.saveCryptocurrencyFavoriteState(cryptocurrency).collect()
+            daoAggregator.saveCryptocurrencyFavoriteState(cryptocurrencyId, state).collect()
             emit(Result.Finish)
         }.flowOn(Dispatchers.IO)
     }

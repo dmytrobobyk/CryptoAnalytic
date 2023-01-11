@@ -23,7 +23,7 @@ object BindingAdapters {
     @JvmStatic
     fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<Cryptocurrency>,
                                 listener: OnItemClickListener<Cryptocurrency>,
-    favoriteListener: OnFavoriteClickListener<Cryptocurrency>) {
+    favoriteListener: OnFavoriteClickListener<String>) {
         recyclerView.adapter ?: run {
             recyclerView.adapter = CryptocurrenciesListAdapter(listener, favoriteListener)
         }

@@ -27,6 +27,10 @@ interface CryptocurrencyDao {
     fun update(cryptocurrency: DbCryptocurrency)
 
     @Transaction
+    @Query("UPDATE DB_CRYPTOCURRENCY SET isFavorite = :state WHERE id = :cryptocurrencyId")
+    fun updateFavoriteState(cryptocurrencyId: String, state: Int)
+
+    @Transaction
     @Delete
     fun deleteAll(cryptocurrencies: List<DbCryptocurrency>)
 

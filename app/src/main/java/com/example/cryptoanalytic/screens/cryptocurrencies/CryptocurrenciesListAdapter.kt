@@ -13,7 +13,7 @@ import com.example.database.embeeded.Cryptocurrency
 
 class CryptocurrenciesListAdapter(
     private val clickListener: OnItemClickListener<Cryptocurrency>,
-    private val favoriteClickListener: OnFavoriteClickListener<Cryptocurrency>) : ListAdapter<Cryptocurrency, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+    private val favoriteClickListener: OnFavoriteClickListener<String>) : ListAdapter<Cryptocurrency, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Cryptocurrency>() {
             override fun areItemsTheSame(oldItem: Cryptocurrency, newItem: Cryptocurrency): Boolean = oldItem.dbCryptocurrency.id == newItem.dbCryptocurrency.id
@@ -42,8 +42,7 @@ class CryptocurrenciesListAdapter(
                 clickListener.onItemClicked(item)
             }
             itemBinding.addFavoriteImageView.setOnClickListener {
-                item.dbCryptocurrency.isFavorite = !item.dbCryptocurrency.isFavorite
-                favoriteClickListener.onFavoriteClicked(item)
+                favoriteClickListener.onFavoriteClicked(item.dbCryptocurrency.id, !item.dbCryptocurrency.isFavorite)
             }
         }
     }

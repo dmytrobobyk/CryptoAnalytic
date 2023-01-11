@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface FavoritesRepository {
     suspend fun getFavoritesCryptocurrencies(): Flow<Result<List<Cryptocurrency>>>
-    suspend fun removeCryptocurrencyFromFavorite(cryptocurrency: Cryptocurrency): Flow<Result<Any>>
+    suspend fun removeCryptocurrencyFromFavorite(cryptocurrencyId: String, state: Boolean): Flow<Result<Any>>
 }

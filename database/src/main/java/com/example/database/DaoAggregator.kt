@@ -39,9 +39,10 @@ class DaoAggregator(private val database: AppDatabase) {
         }
     }
 
-    suspend fun saveCryptocurrencyFavoriteState(cryptocurrency: Cryptocurrency): Flow<Result<Unit>> {
+    suspend fun saveCryptocurrencyFavoriteState(cryptocurrencyId: String, state: Boolean): Flow<Result<Unit>> {
         return flow {
-            emit(Result.Success(database.cryptocurrencyDao().update(cryptocurrency.dbCryptocurrency)))
+            val sqlState = if (state) 1 else 0
+            emit(Result.Success(database.cryptocurrencyDao().updateFavoriteState(cryptocurrencyId, sqlState)))
         }
     }
 

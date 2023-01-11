@@ -50,10 +50,10 @@ class CryptocurrenciesLocalRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun saveFavoriteCryptocurrencyState(cryptocurrency: Cryptocurrency): Flow<Result<Any>> {
+    override suspend fun saveFavoriteCryptocurrencyState(cryptocurrencyId: String, state: Boolean): Flow<Result<Any>> {
         return flow {
             emit(Result.Loading)
-            daoAggregator.saveCryptocurrencyFavoriteState(cryptocurrency).collect()
+            daoAggregator.saveCryptocurrencyFavoriteState(cryptocurrencyId, state).collect()
             emit(Result.Finish)
         }.flowOn(Dispatchers.IO)
     }

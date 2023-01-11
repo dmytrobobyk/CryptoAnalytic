@@ -16,8 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FavoritesFragment : Fragment(), OnItemClickListener<Cryptocurrency>,
-    OnFavoriteClickListener<Cryptocurrency> {
+class FavoritesFragment : Fragment(), OnItemClickListener<Cryptocurrency>, OnFavoriteClickListener<String> {
 
     @Inject
     lateinit var viewModel: FavoritesViewModel
@@ -36,7 +35,7 @@ class FavoritesFragment : Fragment(), OnItemClickListener<Cryptocurrency>,
 
     }
 
-    override fun onFavoriteClicked(item: Cryptocurrency) {
-        viewModel.removeCryptocurrencyFromFavorite(item)
+    override fun onFavoriteClicked(itemId: String, state: Boolean) {
+        viewModel.removeCryptocurrencyFromFavorite(itemId, state)
     }
 }

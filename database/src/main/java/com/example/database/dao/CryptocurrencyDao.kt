@@ -15,11 +15,11 @@ interface CryptocurrencyDao {
     fun getFavorites(): Flow<List<Cryptocurrency>>
 
     @Transaction
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(cryptocurrencies: MutableList<DbCryptocurrency>)
 
     @Transaction
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(cryptocurrency: DbCryptocurrency)
 
     @Transaction

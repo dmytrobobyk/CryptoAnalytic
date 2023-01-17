@@ -11,7 +11,7 @@ interface RoiDao {
     fun getRoiById(id: String): Flow<DbRoi>
 
     @Transaction
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(dbRoi: DbRoi)
 
     @Transaction

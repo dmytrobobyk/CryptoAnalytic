@@ -21,7 +21,6 @@ class CryptocurrenciesLocalRepository @Inject constructor(
     override suspend fun getLatestCryptocurrencies(): Flow<Result<List<Cryptocurrency>>> {
         return flow {
             emit(Result.Loading)
-//            daoAggregator.getCryptocurrencyList().collect { emit(it) }
 
             val result = remoteDataSource.getLatestCryptocurrencies()
             if (result is Result.Success) {
@@ -38,14 +37,10 @@ class CryptocurrenciesLocalRepository @Inject constructor(
                         }
                     }
                 }?.let {
-                    daoAggregator.deleteCryptocurrencyList(it).collect()
                     daoAggregator.saveCryptocurrencyList(it).collect()
-//                    daoAggregator.getCryptocurrencyList().collect { emit(it) }
                 }
             }
-            daoAggregator.getCryptocurrencyList().collect {
-                emit(it)
-            }
+            daoAggregator.getCryptocurrencyList().collect { emit(it) }
             emit(Result.Finish)
         }.flowOn(Dispatchers.IO)
     }

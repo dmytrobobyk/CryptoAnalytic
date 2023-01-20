@@ -1,6 +1,7 @@
 package com.example.database
 
 import com.example.database.embeeded.Cryptocurrency
+import com.example.database.entity.DbNotification
 import com.example.database.wrapper.Result
 import kotlinx.coroutines.flow.*
 
@@ -46,10 +47,38 @@ class DaoAggregator(private val database: AppDatabase) {
         }
     }
 
+    // Notifications
 
+    suspend fun saveNotification(notification: DbNotification): Flow<Result<Unit>> {
+        return flow {
+            emit(Result.Success(database.notificationsDao().insert(notification)))
+        }
+    }
 
+    suspend fun deleteNotification(notification: DbNotification): Flow<Result<Unit>> {
+        return flow {
+            emit(Result.Success(database.notificationsDao().delete(notification)))
+        }
+    }
 
-    // Cryptocurrency details
+    suspend fun getNotifications(): Flow<Result<List<DbNotification>>> {
+        return flow {
+            database.notificationsDao().getAll().collect { emit(Result.Success(it)) }
+        }
+    }
+
+    suspend fun getNotification(notificationId: Long): Flow<Result<DbNotification>> {
+        return flow {
+            database.notificationsDao().getNotificationById(notificationId).collect{ emit(Result.Success(it)) }
+        }
+    }
+
+    suspend fun updateNotificationPersistentState(notificationId: Long, state: Boolean): Flow<Result<Unit>> {
+        return flow {
+            val sqlState = if(state) 1 else 0
+            emit(Result.Success(database.notificationsDao().updatePersistentState(notificationId, sqlState)))
+        }
+    }
 
 
 }

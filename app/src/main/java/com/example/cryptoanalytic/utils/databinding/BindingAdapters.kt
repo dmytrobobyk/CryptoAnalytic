@@ -10,9 +10,11 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesListAdapter
+import com.example.cryptoanalytic.screens.notifications.NotificationsListAdapter
 import com.example.cryptoanalytic.utils.listeners.OnFavoriteClickListener
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
 import com.example.database.embeeded.Cryptocurrency
+import com.example.database.entity.DbNotification
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -28,6 +30,15 @@ object BindingAdapters {
             recyclerView.adapter = CryptocurrenciesListAdapter(listener, favoriteListener)
         }
         (recyclerView.adapter as CryptocurrenciesListAdapter).submitList(cryptocurrencyItems)
+    }
+
+    @BindingAdapter(value = ["notificationItems", "clickListener"])
+    @JvmStatic
+    fun bindNotificationItems(recyclerView: RecyclerView, notificationItems: List<DbNotification>, listener: OnItemClickListener<DbNotification>) {
+        recyclerView.adapter ?: run {
+            recyclerView.adapter = NotificationsListAdapter(listener)
+        }
+        (recyclerView.adapter as NotificationsListAdapter).submitList(notificationItems)
     }
 
     @BindingAdapter("favoriteIcon")

@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="cryptoItem"
-            type="com.example.database.entity.DbCryptocurrency" />
+            name="notification"
+            type="com.example.database.entity.DbNotification" />
     </data>
 
     <FrameLayout
@@ -37,6 +37,7 @@
                     tools:src="@drawable/ic_baseline_attach_money_24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginStart="@dimen/small" />
 
                 <TextView
@@ -46,7 +47,19 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/notification_crypto_image"
                     android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="@{notification.cryptocurrencyShortName}"
                     tools:text="BTC" />
+
+                <TextView
+                    android:id="@+id/notification_crypto_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_crypto_short_name"
+                    app:layout_constraintStart_toEndOf="@+id/notification_crypto_image"
+                    android:textSize="12sp"
+                    android:text="@{notification.cryptocurrencyName}"
+                    tools:text="Bitcoin" />
 
                 <TextView
                     android:id="@+id/notification_crypto_parameters"
@@ -54,7 +67,8 @@
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     app:layout_constraintStart_toEndOf="@+id/notification_crypto_image"
-                    app:layout_constraintTop_toBottomOf="@+id/notification_crypto_short_name"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_crypto_name"
+                    android:text="@{notification.allParamsInMultilineString}"
                     tools:text="Less than 0.8$\nMore than 1.2$"/>
 
                 <androidx.appcompat.widget.SwitchCompat

@@ -21,4 +21,16 @@ data class DbNotification(
     val alertFrequency: Long,
     val isPersistent: Boolean = false,
     val notes: String
-)
+) {
+    fun getAllParamsInMultilineString(): String {
+        var result = ""
+        when {
+            lessThan != 0.0 -> result + "less than $lessThan\n"
+            moreThan != 0.0 -> result + "more than $moreThan\n"
+            increasedBy != 0.0 -> result + "increased by $increasedBy\n"
+            decreasedBy != 0.0 -> result + "decreased by $decreasedBy\n"
+            changedBy != 0.0 -> result + "changed by $changedBy"
+        }
+        return result
+    }
+}

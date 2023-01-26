@@ -12,9 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class NotificationsViewModel(private val repository: NotificationsRepository) : BaseViewModel() {
+class NotificationsViewModel @Inject constructor(private val repository: NotificationsRepository) : BaseViewModel() {
 
     private val _notificationList = MutableStateFlow<List<DbNotification>>(emptyList())
     val notificationList: StateFlow<List<DbNotification>> = _notificationList.asStateFlow()

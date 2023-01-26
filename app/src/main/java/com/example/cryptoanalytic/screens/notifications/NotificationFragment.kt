@@ -36,6 +36,8 @@ class NotificationFragment : Fragment(), OnItemClickListener<DbNotification> {
     }
 
     fun onCreateNotificationClicked() {
-
+        val createItemId = 0L
+        val action = NotificationFragmentDirections.actionNotificationsFragmentToNotificationDetailsFragment(createItemId)
+        this.findNavController().navigate(action)
     }
 }

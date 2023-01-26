@@ -28,7 +28,7 @@ interface NotificationsDao {
 
     @Transaction
     @Query("UPDATE DB_NOTIFICATION SET isPersistent = :state WHERE notificationId = :notificationId")
-    fun updatePersistentState(notificationId: String, state: Int)
+    fun updatePersistentState(notificationId: Long, state: Int)
 
     @Transaction
     @Delete

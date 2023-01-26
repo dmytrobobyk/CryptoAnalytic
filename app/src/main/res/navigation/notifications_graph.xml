@@ -9,6 +9,22 @@
         android:id="@+id/notificationsFragment"
         android:name="com.example.cryptoanalytic.screens.notifications.NotificationFragment"
         android:label="NotificationsFragment"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_notifications" >
+
+        <action
+            android:id="@+id/action_notificationsFragment_to_notificationDetailsFragment"
+            app:destination="@id/notificationDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/notificationDetailsFragment"
+        android:name="com.example.cryptoanalytic.screens.notificationDetails.NotificationDetailsFragment"
+        android:label="NotificationDetails"
+        tools:layout="@layout/fragment_notification_details">
+
+        <argument
+            android:name="notificationId"
+            app:argType="long" />
+    </fragment>
 
 </navigation>

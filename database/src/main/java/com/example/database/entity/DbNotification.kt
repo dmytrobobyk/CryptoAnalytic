@@ -7,7 +7,7 @@ import com.example.database.DB_NOTIFICATION
 @Entity(tableName = DB_NOTIFICATION)
 data class DbNotification(
     @PrimaryKey(autoGenerate = true)
-    val notificationId: Int,
+    val notificationId: Long,
     val cryptocurrencyId: String,
     val cryptocurrencyShortName: String,
     val cryptocurrencyName: String,

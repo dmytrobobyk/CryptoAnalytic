@@ -31,8 +31,8 @@ interface NotificationsDao {
     fun updatePersistentState(notificationId: Long, state: Int)
 
     @Transaction
-    @Delete
-    fun delete(notification: DbNotification)
+    @Query("DELETE FROM DB_NOTIFICATION WHERE notificationId = :notificationId")
+    fun delete(notificationId: Long)
 
     @Transaction
     @Query("DELETE FROM DB_NOTIFICATION")

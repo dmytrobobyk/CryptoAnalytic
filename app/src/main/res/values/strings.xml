@@ -18,6 +18,22 @@
     <string name="explorers">Explorers:</string>
     <string name="website">Website:</string>
 
+    <string name="notification_parameters">Notification Parameters</string>
+    <string name="less_than">Less than</string>
+    <string name="more_than">More than</string>
+    <string name="increased_by">Increased by</string>
+    <string name="decreased_by">Decreased by</string>
+    <string name="changed_by">Changed by</string>
+    <string name="alert_frequency">Alert frequency</string>
+    <string name="persistence">Persistence</string>
+    <string name="note">Note</string>
+    <string name="your_note">Your note</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="cryptocurrency">Cryptocurrency</string>
+
+    <string name="usd">USD</string>
+
 
     <string name="no_chart_data_string">No Chart Data :(</string>
     <string name="quarter_hour">15m</string>
@@ -41,4 +57,18 @@
 
     <!--Currency-->
     <string name="currency_dollar">$</string>
+
+
+    <!--Spinners-->
+    <string-array name="alert_spinner_frequency_items">
+        <item>1 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>1 hr</item>
+        <item>2 hr</item>
+        <item>5 hr</item>
+        <item>12 hr</item>
+        <item>16 hr</item>
+        <item>24 hr</item>
+    </string-array>
 </resources>

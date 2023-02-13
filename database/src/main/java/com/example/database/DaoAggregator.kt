@@ -55,9 +55,9 @@ class DaoAggregator(private val database: AppDatabase) {
         }
     }
 
-    suspend fun deleteNotification(notification: DbNotification): Flow<Result<Unit>> {
+    suspend fun deleteNotification(notificationId: Long): Flow<Result<Unit>> {
         return flow {
-            emit(Result.Success(database.notificationsDao().delete(notification)))
+            emit(Result.Success(database.notificationsDao().delete(notificationId)))
         }
     }
 

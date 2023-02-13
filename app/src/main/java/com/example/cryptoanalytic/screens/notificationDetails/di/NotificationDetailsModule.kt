@@ -17,8 +17,4 @@ class NotificationDetailsModule {
     @Provides
     @Singleton
     fun provideNotificationDetailsRepository(daoAggregator: DaoAggregator): NotificationDetailsRepository = NotificationDetailsLocalRepository(daoAggregator)
-
-//    @Provides
-//    @Singleton
-//    fun provideNotificationDetailsViewModel(repository: NotificationDetailsRepository): NotificationDetailsViewModel = NotificationDetailsViewModel(repository)
 }

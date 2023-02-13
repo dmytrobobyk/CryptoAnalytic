@@ -22,7 +22,7 @@ class CryptocurrenciesViewModel @Inject constructor(private val repository: Cryp
 
     init {
         viewModelScope.launch {
-            repository.getLatestCryptocurrencies().collect { result ->
+            repository.getCryptocurrencies().collect { result ->
                 when (result) {
                     is Result.Loading -> {
                         Log.d(TAG, "LOADING")

@@ -38,8 +38,11 @@ dependencies {
 
     //Room
     implementation "androidx.room:room-runtime:$room"
+    implementation 'androidx.databinding:databinding-common:7.3.1'
+    implementation 'androidx.databinding:databinding-runtime:7.3.1'
     kapt "androidx.room:room-compiler:$room"
     implementation "androidx.room:room-ktx:$room"
+    api "com.squareup.retrofit2:converter-gson:$retrofit"
 
 
     testImplementation 'junit:junit:4.13.2'

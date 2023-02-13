@@ -2,11 +2,15 @@ package com.example.cryptoanalytic.utils.databinding
 
 import android.content.res.ColorStateList
 import android.os.Build
-import android.widget.ImageView
-import android.widget.TextView
+import android.view.MotionEvent
+import android.view.View
+import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesListAdapter
@@ -92,5 +96,71 @@ object BindingAdapters {
             textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         }
         textView.text = "$roundOff%"
+    }
+
+//    @BindingAdapter("setSpinnerValue")
+//    @JvmStatic
+//    fun bindSpinnerValue(spinner: Spinner, value: Any) {
+//        if (spinner.adapter != null ) {
+//            val position = (spinner.adapter as ArrayAdapter<Any>).getPosition(value)
+//            spinner.setSelection(position, false)
+//            spinner.tag = position
+//        }
+//    }
+
+
+//    @BindingAdapter
+//    @JvmStatic
+//    fun AppCompatSpinner.setCurrencies(currencies: List<String>?) {
+//        adapter = CurrencySpinnerAdapter(context, currencies ?: ArrayList())
+//        (adapter as CurrencySpinnerAdapter).setNotifyOnChange(true)
+//    }
+
+    @InverseBindingAdapter(attribute = "selectedItem")
+    @JvmStatic
+    fun AppCompatSpinner.getSelectedItem(): String {
+        val item = adapter.getItem(selectedItemPosition)
+        return (item as String)
+    }
+
+    @BindingAdapter("selectedItem")
+    @JvmStatic
+    fun AppCompatSpinner.setSelectedCurrency(selected: String?) {
+        adapter?.let {
+//            val index = (adapter as CurrencySpinnerAdapter).list.indexOf(selected)
+            val index = (adapter as ArrayAdapter<String>).getPosition(selected)
+            if (index != -1 && selectedItemPosition != index) {
+                post {
+                    setSelection(index)
+                }
+            }
+        }
+    }
+
+    @BindingAdapter("selectedItemAttrChanged")
+    @JvmStatic
+    fun AppCompatSpinner.setSelectedItemListeners(attrChange: InverseBindingListener) {
+        val listener = object : AdapterView.OnItemSelectedListener, View.OnTouchListener {
+
+            var userSelect = false
+
+            override fun onTouch(v: View, event: MotionEvent): Boolean {
+                userSelect = true
+                return false
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+                if (userSelect) {
+                    attrChange.onChange()
+                    userSelect = false
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+        setOnTouchListener(listener)
+        onItemSelectedListener = listener
     }
 }

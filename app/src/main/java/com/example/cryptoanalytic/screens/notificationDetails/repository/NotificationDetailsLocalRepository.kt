@@ -15,4 +15,20 @@ class NotificationDetailsLocalRepository(private val daoAggregator: DaoAggregato
             emit(Result.Finish)
         }
     }
+
+    override fun deleteNotification(notificationId: Long): Flow<Result<Unit>> {
+        return flow {
+            emit(Result.Loading)
+            daoAggregator.deleteNotification(notificationId).collect { emit(it) }
+            emit(Result.Finish)
+        }
+    }
+
+    override fun saveNotification(notification: DbNotification): Flow<Result<Unit>> {
+        return flow {
+            emit(Result.Loading)
+            daoAggregator.saveNotification(notification).collect { emit(it) }
+            emit(Result.Finish)
+        }
+    }
 }

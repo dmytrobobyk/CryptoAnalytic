@@ -28,6 +28,7 @@
                 android:id="@+id/cryptocurrency_image_view"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
+                setImage="@{viewModel.notification.cryptocurrencyImageUrl}"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/standard"
@@ -101,7 +102,7 @@
                     android:foregroundGravity="right"
                     android:textAlignment="textEnd"
                     android:entries="@{viewModel.cryptocurrencySpinnerEntries}"
-                    selectedItem="@{viewModel.notification.cryptocurrencyShortName}" />
+                    selectedItem="@={viewModel.notification.cryptocurrencyShortName}"/>
             </LinearLayout>
 
             <LinearLayout
@@ -275,7 +276,7 @@
                     android:text="@string/alert_frequency"
                     android:textAlignment="center" />
 
-                <Spinner
+                <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/alert_frequency_spinner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -306,6 +307,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/standard"
+                    android:checked="@={viewModel.notification.persistent}"
                     android:layout_weight="2" />
             </LinearLayout>
 
@@ -339,7 +341,8 @@
                         android:layout_height="wrap_content"
                         android:background="@color/background"
                         android:hint="@string/your_note"
-                        android:inputType="textMultiLine" />
+                        android:inputType="textMultiLine"
+                        android:text="@={viewModel.notification.notes}"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -349,7 +352,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/standard"
                 android:layout_marginBottom="@dimen/standard"
-                android:onClick="@{() -> listener.onDeleteNotificationClicked()}"
+                android:onClick="@{() -> viewModel.deleteNotification()}"
                 android:text="@string/delete"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/center_guideline"
@@ -369,7 +372,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/standard"
                 android:layout_marginBottom="@dimen/standard"
-                android:onClick="@{() -> listener.onSaveNotificationClicked()}"
+                android:onClick="@{() -> viewModel.saveNotification()}"
                 android:text="@string/save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

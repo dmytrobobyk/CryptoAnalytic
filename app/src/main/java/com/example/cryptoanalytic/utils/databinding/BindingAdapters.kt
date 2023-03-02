@@ -2,6 +2,7 @@ package com.example.cryptoanalytic.utils.databinding
 
 import android.content.res.ColorStateList
 import android.os.Build
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
@@ -11,7 +12,9 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
+import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesListAdapter
 import com.example.cryptoanalytic.screens.notifications.NotificationsListAdapter
@@ -19,6 +22,7 @@ import com.example.cryptoanalytic.utils.listeners.OnFavoriteClickListener
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
 import com.example.database.embeeded.Cryptocurrency
 import com.example.database.entity.DbNotification
+import com.google.android.material.imageview.ShapeableImageView
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -98,23 +102,30 @@ object BindingAdapters {
         textView.text = "$roundOff%"
     }
 
-//    @BindingAdapter("setSpinnerValue")
-//    @JvmStatic
-//    fun bindSpinnerValue(spinner: Spinner, value: Any) {
-//        if (spinner.adapter != null ) {
-//            val position = (spinner.adapter as ArrayAdapter<Any>).getPosition(value)
-//            spinner.setSelection(position, false)
-//            spinner.tag = position
-//        }
-//    }
+    @BindingAdapter("setImage")
+    @JvmStatic
+    fun ShapeableImageView.setImage(imageUrl: String?) {
+        if (imageUrl?.isNotEmpty() == true) {
+            Glide.with(this).load(imageUrl).into(this)
+        }
+    }
 
 
-//    @BindingAdapter
+//    @BindingAdapter("entries")
 //    @JvmStatic
 //    fun AppCompatSpinner.setCurrencies(currencies: List<String>?) {
-//        adapter = CurrencySpinnerAdapter(context, currencies ?: ArrayList())
-//        (adapter as CurrencySpinnerAdapter).setNotifyOnChange(true)
-//    }
+//            if (adapter == null) {
+//                adapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, android.R.id.text1)
+//            }
+//            currencies?.let {
+//                (adapter as ArrayAdapter<String>).apply {
+//                    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//                    addAll(currencies)
+//                    setNotifyOnChange(true)
+//                }
+//
+//            }
+//        }
 
     @InverseBindingAdapter(attribute = "selectedItem")
     @JvmStatic
@@ -127,7 +138,6 @@ object BindingAdapters {
     @JvmStatic
     fun AppCompatSpinner.setSelectedCurrency(selected: String?) {
         adapter?.let {
-//            val index = (adapter as CurrencySpinnerAdapter).list.indexOf(selected)
             val index = (adapter as ArrayAdapter<String>).getPosition(selected)
             if (index != -1 && selectedItemPosition != index) {
                 post {

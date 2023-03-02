@@ -30,11 +30,20 @@ class NotificationDetailsFragment : Fragment() {
         val binding = FragmentNotificationDetailsBinding.inflate(inflater, container, false)
         binding.viewModel = viewModel
         binding.listener = this
+        binding.lifecycleOwner = this
         Toast.makeText(requireContext(), "${args.notificationId}", Toast.LENGTH_LONG).show()
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.cryptocurrencySpinnerEntries.let {
+            if(it.value.isNotEmpty()) {
+                Toast.makeText(requireContext(), it.value[0], Toast.LENGTH_LONG).show()
+            }
+        }
 
+    }
 
     fun onSaveNotificationClicked() {
 

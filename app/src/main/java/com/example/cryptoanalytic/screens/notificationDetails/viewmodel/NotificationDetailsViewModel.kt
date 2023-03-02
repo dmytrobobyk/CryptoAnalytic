@@ -17,21 +17,50 @@ import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import okhttp3.internal.notifyAll
 
 class NotificationDetailsViewModel @AssistedInject constructor(
     private val repository: NotificationDetailsRepository,
     private val cryptocurrenciesRepository: CryptocurrenciesRepository,
     @Assisted private val notificationId: Long
-    ) : BaseViewModel() {
+) : BaseViewModel() {
 
-    private val _notification = MutableStateFlow<Notification?>(null)
-    val notification: StateFlow<Notification?> = _notification.asStateFlow()
+    private val _notification = MutableStateFlow(Notification())
+    val notification: StateFlow<Notification> = _notification.asStateFlow()
 
-    private val _cryptocurrencies = MutableStateFlow<List<Cryptocurrency>>(emptyList())
-    val cryptocurrencies: StateFlow<List<Cryptocurrency>> = _cryptocurrencies.asStateFlow()
-    val cryptocurrencySpinnerEntries: StateFlow<List<String>> = MutableStateFlow(cryptocurrencies.value.map { it.dbCryptocurrency.symbol }).asStateFlow()
+    private val _cryptocurrencyList = MutableStateFlow<List<Cryptocurrency>>(emptyList())
+    val cryptocurrencyList: StateFlow<List<Cryptocurrency>> = _cryptocurrencyList.asStateFlow()
+
+    private val _cryptocurrencySpinnerEntries = MutableStateFlow<List<String>>(emptyList())
+    val cryptocurrencySpinnerEntries: StateFlow<List<String>> = _cryptocurrencySpinnerEntries.asStateFlow()
+
 
     init {
+        viewModelScope.launch {
+            cryptocurrenciesRepository.getCryptocurrencies().collect { result ->
+                when (result) {
+                    is Result.Loading -> {
+                        Log.d(TAG, "LOADING")
+
+                    }
+                    is Result.Success -> {
+                        Log.d(TAG, "SUCCESS")
+                        result.data?.let {
+                            _cryptocurrencyList.value = it
+                            val list = it.map { it.dbCryptocurrency.symbol.uppercase() }
+                            _cryptocurrencySpinnerEntries.value = list
+                            _notification.value.cryptocurrencyShortName = list.first()
+
+                        }
+                    }
+                    is Result.Finish -> {
+                        Log.d(TAG, "FINISH")
+
+                    }
+                }
+            }
+        }
+
         viewModelScope.launch {
             repository.getNotification(notificationId).collect { result ->
                 when (result) {
@@ -51,27 +80,18 @@ class NotificationDetailsViewModel @AssistedInject constructor(
                     }
                 }
             }
-
-            cryptocurrenciesRepository.getCryptocurrencies().collect { result ->
-                when (result) {
-                    is Result.Loading -> {
-                        Log.d(TAG, "LOADING")
-
-                    }
-                    is Result.Success -> {
-                        Log.d(TAG, "SUCCESS")
-                        result.data?.let {
-                            _cryptocurrencies.value = it
-                        }
-                    }
-                    is Result.Finish -> {
-                        Log.d(TAG, "FINISH")
-
-                    }
-                }
-            }
         }
     }
+
+//    fun onSpinnerItemSelected(symbol: String) {
+//        _notification.value.apply {
+//            _cryptocurrencyList.value.firstOrNull { it.dbCryptocurrency.symbol == symbol }?.dbCryptocurrency?.let {
+//                cryptocurrencyName = it.name
+//                cryptocurrencyShortName = it.symbol
+//                cryptocurrencyImageUrl = it.image
+//            }
+//        }
+//    }
 
     fun deleteNotification() {
         viewModelScope.launch {
@@ -99,7 +119,7 @@ class NotificationDetailsViewModel @AssistedInject constructor(
 
     fun saveNotification() {
         viewModelScope.launch {
-            notification.value?.let {
+            notification.value.let {
                 repository.saveNotification(it.mapToDbDataClass()).collect { result ->
                     when (result) {
                         is Result.Loading -> {
@@ -122,13 +142,6 @@ class NotificationDetailsViewModel @AssistedInject constructor(
         }
     }
 
-    fun spinnerItemSelected(item: String) {
-        viewModelScope.launch {
-            _notification.value?.let {
-                it.cryptocurrencyShortName = item
-            }
-        }
-    }
 
     @AssistedFactory
     interface NotificationDetailsViewModelFactory {

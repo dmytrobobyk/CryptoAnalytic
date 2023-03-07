@@ -111,21 +111,21 @@ object BindingAdapters {
     }
 
 
-//    @BindingAdapter("entries")
-//    @JvmStatic
-//    fun AppCompatSpinner.setCurrencies(currencies: List<String>?) {
-//            if (adapter == null) {
-//                adapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, android.R.id.text1)
-//            }
-//            currencies?.let {
-//                (adapter as ArrayAdapter<String>).apply {
-//                    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//                    addAll(currencies)
-//                    setNotifyOnChange(true)
-//                }
-//
-//            }
-//        }
+    @BindingAdapter("entries")
+    @JvmStatic
+    fun AppCompatSpinner.setCurrencies(currencies: List<String>?) {
+            if (adapter == null) {
+                adapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, android.R.id.text1)
+            }
+            currencies?.let {
+                (adapter as ArrayAdapter<String>).apply {
+                    setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    addAll(currencies)
+                    setNotifyOnChange(true)
+                }
+
+            }
+        }
 
     @InverseBindingAdapter(attribute = "selectedItem")
     @JvmStatic

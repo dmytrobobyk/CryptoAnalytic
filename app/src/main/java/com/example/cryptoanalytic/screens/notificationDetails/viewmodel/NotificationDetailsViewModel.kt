@@ -34,6 +34,7 @@ class NotificationDetailsViewModel @AssistedInject constructor(
     private val _cryptocurrencySpinnerEntries = MutableStateFlow<List<String>>(emptyList())
     val cryptocurrencySpinnerEntries: StateFlow<List<String>> = _cryptocurrencySpinnerEntries.asStateFlow()
 
+    val selectedSpinnerItem = MutableStateFlow("")
 
     init {
         viewModelScope.launch {
@@ -49,13 +50,29 @@ class NotificationDetailsViewModel @AssistedInject constructor(
                             _cryptocurrencyList.value = it
                             val list = it.map { it.dbCryptocurrency.symbol.uppercase() }
                             _cryptocurrencySpinnerEntries.value = list
-                            _notification.value.cryptocurrencyShortName = list.first()
 
+                            selectedSpinnerItem.value = list.first()
                         }
                     }
                     is Result.Finish -> {
                         Log.d(TAG, "FINISH")
 
+                    }
+                }
+            }
+        }
+
+        // updating header according to selected item from spinner
+        viewModelScope.launch {
+            selectedSpinnerItem.collect { symbol ->
+                if (symbol.isNotEmpty()) {
+                    _notification.value = Notification().apply {
+                        _cryptocurrencyList.value.firstOrNull { it.dbCryptocurrency.symbol == symbol.lowercase() }?.dbCryptocurrency?.let {
+                            cryptocurrencyName = it.name
+                            cryptocurrencyShortName = it.symbol
+                            cryptocurrencyImageUrl = it.image
+                            cryptocurrencyId = it.id
+                        }
                     }
                 }
             }
@@ -71,6 +88,7 @@ class NotificationDetailsViewModel @AssistedInject constructor(
                     is Result.Success -> {
                         Log.d(TAG, "SUCCESS")
                         result.data?.let {
+                            selectedSpinnerItem.value = it.cryptocurrencyShortName
                             _notification.value = it.mapToIntermediateDataClass()
                         }
                     }
@@ -82,16 +100,6 @@ class NotificationDetailsViewModel @AssistedInject constructor(
             }
         }
     }
-
-//    fun onSpinnerItemSelected(symbol: String) {
-//        _notification.value.apply {
-//            _cryptocurrencyList.value.firstOrNull { it.dbCryptocurrency.symbol == symbol }?.dbCryptocurrency?.let {
-//                cryptocurrencyName = it.name
-//                cryptocurrencyShortName = it.symbol
-//                cryptocurrencyImageUrl = it.image
-//            }
-//        }
-//    }
 
     fun deleteNotification() {
         viewModelScope.launch {

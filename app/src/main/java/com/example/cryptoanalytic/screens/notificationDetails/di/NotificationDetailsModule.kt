@@ -1,5 +1,6 @@
 package com.example.cryptoanalytic.screens.notificationDetails.di
 
+import android.content.Context
 import com.example.cryptoanalytic.screens.notificationDetails.repository.NotificationDetailsLocalRepository
 import com.example.cryptoanalytic.screens.notificationDetails.repository.NotificationDetailsRepository
 import com.example.cryptoanalytic.screens.notificationDetails.viewmodel.NotificationDetailsViewModel
@@ -7,6 +8,7 @@ import com.example.database.DaoAggregator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -16,5 +18,5 @@ class NotificationDetailsModule {
 
     @Provides
     @Singleton
-    fun provideNotificationDetailsRepository(daoAggregator: DaoAggregator): NotificationDetailsRepository = NotificationDetailsLocalRepository(daoAggregator)
+    fun provideNotificationDetailsRepository(@ApplicationContext context: Context,  daoAggregator: DaoAggregator): NotificationDetailsRepository = NotificationDetailsLocalRepository(context, daoAggregator)
 }

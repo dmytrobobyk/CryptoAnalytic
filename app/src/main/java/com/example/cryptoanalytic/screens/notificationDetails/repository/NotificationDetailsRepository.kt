@@ -6,7 +6,9 @@ import com.example.database.wrapper.Result
 
 
 interface NotificationDetailsRepository {
-    fun getNotification(notificationId: Long): Flow<Result<DbNotification>>
-    fun deleteNotification(notificationId: Long): Flow<Result<Unit>>
-    fun saveNotification(notification: DbNotification): Flow<Result<Unit>>
+    suspend fun getNotifications(): Flow<Result<List<DbNotification>>>
+    suspend fun getNotification(notificationId: Long): Flow<Result<DbNotification>>
+    suspend fun deleteNotification(notificationId: Long): Flow<Result<Unit>>
+    suspend fun saveNotification(notification: DbNotification): Flow<Result<Long>>
+    suspend fun updateNotificationActiveState(notificationId: Long, state: Boolean): Flow<Result<Unit>>
 }

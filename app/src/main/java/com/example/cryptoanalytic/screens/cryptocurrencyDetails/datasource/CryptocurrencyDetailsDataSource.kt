@@ -1,10 +1,12 @@
 package com.example.cryptoanalytic.screens.cryptocurrencyDetails.datasource
 
 import com.example.cryptoanalytic.common.BaseDataSource
+import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CryptocurrencyResponseItem
 import com.example.database.wrapper.Result
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.CryptocurrencyDetailsApi
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyDetailsResponse
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyHistoryPrices
+import com.example.database.embeeded.Cryptocurrency
 import javax.inject.Inject
 
 class CryptocurrencyDetailsDataSource @Inject constructor(private val api: CryptocurrencyDetailsApi) : BaseDataSource() {
@@ -15,5 +17,9 @@ class CryptocurrencyDetailsDataSource @Inject constructor(private val api: Crypt
 
     suspend fun getHistoryOfPriceForDateRange(currencySymbol: String, unixTimeFrom: Long, unixTimeTo: Long): Result<CryptocurrencyHistoryPrices> {
         return getResponse(request = { api.getHistoryOfPriceForDateRange(currencySymbol, unixTimeFrom, unixTimeTo) } )
+    }
+
+    suspend fun getCryptocurrency(cryptocurrencyId: String): Result<List<CryptocurrencyResponseItem>> {
+        return getResponse(request = { api.getCryptocurrency(cryptocurrencyId) } )
     }
 }

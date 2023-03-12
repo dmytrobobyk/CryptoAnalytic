@@ -25,6 +25,23 @@ class DaoAggregator(private val database: AppDatabase) {
         }
     }
 
+    //Cryptocurrency
+    suspend fun saveCryptocurrency(cryptocurrency: Cryptocurrency): Flow<Result<Unit>> {
+        return flow {
+            emit(Result.Success(
+                database.cryptocurrencyDao().insert(cryptocurrency.dbCryptocurrency).let {
+                    cryptocurrency.dbRoi?.let { it -> database.roiDao().insert(it) }
+                }
+            ))
+        }
+    }
+
+    suspend fun getCryptocurrency(cryptocurrencyId: String): Flow<Result<Cryptocurrency>> {
+        return flow {
+            database.cryptocurrencyDao().getCryptocurrencyById(cryptocurrencyId).collect { emit(Result.Success(it)) }
+        }
+    }
+
     suspend fun deleteCryptocurrencyList(cryptocurrencyList: List<Cryptocurrency>): Flow<Result<Unit>> {
         return flow {
             emit(Result.Success(cryptocurrencyList.forEach {
@@ -49,7 +66,7 @@ class DaoAggregator(private val database: AppDatabase) {
 
     // Notifications
 
-    suspend fun saveNotification(notification: DbNotification): Flow<Result<Unit>> {
+    suspend fun saveNotification(notification: DbNotification): Flow<Result<Long>> {
         return flow {
             emit(Result.Success(database.notificationsDao().insert(notification)))
         }
@@ -77,6 +94,13 @@ class DaoAggregator(private val database: AppDatabase) {
         return flow {
             val sqlState = if(state) 1 else 0
             emit(Result.Success(database.notificationsDao().updatePersistentState(notificationId, sqlState)))
+        }
+    }
+
+    suspend fun updateNotificationActiveState(notificationId: Long, state: Boolean): Flow<Result<Unit>> {
+        return flow {
+            val sqlState = if(state) 1 else 0
+            emit(Result.Success(database.notificationsDao().updateActiveState(notificationId, sqlState)))
         }
     }
 

@@ -28,7 +28,7 @@
                 android:id="@+id/cryptocurrency_image_view"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                setImage="@{viewModel.notification.cryptocurrencyImageUrl}"
+                setImage="@{viewModel.cryptoNotification.cryptocurrencyImageUrl}"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="@dimen/standard"
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/standard"
-                android:text="@={viewModel.notification.cryptocurrencyName}"
+                android:text="@={viewModel.cryptoNotification.cryptocurrencyName}"
                 android:textSize="24sp"
                 app:layout_constraintStart_toEndOf="@+id/cryptocurrency_image_view"
                 app:layout_constraintTop_toTopOf="parent"
@@ -53,7 +53,7 @@
                 android:id="@+id/cryptocurrency_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@={viewModel.notification.cryptocurrencyShortName}"
+                android:text="@={viewModel.cryptoNotification.cryptocurrencyShortName}"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/cryptocurrency_image_view"
                 app:layout_constraintTop_toBottomOf="@+id/cryptocurrency_full_name"
@@ -126,7 +126,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="@={`` + viewModel.notification.lessThan}" />
+                    android:text="@={`` + viewModel.cryptoNotification.lessThan}" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -157,7 +157,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="@={`` + viewModel.notification.moreThan}" />
+                    android:text="@={`` + viewModel.cryptoNotification.moreThan}" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -188,7 +188,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="@={`` + viewModel.notification.increasedBy}"/>
+                    android:text="@={`` + viewModel.cryptoNotification.increasedBy}"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -219,7 +219,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="@={`` + viewModel.notification.decreasedBy}"/>
+                    android:text="@={`` + viewModel.cryptoNotification.decreasedBy}"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -250,7 +250,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="@={`` + viewModel.notification.changedBy}"/>
+                    android:text="@={`` + viewModel.cryptoNotification.changedBy}"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -307,7 +307,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/standard"
-                    android:checked="@={viewModel.notification.persistent}"
+                    android:checked="@={viewModel.cryptoNotification.persistent}"
                     android:layout_weight="2" />
             </LinearLayout>
 
@@ -342,7 +342,7 @@
                         android:background="@color/background"
                         android:hint="@string/your_note"
                         android:inputType="textMultiLine"
-                        android:text="@={viewModel.notification.notes}"/>
+                        android:text="@={viewModel.cryptoNotification.notes}"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 

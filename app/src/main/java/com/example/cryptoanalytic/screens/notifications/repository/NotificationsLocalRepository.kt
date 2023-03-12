@@ -25,7 +25,7 @@ class NotificationsLocalRepository(private val daoAggregator: DaoAggregator) : N
         }
     }
 
-    override fun saveNotification(notification: DbNotification): Flow<Result<Unit>> {
+    override fun saveNotification(notification: DbNotification): Flow<Result<Long>> {
         return flow {
             emit(Result.Loading)
             daoAggregator.saveNotification(notification).collect { emit(it) }

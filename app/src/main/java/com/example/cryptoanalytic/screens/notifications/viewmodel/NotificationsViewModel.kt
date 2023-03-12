@@ -29,7 +29,7 @@ class NotificationsViewModel @Inject constructor(private val repository: Notific
 
                     }
                     is Result.Success -> {
-                        Log.d(TAG, "SUCCESS")
+                        Log.d(TAG, "SUCCESS: notification list received")
                         result.data?.let {
                             _notificationList.value = it
                         }

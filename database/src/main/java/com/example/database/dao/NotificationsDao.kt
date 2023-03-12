@@ -1,7 +1,6 @@
 package com.example.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -20,7 +19,7 @@ interface NotificationsDao {
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(notification: DbNotification)
+    fun insert(notification: DbNotification): Long
 
     @Transaction
     @Insert
@@ -29,6 +28,10 @@ interface NotificationsDao {
     @Transaction
     @Query("UPDATE DB_NOTIFICATION SET isPersistent = :state WHERE notificationId = :notificationId")
     fun updatePersistentState(notificationId: Long, state: Int)
+
+    @Transaction
+    @Query("UPDATE DB_NOTIFICATION SET isActive = :state WHERE notificationId = :notificationId")
+    fun updateActiveState(notificationId: Long, state: Int)
 
     @Transaction
     @Query("DELETE FROM DB_NOTIFICATION WHERE notificationId = :notificationId")

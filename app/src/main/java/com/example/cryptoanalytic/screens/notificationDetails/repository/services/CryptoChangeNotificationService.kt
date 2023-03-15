@@ -75,7 +75,7 @@ class CryptoChangeNotificationService(private val scope: CoroutineScope = Corout
 
 
     private fun launchPersistentTimerNotifications(dbNotification: DbNotification) {
-        notificationJob = CoroutineScope(Dispatchers.IO).launch {
+        notificationJob = scope.launch {
             while (notificationJob?.isActive == true) {
 
                 //repeat Task Here
@@ -101,7 +101,7 @@ class CryptoChangeNotificationService(private val scope: CoroutineScope = Corout
     }
 
     private fun getCryptocurrencyMarketData(dbNotification: DbNotification) {
-        cryptocurrencyMarketDataJob = CoroutineScope(Dispatchers.IO).launch {
+        cryptocurrencyMarketDataJob = scope.launch {
             cryptocurrencyDetailsRepository.getCryptocurrencyMarketData(dbNotification.cryptocurrencyId)
                 .collect { result ->
                     when (result) {

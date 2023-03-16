@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
 import com.example.cryptoanalytic.R
+import com.example.cryptoanalytic.common.di.DispatcherIOScope
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.repository.CryptocurrencyDetailsRepository
 import com.example.cryptoanalytic.screens.notificationDetails.repository.NotificationDetailsRepository
 import com.example.database.entity.DbNotification
@@ -19,9 +20,10 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
-//TODO: inject coroutine scope here
+
+//TODO: service updates to much times when persistence is set to false then changed to true
 @AndroidEntryPoint
-class CryptoChangeNotificationService(private val scope: CoroutineScope = CoroutineScope(Dispatchers.IO)) : Service() {
+class CryptoChangeNotificationService : Service() {
     private val TAG = CryptoChangeNotificationService::class.java.simpleName
 
     companion object {
@@ -31,12 +33,12 @@ class CryptoChangeNotificationService(private val scope: CoroutineScope = Corout
 
     @Inject
     lateinit var notificationDetailsRepository: NotificationDetailsRepository
-
     @Inject
     lateinit var cryptocurrencyDetailsRepository: CryptocurrencyDetailsRepository
+    @Inject
+    @DispatcherIOScope
+    lateinit var scope: CoroutineScope
 
-    //    @Inject
-//    lateinit var scope: CoroutineScope
     private var notificationJob: Job? = null
     private var cryptocurrencyMarketDataJob: Job? = null
 

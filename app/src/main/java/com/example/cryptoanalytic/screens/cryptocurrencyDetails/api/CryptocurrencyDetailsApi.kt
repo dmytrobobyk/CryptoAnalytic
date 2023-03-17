@@ -1,5 +1,6 @@
 package com.example.cryptoanalytic.screens.cryptocurrencyDetails.api
 
+import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CryptocurrencyResponseItem
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyDetailsResponse
 import com.example.cryptoanalytic.screens.cryptocurrencyDetails.api.response.CryptocurrencyHistoryPrices
 import retrofit2.Call
@@ -19,4 +20,7 @@ interface CryptocurrencyDetailsApi {
         @Query("from") unixTimeFrom: Long, //e.g. 1654370519 - 04.06.2022 192:21:59
         @Query("to") unixTimeTo: Long, //e.g. 1656962519 - 04.07.2022 192:21:59
     ): Response<CryptocurrencyHistoryPrices>
+
+    @GET("coins/markets")
+    suspend fun getCryptocurrency(@Query("ids") cryptocurrencyId: String): Response<List<CryptocurrencyResponseItem>>
 }

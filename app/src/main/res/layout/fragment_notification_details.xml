@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.cryptoanalytic.screens.notificationDetails.viewmodel.NotificationDetailsViewModel" />
+
+        <variable
+            name="listener"
+            type="com.example.cryptoanalytic.screens.notificationDetails.NotificationDetailsFragment" />
+    </data>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/cryptocurrency_image_view"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                setImage="@{viewModel.cryptoNotification.cryptocurrencyImageUrl}"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/standard"
+                android:layout_marginTop="@dimen/big"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                tools:src="@drawable/ic_baseline_attach_money_24" />
+
+            <TextView
+                android:id="@+id/cryptocurrency_full_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard"
+                android:text="@={viewModel.cryptoNotification.cryptocurrencyName}"
+                android:textSize="24sp"
+                app:layout_constraintStart_toEndOf="@+id/cryptocurrency_image_view"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Bitcoin" />
+
+            <TextView
+                android:id="@+id/cryptocurrency_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.cryptoNotification.cryptocurrencyShortName}"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/cryptocurrency_image_view"
+                app:layout_constraintTop_toBottomOf="@+id/cryptocurrency_full_name"
+                tools:text="BTC" />
+
+            <View
+                android:id="@+id/cryptocurrency_name_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/standard"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/cryptocurrency_name" />
+
+            <TextView
+                android:id="@+id/notification_parameters_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard"
+                android:text="@string/notification_parameters"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cryptocurrency_name_divider" />
+
+            <LinearLayout
+                android:id="@+id/cryptocurrency_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/notification_parameters_title">
+
+                <TextView
+                    android:id="@+id/cryptocurrency_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cryptocurrency"
+                    android:textAlignment="center" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/cryptocurrency_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:foregroundGravity="right"
+                    android:textAlignment="textEnd"
+                    entries="@{viewModel.cryptocurrencySpinnerEntries}"
+                    selectedItem="@={viewModel.selectedSpinnerItem}"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/less_than_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_standard"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/cryptocurrency_layout">
+
+                <TextView
+                    android:id="@+id/less_than_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/less_than"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/less_than_edit_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@={`` + viewModel.cryptoNotification.lessThan}" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/usd"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/more_than_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_standard"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/less_than_layout">
+
+                <TextView
+                    android:id="@+id/more_than_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/more_than"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/more_than_edit_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@={`` + viewModel.cryptoNotification.moreThan}" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/usd"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/increased_by_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_standard"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/more_than_layout">
+
+                <TextView
+                    android:id="@+id/increased_by_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/increased_by"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/increased_by_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@={`` + viewModel.cryptoNotification.increasedBy}"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/usd"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/decreased_by_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_standard"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/increased_by_layout">
+
+                <TextView
+                    android:id="@+id/decreased_by_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/decreased_by"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/decreased_by_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@={`` + viewModel.cryptoNotification.decreasedBy}"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/usd"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/changed_by_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/half_standard"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/decreased_by_layout">
+
+                <TextView
+                    android:id="@+id/changed_by_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/changed_by"
+                    android:textAlignment="center" />
+
+                <EditText
+                    android:id="@+id/changed_by_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="@={`` + viewModel.cryptoNotification.changedBy}"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="@string/usd"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/alert_frequency_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/changed_by_layout">
+
+                <TextView
+                    android:id="@+id/alert_frequency_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/alert_frequency"
+                    android:textAlignment="center" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/alert_frequency_spinner"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:entries="@array/alert_spinner_frequency_items"
+                    android:foregroundGravity="right"
+                    android:textAlignment="textEnd" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/persistence_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/alert_frequency_layout">
+
+                <TextView
+                    android:id="@+id/persistence_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/persistence"
+                    android:textAlignment="center" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/persistence_switch"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/standard"
+                    android:checked="@={viewModel.cryptoNotification.persistent}"
+                    android:layout_weight="2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/note_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/standard"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@+id/persistence_layout">
+
+                <TextView
+                    android:id="@+id/note_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/very_big"
+                    android:text="@string/note"
+                    android:textAlignment="center"
+                    android:textSize="18sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_input_note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/very_big"
+                    android:layout_marginEnd="@dimen/very_big">
+
+                    <EditText
+                        android:id="@+id/note_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/background"
+                        android:hint="@string/your_note"
+                        android:inputType="textMultiLine"
+                        android:text="@={viewModel.cryptoNotification.notes}"/>
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/delete_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/standard"
+                android:layout_marginBottom="@dimen/standard"
+                android:onClick="@{() -> viewModel.deleteNotification()}"
+                android:text="@string/delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/center_guideline"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/note_layout" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/center_guideline"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/standard"
+                android:layout_marginBottom="@dimen/standard"
+                android:onClick="@{() -> viewModel.saveNotification()}"
+                android:text="@string/save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/center_guideline"
+                app:layout_constraintTop_toBottomOf="@+id/note_layout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>

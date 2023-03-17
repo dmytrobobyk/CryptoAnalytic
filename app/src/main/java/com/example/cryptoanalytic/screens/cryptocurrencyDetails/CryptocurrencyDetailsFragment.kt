@@ -43,10 +43,10 @@ class CryptocurrencyDetailsFragment : Fragment(), OnChartValueSelectedListener {
     private val args: CryptocurrencyDetailsFragmentArgs by navArgs()
 
     @Inject
-    lateinit var articlesFeedViewModelFactory: CryptocurrencyDetailsViewModel.CryptocurrencyDetailsViewModelFactory
+    lateinit var cryptocurrencyDetailsViewModelFactory: CryptocurrencyDetailsViewModel.CryptocurrencyDetailsViewModelFactory
     private val viewModel: CryptocurrencyDetailsViewModel by viewModels {
         CryptocurrencyDetailsViewModel.providesFactory(
-            assistedFactory = articlesFeedViewModelFactory, cryptocurrencyId = args.cryptocurrencyId
+            assistedFactory = cryptocurrencyDetailsViewModelFactory, cryptocurrencyId = args.cryptocurrencyId
         )
     }
     private lateinit var binding: CryptocurrencyDetailsFragmentBinding

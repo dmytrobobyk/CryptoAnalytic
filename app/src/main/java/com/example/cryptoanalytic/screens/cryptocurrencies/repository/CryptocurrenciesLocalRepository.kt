@@ -18,7 +18,7 @@ class CryptocurrenciesLocalRepository @Inject constructor(
     private val daoAggregator: DaoAggregator
 ) : CryptocurrenciesRepository {
 
-    override suspend fun getLatestCryptocurrencies(): Flow<Result<List<Cryptocurrency>>> {
+    override suspend fun getCryptocurrencies(): Flow<Result<List<Cryptocurrency>>> {
         return flow {
             emit(Result.Loading)
 

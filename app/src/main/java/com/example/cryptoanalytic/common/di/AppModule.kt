@@ -3,6 +3,7 @@ package com.example.cryptoanalytic.common.di
 import android.content.Context
 import androidx.annotation.Nullable
 import androidx.room.Room
+import com.example.cryptoanalytic.BuildConfig
 import com.example.cryptoanalytic.MainViewModel
 import com.example.database.APP_DATABASE_NAME
 import com.example.database.AppDatabase
@@ -14,6 +15,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -41,10 +45,13 @@ object AppModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient {
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
-        return OkHttpClient.Builder()
-            .addInterceptor(logging)
+        val okHttpBuilder = OkHttpClient.Builder()
+
+        if (BuildConfig.DEBUG) {
+            okHttpBuilder.addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+        }
+
+        return okHttpBuilder
             .addInterceptor(Interceptor {chain ->
                 var request = chain.request()
                 val url = request.url.newBuilder().addQueryParameter("vs_currency","USD").build()
@@ -66,5 +73,19 @@ object AppModule {
     @Singleton
     fun provideMainViewModel(): MainViewModel = MainViewModel()
 
+    @DispatcherIOScope
+    @Provides
+    @Singleton
+    fun provideIOScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    @DispatcherDefaultScope
+    @Provides
+    @Singleton
+    fun provideDefaultScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+
+    @DispatcherMainScope
+    @Provides
+    @Singleton
+    fun provideMainScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
 }

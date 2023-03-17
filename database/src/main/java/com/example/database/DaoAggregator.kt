@@ -1,6 +1,7 @@
 package com.example.database
 
 import com.example.database.embeeded.Cryptocurrency
+import com.example.database.entity.DbNotification
 import com.example.database.wrapper.Result
 import kotlinx.coroutines.flow.*
 
@@ -21,6 +22,23 @@ class DaoAggregator(private val database: AppDatabase) {
                 database.cryptocurrencyDao().insert(cryptocurrency.dbCryptocurrency)
                 cryptocurrency.dbRoi?.let { it -> database.roiDao().insert(it) }
             }))
+        }
+    }
+
+    //Cryptocurrency
+    suspend fun saveCryptocurrency(cryptocurrency: Cryptocurrency): Flow<Result<Unit>> {
+        return flow {
+            emit(Result.Success(
+                database.cryptocurrencyDao().insert(cryptocurrency.dbCryptocurrency).let {
+                    cryptocurrency.dbRoi?.let { it -> database.roiDao().insert(it) }
+                }
+            ))
+        }
+    }
+
+    suspend fun getCryptocurrency(cryptocurrencyId: String): Flow<Result<Cryptocurrency>> {
+        return flow {
+            database.cryptocurrencyDao().getCryptocurrencyById(cryptocurrencyId).collect { emit(Result.Success(it)) }
         }
     }
 
@@ -46,10 +64,45 @@ class DaoAggregator(private val database: AppDatabase) {
         }
     }
 
+    // Notifications
 
+    suspend fun saveNotification(notification: DbNotification): Flow<Result<Long>> {
+        return flow {
+            emit(Result.Success(database.notificationsDao().insert(notification)))
+        }
+    }
 
+    suspend fun deleteNotification(notificationId: Long): Flow<Result<Unit>> {
+        return flow {
+            emit(Result.Success(database.notificationsDao().delete(notificationId)))
+        }
+    }
 
-    // Cryptocurrency details
+    suspend fun getNotifications(): Flow<Result<List<DbNotification>>> {
+        return flow {
+            database.notificationsDao().getAll().collect { emit(Result.Success(it)) }
+        }
+    }
+
+    suspend fun getNotification(notificationId: Long): Flow<Result<DbNotification>> {
+        return flow {
+            database.notificationsDao().getNotificationById(notificationId).collect{ emit(Result.Success(it)) }
+        }
+    }
+
+    suspend fun updateNotificationPersistentState(notificationId: Long, state: Boolean): Flow<Result<Unit>> {
+        return flow {
+            val sqlState = if(state) 1 else 0
+            emit(Result.Success(database.notificationsDao().updatePersistentState(notificationId, sqlState)))
+        }
+    }
+
+    suspend fun updateNotificationActiveState(notificationId: Long, state: Boolean): Flow<Result<Unit>> {
+        return flow {
+            val sqlState = if(state) 1 else 0
+            emit(Result.Success(database.notificationsDao().updateActiveState(notificationId, sqlState)))
+        }
+    }
 
 
 }

@@ -1,5 +1,6 @@
 package com.example.cryptoanalytic
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.cryptoanalytic.databinding.ActivityMainBinding
+import com.example.cryptoanalytic.screens.notificationDetails.repository.services.CryptoChangeNotificationService
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -43,6 +45,12 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration) //Setup toolbar with back button and drawer icon according to appBarConfiguration
 
         visibilityNavElements(navController) //If you want to hide drawer or bottom navigation configure that in this function
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        //Service for cryptocurrency notification
+        startService(Intent(this, CryptoChangeNotificationService::class.java))
     }
 
     private fun visibilityNavElements(navController: NavController) {

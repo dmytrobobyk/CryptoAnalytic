@@ -1,18 +1,14 @@
 package com.example.cryptoanalytic.common.utils
 
 import com.example.cryptoanalytic.BuildConfig
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
-fun <T> createService(clazz: Class<T>, okHttpClient: OkHttpClient, converterFactory: Converter.Factory): T = Retrofit.Builder()
+fun <T> createService(clazz: Class<T>, okHttpClient: OkHttpClient, converterFactory: Converter.Factory, baseUrl: String = BuildConfig.COIN_GECKO_API_BASE_URL): T = Retrofit.Builder()
     .addConverterFactory(converterFactory)
-    .baseUrl(BuildConfig.COIN_GECKO_API_BASE_URL)
+    .baseUrl(baseUrl)
     .client(okHttpClient)
     .build()
     .create(clazz)

@@ -27,6 +27,8 @@ android {
 
         //Coin gecko api
         buildConfigField "String", "COIN_GECKO_API_BASE_URL", '"https://api.coingecko.com/api/v3/"'
+        //Cryptocurrency RSS Feeds
+        buildConfigField "String", "NEWS_RSS_FEED", '"https://cointelegraph.com/rss/"'
     }
 
     buildTypes {
@@ -70,6 +72,7 @@ dependencies {
     //Retrofit
     api "com.squareup.retrofit2:retrofit:$retrofit"
     api "com.squareup.retrofit2:converter-gson:$retrofit"
+    api "com.squareup.retrofit2:converter-simplexml:$retrofit"
 
     //Hilt DI
     implementation "com.google.dagger:hilt-android:$hilt"

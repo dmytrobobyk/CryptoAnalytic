@@ -1,6 +1,7 @@
 package com.example.database
 
 import com.example.database.embeeded.Cryptocurrency
+import com.example.database.entity.DbNews
 import com.example.database.entity.DbNotification
 import com.example.database.wrapper.Result
 import kotlinx.coroutines.flow.*
@@ -104,5 +105,18 @@ class DaoAggregator(private val database: AppDatabase) {
         }
     }
 
+    //Rss cryptocurrency feed
+
+    suspend fun getRssCryptocurrencyNews(): Flow<Result<List<DbNews>>> {
+        return flow {
+            database.newsDao().getAll().collect { emit(Result.Success(it)) }
+        }
+    }
+
+    suspend fun saveRssCryptocurrencyNews(newsList: List<DbNews>): Flow<Result<Unit>> {
+        return flow {
+            emit(Result.Success(database.newsDao().insert(newsList)))
+        }
+    }
 
 }

@@ -13,14 +13,17 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import androidx.databinding.ObservableField
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesListAdapter
+import com.example.cryptoanalytic.screens.news.NewsListAdapter
 import com.example.cryptoanalytic.screens.notifications.NotificationsListAdapter
 import com.example.cryptoanalytic.utils.listeners.OnFavoriteClickListener
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
 import com.example.database.embeeded.Cryptocurrency
+import com.example.database.entity.DbNews
 import com.example.database.entity.DbNotification
 import com.google.android.material.imageview.ShapeableImageView
 import java.math.RoundingMode
@@ -29,6 +32,7 @@ import java.text.SimpleDateFormat
 
 
 object BindingAdapters {
+
     @BindingAdapter(value = ["cryptocurrencyItems", "clickListener", "favoriteListener"])
     @JvmStatic
     fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<Cryptocurrency>,
@@ -47,6 +51,16 @@ object BindingAdapters {
             recyclerView.adapter = NotificationsListAdapter(listener)
         }
         (recyclerView.adapter as NotificationsListAdapter).submitList(notificationItems)
+    }
+
+    @BindingAdapter("newsItems")
+    @JvmStatic
+    fun bindNewsItems(recyclerView: RecyclerView, news: List<DbNews>?) {
+        recyclerView.adapter ?: run {
+            recyclerView.adapter = NewsListAdapter()
+            recyclerView.itemAnimator = DefaultItemAnimator()
+        }
+        (recyclerView.adapter as NewsListAdapter).submitList(news)
     }
 
     @BindingAdapter("favoriteIcon")
@@ -104,7 +118,8 @@ object BindingAdapters {
 
     @BindingAdapter("setImage")
     @JvmStatic
-    fun ShapeableImageView.setImage(imageUrl: String?) {
+    fun ImageView.setImage(imageUrl: String?) {
+//    fun ShapeableImageView.setImage(imageUrl: String?) {
         if (imageUrl?.isNotEmpty() == true) {
             Glide.with(this).load(imageUrl).into(this)
         }

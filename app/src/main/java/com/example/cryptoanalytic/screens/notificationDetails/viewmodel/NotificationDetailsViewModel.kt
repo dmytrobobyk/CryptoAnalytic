@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.cryptoanalytic.common.BaseViewModel
+import com.example.cryptoanalytic.common.di.DispatcherIOScope
 import com.example.cryptoanalytic.screens.cryptocurrencies.repository.CryptocurrenciesRepository
 import com.example.cryptoanalytic.screens.notificationDetails.repository.NotificationDetailsRepository
 import com.example.cryptoanalytic.utils.formatters.mapToDbDataClass
@@ -15,12 +16,14 @@ import com.example.database.wrapper.Result
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class NotificationDetailsViewModel @AssistedInject constructor(
     private val repository: NotificationDetailsRepository,
     private val cryptocurrenciesRepository: CryptocurrenciesRepository,
+    @DispatcherIOScope private val ioDispatcher: CoroutineDispatcher,
     @Assisted private val notificationId: Long
 ) : BaseViewModel() {
 
@@ -36,7 +39,7 @@ class NotificationDetailsViewModel @AssistedInject constructor(
     val selectedSpinnerItem = MutableStateFlow("")
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             cryptocurrenciesRepository.getCryptocurrencies().collect { result ->
                 when (result) {
                     is Result.Loading -> {
@@ -62,7 +65,7 @@ class NotificationDetailsViewModel @AssistedInject constructor(
         }
 
         // updating header according to selected item from spinner
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             selectedSpinnerItem.collect { symbol ->
                 if (symbol.isNotEmpty()) {
                     _cryptoNotification.value = CryptoNotification().apply {
@@ -78,7 +81,7 @@ class NotificationDetailsViewModel @AssistedInject constructor(
             }
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             repository.getNotification(notificationId).collect { result ->
                 when (result) {
                     is Result.Loading -> {
@@ -102,7 +105,7 @@ class NotificationDetailsViewModel @AssistedInject constructor(
     }
 
     fun deleteNotification() {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             repository.deleteNotification(notificationId).collect { result ->
                 when (result) {
                     is Result.Loading -> {
@@ -126,7 +129,7 @@ class NotificationDetailsViewModel @AssistedInject constructor(
     }
 
     fun saveNotification() {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             cryptoNotification.value.let {
                 Log.d(TAG, "Saving notification with ID ${it.notificationId}")
                 repository.saveNotification(it.mapToDbDataClass()).collect { result ->

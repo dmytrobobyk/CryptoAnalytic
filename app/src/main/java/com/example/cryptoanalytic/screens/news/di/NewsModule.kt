@@ -1,6 +1,7 @@
 package com.example.cryptoanalytic.screens.news.di
 
 import com.example.cryptoanalytic.BuildConfig
+import com.example.cryptoanalytic.common.di.DispatcherIOScope
 import com.example.cryptoanalytic.common.utils.RssXmlConverterFactory
 import com.example.cryptoanalytic.common.utils.createService
 import com.example.cryptoanalytic.screens.news.api.NewsApi
@@ -13,6 +14,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
@@ -34,5 +36,5 @@ class NewsModule {
 
     @Provides
     @Singleton
-    fun provideNewsViewModel(repository: NewsRepository): NewsViewModel = NewsViewModel(repository)
+    fun provideNewsViewModel(repository: NewsRepository, @DispatcherIOScope dispatcher: CoroutineDispatcher): NewsViewModel = NewsViewModel(repository, dispatcher)
 }

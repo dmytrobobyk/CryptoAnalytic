@@ -15,6 +15,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -76,16 +77,16 @@ object AppModule {
     @DispatcherIOScope
     @Provides
     @Singleton
-    fun provideIOScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-
-    @DispatcherDefaultScope
-    @Provides
-    @Singleton
-    fun provideDefaultScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
+    fun provideDispatcherIO(): CoroutineDispatcher = Dispatchers.IO
 
     @DispatcherMainScope
     @Provides
     @Singleton
-    fun provideMainScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    fun provideDispatcherMain(): CoroutineDispatcher = Dispatchers.Main
+
+    @DispatcherDefaultScope
+    @Provides
+    @Singleton
+    fun provideDispatcherDefault(): CoroutineDispatcher = Dispatchers.Default
 
 }

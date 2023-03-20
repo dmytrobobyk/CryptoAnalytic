@@ -7,21 +7,25 @@ import com.example.database.wrapper.Result
 import com.example.cryptoanalytic.screens.cryptocurrencies.repository.CryptocurrenciesRepository
 import com.example.database.embeeded.Cryptocurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import javax.inject.Scope
 
 @HiltViewModel
-class CryptocurrenciesViewModel @Inject constructor(private val repository: CryptocurrenciesRepository) : BaseViewModel() {
+class CryptocurrenciesViewModel @Inject constructor(private val repository: CryptocurrenciesRepository, private val ioDispatcher: CoroutineDispatcher) : BaseViewModel() {
 
     private val _cryptocurrenciesList = MutableStateFlow<List<Cryptocurrency>>(emptyList())
     val cryptocurrenciesList: StateFlow<List<Cryptocurrency>> = _cryptocurrenciesList.asStateFlow()
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             repository.getCryptocurrencies().collect { result ->
                 when (result) {
                     is Result.Loading -> {
@@ -48,7 +52,7 @@ class CryptocurrenciesViewModel @Inject constructor(private val repository: Cryp
     }
 
     fun saveFavoriteCryptocurrencyState(cryptocurrencyId: String, state: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             repository.saveFavoriteCryptocurrencyState(cryptocurrencyId, state).collect { result ->
                 when (result) {
                     is Result.Loading -> {

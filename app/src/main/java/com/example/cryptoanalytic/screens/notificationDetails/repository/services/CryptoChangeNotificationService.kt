@@ -37,7 +37,9 @@ class CryptoChangeNotificationService : Service() {
     lateinit var cryptocurrencyDetailsRepository: CryptocurrencyDetailsRepository
     @Inject
     @DispatcherIOScope
-    lateinit var scope: CoroutineScope
+    lateinit var ioDispatcher: CoroutineDispatcher
+
+    private val scope: CoroutineScope by lazy { CoroutineScope(ioDispatcher) }
 
     private var notificationJob: Job? = null
     private var cryptocurrencyMarketDataJob: Job? = null

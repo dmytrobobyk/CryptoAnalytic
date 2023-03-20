@@ -3,22 +3,24 @@ package com.example.cryptoanalytic.screens.favorites.viewmodel
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.cryptoanalytic.common.BaseViewModel
+import com.example.cryptoanalytic.common.di.DispatcherIOScope
 import com.example.cryptoanalytic.screens.favorites.repository.FavoritesRepository
 import com.example.database.embeeded.Cryptocurrency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import com.example.database.wrapper.Result
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoritesViewModel @Inject constructor(private val repository: FavoritesRepository): BaseViewModel() {
+class FavoritesViewModel @Inject constructor(private val repository: FavoritesRepository, @DispatcherIOScope private val ioDispatcher: CoroutineDispatcher): BaseViewModel() {
 
     private val _favoritesList = MutableStateFlow<List<Cryptocurrency>>(emptyList())
     val favoritesList: StateFlow<List<Cryptocurrency>> = _favoritesList.asStateFlow()
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             repository.getFavoritesCryptocurrencies().collect { result ->
                 when(result) {
                     is Result.Loading -> {
@@ -48,7 +50,7 @@ class FavoritesViewModel @Inject constructor(private val repository: FavoritesRe
     }
 
     fun removeCryptocurrencyFromFavorite(cryptocurrencyId: String, state: Boolean) {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             repository.removeCryptocurrencyFromFavorite(cryptocurrencyId, state).collect { result ->
                 when(result) {
                     is Result.Loading -> {

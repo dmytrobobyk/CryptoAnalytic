@@ -1,5 +1,6 @@
 package com.example.cryptoanalytic.screens.favorites.di
 
+import com.example.cryptoanalytic.common.di.DispatcherIOScope
 import com.example.cryptoanalytic.screens.favorites.repository.FavoritesLocalRepository
 import com.example.cryptoanalytic.screens.favorites.repository.FavoritesRepository
 import com.example.cryptoanalytic.screens.favorites.viewmodel.FavoritesViewModel
@@ -8,6 +9,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -20,5 +22,5 @@ class FavoritesModule {
 
     @Provides
     @Singleton
-    fun provideFavoritesViewModel(repository: FavoritesRepository): FavoritesViewModel = FavoritesViewModel(repository)
+    fun provideFavoritesViewModel(repository: FavoritesRepository, @DispatcherIOScope dispatcher: CoroutineDispatcher): FavoritesViewModel = FavoritesViewModel(repository, dispatcher)
 }

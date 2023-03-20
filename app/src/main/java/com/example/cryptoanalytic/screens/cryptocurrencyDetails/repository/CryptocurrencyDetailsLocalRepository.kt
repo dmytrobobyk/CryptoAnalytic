@@ -7,11 +7,9 @@ import com.example.cryptoanalytic.utils.formatters.mapToIntermediateDataClass
 import com.example.database.DaoAggregator
 import com.example.database.embeeded.Cryptocurrency
 import com.example.database.wrapper.Result
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class CryptocurrencyDetailsLocalRepository @Inject constructor(
@@ -24,7 +22,7 @@ class CryptocurrencyDetailsLocalRepository @Inject constructor(
             emit(Result.Loading)
             emit(remoteDataSource.getCryptocurrencyInfo(id))
             emit(Result.Finish)
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
     override suspend fun getHistoryOfPriceForDateRange(currencySymbol: String, unixTimeFrom: Long, unixTimeTo: Long): Flow<Result<CryptocurrencyHistoryPrices>> {
@@ -32,7 +30,7 @@ class CryptocurrencyDetailsLocalRepository @Inject constructor(
             emit(Result.Loading)
             emit(remoteDataSource.getHistoryOfPriceForDateRange(currencySymbol, unixTimeFrom, unixTimeTo))
             emit(Result.Finish)
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
     override suspend fun getCryptocurrencyMarketData(cryptocurrencyId: String): Flow<Result<Cryptocurrency>> {
@@ -48,6 +46,6 @@ class CryptocurrencyDetailsLocalRepository @Inject constructor(
             }
 
             emit(Result.Finish)
-        }.flowOn(Dispatchers.IO)
+        }
     }
 }

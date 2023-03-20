@@ -3,7 +3,6 @@ package com.example.cryptoanalytic.screens.notificationDetails.di
 import android.content.Context
 import com.example.cryptoanalytic.screens.notificationDetails.repository.NotificationDetailsLocalRepository
 import com.example.cryptoanalytic.screens.notificationDetails.repository.NotificationDetailsRepository
-import com.example.cryptoanalytic.screens.notificationDetails.viewmodel.NotificationDetailsViewModel
 import com.example.database.DaoAggregator
 import dagger.Module
 import dagger.Provides

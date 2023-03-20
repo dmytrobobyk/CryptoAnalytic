@@ -6,11 +6,9 @@ import com.example.cryptoanalytic.utils.formatters.DateTimeUtil.formatPublicatio
 import com.example.database.DaoAggregator
 import com.example.database.entity.DbNews
 import com.example.database.wrapper.Result
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class NewsLocalRepository @Inject constructor(private val remoteDataSource: NewsRemoteDataSource, private val daoAggregator: DaoAggregator) :
@@ -31,7 +29,7 @@ class NewsLocalRepository @Inject constructor(private val remoteDataSource: News
             }
             daoAggregator.getRssCryptocurrencyNews().collect { emit(it) }
             emit(Result.Finish)
-        }.flowOn(Dispatchers.IO)
+        }
     }
 }
 

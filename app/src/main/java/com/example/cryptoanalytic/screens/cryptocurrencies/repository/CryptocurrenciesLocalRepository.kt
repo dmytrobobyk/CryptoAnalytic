@@ -6,11 +6,9 @@ import com.example.database.DaoAggregator
 import com.example.database.embeeded.Cryptocurrency
 import com.example.database.entity.DbCryptocurrency
 import com.example.database.entity.DbRoi
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class CryptocurrenciesLocalRepository @Inject constructor(
@@ -42,7 +40,7 @@ class CryptocurrenciesLocalRepository @Inject constructor(
             }
             daoAggregator.getCryptocurrencyList().collect { emit(it) }
             emit(Result.Finish)
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
     override suspend fun saveFavoriteCryptocurrencyState(cryptocurrencyId: String, state: Boolean): Flow<Result<Any>> {
@@ -50,6 +48,6 @@ class CryptocurrenciesLocalRepository @Inject constructor(
             emit(Result.Loading)
             daoAggregator.saveCryptocurrencyFavoriteState(cryptocurrencyId, state).collect()
             emit(Result.Finish)
-        }.flowOn(Dispatchers.IO)
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.cryptoanalytic.screens.cryptocurrencies.di
 
+import com.example.cryptoanalytic.common.di.DispatcherIOScope
 import com.example.cryptoanalytic.common.utils.createService
 import com.example.cryptoanalytic.screens.cryptocurrencies.api.CryptocurrenciesApi
 import com.example.cryptoanalytic.screens.cryptocurrencies.datasource.CryptocurrenciesRemoteDataSource
@@ -11,6 +12,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import okhttp3.OkHttpClient
 import retrofit2.Converter
 import javax.inject.Singleton
@@ -33,5 +35,5 @@ class CryptocurrenciesModule {
 
     @Provides
     @Singleton
-    fun provideCryptocurrenciesViewModel(repository: CryptocurrenciesRepository): CryptocurrenciesViewModel = CryptocurrenciesViewModel(repository)
+    fun provideCryptocurrenciesViewModel(repository: CryptocurrenciesRepository, @DispatcherIOScope dispatcher: CoroutineDispatcher): CryptocurrenciesViewModel = CryptocurrenciesViewModel(repository, dispatcher)
 }

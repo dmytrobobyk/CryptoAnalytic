@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/newsFragment"
-        android:name="com.example.cryptoanalytic.screens.news.NewsFragment"
+        android:name="com.example.cryptoanalytic.presentation.news.NewsFragment"
         android:label="NewsFragment"
         tools:layout="@layout/fragment_news" />
 

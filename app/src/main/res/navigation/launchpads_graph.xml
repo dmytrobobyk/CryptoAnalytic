@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/launchpadsFragment"
-        android:name="com.example.cryptoanalytic.screens.launchads.LaunchpadsFragment"
+        android:name="com.example.cryptoanalytic.presentation.launchads.LaunchpadsFragment"
         android:label="LaunchpadsFragment"
         tools:layout="@layout/fragment_launchpads" />
 

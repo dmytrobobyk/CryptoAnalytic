@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="com.example.cryptoanalytic.screens.notificationDetails.viewmodel.NotificationDetailsViewModel" />
+            type="com.example.cryptoanalytic.presentation.notificationDetails.NotificationDetailsViewModel" />
 
         <variable
             name="listener"
-            type="com.example.cryptoanalytic.screens.notificationDetails.NotificationDetailsFragment" />
+            type="com.example.cryptoanalytic.presentation.notificationDetails.NotificationDetailsFragment" />
     </data>
 
 

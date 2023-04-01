@@ -15,7 +15,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.cryptoanalytic.databinding.ActivityMainBinding
-import com.example.cryptoanalytic.screens.notificationDetails.repository.services.CryptoChangeNotificationService
+import com.example.cryptoanalytic.services.CryptoChangeNotificationService
 import dagger.hilt.android.AndroidEntryPoint
 
 

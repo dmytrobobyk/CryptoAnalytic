@@ -6,13 +6,13 @@
 
     <fragment
         android:id="@+id/about_app_fragment"
-        android:name="com.example.cryptoanalytic.screens.about_app.AboutAppFragment"
+        android:name="com.example.cryptoanalytic.presentation.about_app.AboutAppFragment"
         android:label="AboutAppFragment"
         tools:layout="@layout/fragment_about_app" />
 
     <fragment
         android:id="@+id/calculator_fragment"
-        android:name="com.example.cryptoanalytic.screens.calculator.CalculatorFragment"
+        android:name="com.example.cryptoanalytic.presentation.calculator.CalculatorFragment"
         android:label="Calculator"
         tools:layout="@layout/fragment_calculator" />
 

@@ -7,17 +7,17 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.cryptoanalytic.screens.notifications.viewmodel.NotificationsViewModel" />
+            type="com.example.cryptoanalytic.presentation.notifications.NotificationsViewModel" />
         <variable
             name="listener"
-            type="com.example.cryptoanalytic.screens.notifications.NotificationFragment" />
+            type="com.example.cryptoanalytic.presentation.notifications.NotificationFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        tools:context=".screens.cryptocurrencies.CryptocurrenciesFragment">
+        tools:context=".presentation.cryptocurrencies.CryptocurrenciesFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"

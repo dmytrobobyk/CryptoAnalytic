@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.cryptoanalytic.screens.cryptocurrencyDetails.viewmodel.CryptocurrencyDetailsViewModel" />
+            type="com.example.cryptoanalytic.presentation.cryptocurrencyDetails.CryptocurrencyDetailsViewModel" />
     </data>
 
     <ScrollView
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/standard"
-        tools:context=".screens.cryptocurrencyDetails.CryptocurrencyDetailsFragment">
+        tools:context=".presentation.cryptocurrencyDetails.CryptocurrencyDetailsFragment">
 
         <RelativeLayout
             android:id="@+id/cryptocurrency_name_layout"

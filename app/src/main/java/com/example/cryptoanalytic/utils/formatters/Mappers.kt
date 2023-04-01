@@ -1,6 +1,6 @@
 package com.example.cryptoanalytic.utils.formatters
 
-import com.example.cryptoanalytic.screens.cryptocurrencies.api.response.CryptocurrencyResponseItem
+import com.example.cryptoanalytic.data.remote.api.response.cryptocurrency.CryptocurrencyResponseItem
 import com.example.database.embeeded.Cryptocurrency
 import com.example.database.entity.DbCryptocurrency
 import com.example.database.entity.DbNotification

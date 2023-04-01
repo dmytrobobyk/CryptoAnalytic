@@ -2,7 +2,6 @@ package com.example.cryptoanalytic.utils.databinding
 
 import android.content.res.ColorStateList
 import android.os.Build
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
@@ -12,20 +11,18 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
-import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptoanalytic.R
-import com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesListAdapter
-import com.example.cryptoanalytic.screens.news.NewsListAdapter
-import com.example.cryptoanalytic.screens.notifications.NotificationsListAdapter
+import com.example.cryptoanalytic.presentation.cryptocurrencies.CryptocurrenciesListAdapter
+import com.example.cryptoanalytic.presentation.news.NewsListAdapter
+import com.example.cryptoanalytic.presentation.notifications.NotificationsListAdapter
 import com.example.cryptoanalytic.utils.listeners.OnFavoriteClickListener
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
 import com.example.database.embeeded.Cryptocurrency
 import com.example.database.entity.DbNews
 import com.example.database.entity.DbNotification
-import com.google.android.material.imageview.ShapeableImageView
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -119,7 +116,6 @@ object BindingAdapters {
     @BindingAdapter("setImage")
     @JvmStatic
     fun ImageView.setImage(imageUrl: String?) {
-//    fun ShapeableImageView.setImage(imageUrl: String?) {
         if (imageUrl?.isNotEmpty() == true) {
             Glide.with(this).load(imageUrl).into(this)
         }

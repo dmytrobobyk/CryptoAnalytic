@@ -7,18 +7,18 @@
     <data>
         <variable
         name="viewModel"
-        type="com.example.cryptoanalytic.screens.cryptocurrencies.viewmodel.CryptocurrenciesViewModel" />
+        type="com.example.cryptoanalytic.presentation.cryptocurrencies.CryptocurrenciesViewModel" />
 
         <variable
             name="listener"
-            type="com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesFragment" />
+            type="com.example.cryptoanalytic.presentation.cryptocurrencies.CryptocurrenciesFragment" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".screens.cryptocurrencies.CryptocurrenciesFragment">
+    tools:context=".presentation.cryptocurrencies.CryptocurrenciesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

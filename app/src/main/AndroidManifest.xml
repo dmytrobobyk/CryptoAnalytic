@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".screens.notificationDetails.repository.services.CryptoChangeNotificationService"
+        <service android:name=".services.CryptoChangeNotificationService"
             android:exported="false"/>
     </application>
 

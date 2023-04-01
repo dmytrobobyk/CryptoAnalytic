@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/cryptocurrenciesFragment"
-        android:name="com.example.cryptoanalytic.screens.cryptocurrencies.CryptocurrenciesFragment"
+        android:name="com.example.cryptoanalytic.presentation.cryptocurrencies.CryptocurrenciesFragment"
         android:label="CryptocurrenciesFragment"
         tools:layout="@layout/cryptocurrency_list_fragment">
 
@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/cryptocurrencyDetails"
-        android:name="com.example.cryptoanalytic.screens.cryptocurrencyDetails.CryptocurrencyDetailsFragment"
+        android:name="com.example.cryptoanalytic.presentation.cryptocurrencyDetails.CryptocurrencyDetailsFragment"
         android:label="CryptocurrencyDetailsFragment"
         tools:layout="@layout/cryptocurrency_details_fragment">
 

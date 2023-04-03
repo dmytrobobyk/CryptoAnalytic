@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/notifications_graph"
+    app:startDestination="@id/notificationsFragment">
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.cryptoanalytic.presentation.notifications.NotificationFragment"
+        android:label="NotificationsFragment"
+        tools:layout="@layout/fragment_notifications" >
+
+        <action
+            android:id="@+id/action_notificationsFragment_to_notificationDetailsFragment"
+            app:destination="@id/notificationDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/notificationDetailsFragment"
+        android:name="com.example.cryptoanalytic.presentation.notificationDetails.NotificationDetailsFragment"
+        android:label="NotificationDetails"
+        tools:layout="@layout/fragment_notification_details">
+
+        <argument
+            android:name="notificationId"
+            app:argType="long" />
+    </fragment>
+
+</navigation>

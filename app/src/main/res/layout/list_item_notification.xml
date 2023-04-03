@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="notification"
+            type="com.example.database.entity.DbNotification" />
+    </data>
+
+    <FrameLayout
+        android:id="@+id/notification_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:elevation="5dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/item_background"
+                android:padding="@dimen/standard">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/notification_crypto_image"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:shapeAppearanceOverlay="@style/roundedImageView"
+                    tools:src="@drawable/ic_baseline_attach_money_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginStart="@dimen/small" />
+
+                <TextView
+                    android:id="@+id/notification_crypto_short_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/notification_crypto_image"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:text="@{notification.cryptocurrencyShortName}"
+                    tools:text="BTC" />
+
+                <TextView
+                    android:id="@+id/notification_crypto_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_crypto_short_name"
+                    app:layout_constraintStart_toEndOf="@+id/notification_crypto_image"
+                    android:textSize="12sp"
+                    android:text="@{notification.cryptocurrencyName}"
+                    tools:text="Bitcoin" />
+
+                <TextView
+                    android:id="@+id/notification_crypto_parameters"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@+id/notification_crypto_image"
+                    app:layout_constraintTop_toBottomOf="@+id/notification_crypto_name"
+                    android:text="@{notification.allParamsInMultilineString}"
+                    tools:text="Less than 0.8$\nMore than 1.2$"/>
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/notification_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+</layout>

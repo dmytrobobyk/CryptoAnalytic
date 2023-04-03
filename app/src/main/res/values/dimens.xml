@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="extra_small">2dp</dimen>
+    <dimen name="small">4dp</dimen>
+    <dimen name="half_standard">8dp</dimen>
+    <dimen name="standard">16dp</dimen>
+    <dimen name="big">24dp</dimen>
+    <dimen name="very_big">32dp</dimen>
+    <dimen name="super_big">48dp</dimen>
+    <dimen name="extra_big">64dp</dimen>
+
+
+    <!--Views-->
+    <dimen name="chart_size">275dp</dimen>
+</resources>

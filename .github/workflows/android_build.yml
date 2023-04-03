@@ -22,4 +22,4 @@ jobs:
         run: ./gradlew test
         
       - name: Build Project
-        run: ./gradlew assemle
+        run: ./gradlew assemble

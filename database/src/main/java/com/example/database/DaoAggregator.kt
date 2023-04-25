@@ -1,15 +1,16 @@
 package com.example.database
 
-import com.example.database.embeeded.Cryptocurrency
+import com.cryptoanalytic.domain.wrapper.Result
+import com.example.database.embeeded.CryptocurrencyAndRoi
 import com.example.database.entity.DbNews
 import com.example.database.entity.DbNotification
-import com.example.database.wrapper.Result
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class DaoAggregator(private val database: AppDatabase) {
 
     // Cryptocurrency list
-    suspend fun getCryptocurrencyList(): Flow<Result<List<Cryptocurrency>>> {
+    suspend fun getCryptocurrencyList(): Flow<Result<List<CryptocurrencyAndRoi>>> {
         return flow {
             database.cryptocurrencyDao().getAll().collect {
                 emit(Result.Success(it))
@@ -17,9 +18,9 @@ class DaoAggregator(private val database: AppDatabase) {
         }
     }
 
-    suspend fun saveCryptocurrencyList(cryptocurrencyList: List<Cryptocurrency>): Flow<Result<Unit>> {
+    suspend fun saveCryptocurrencyList(cryptocurrencyAndRoiList: List<CryptocurrencyAndRoi>): Flow<Result<Unit>> {
         return flow {
-            emit(Result.Success(cryptocurrencyList.forEach { cryptocurrency ->
+            emit(Result.Success(cryptocurrencyAndRoiList.forEach { cryptocurrency ->
                 database.cryptocurrencyDao().insert(cryptocurrency.dbCryptocurrency)
                 cryptocurrency.dbRoi?.let { it -> database.roiDao().insert(it) }
             }))
@@ -27,32 +28,33 @@ class DaoAggregator(private val database: AppDatabase) {
     }
 
     //Cryptocurrency
-    suspend fun saveCryptocurrency(cryptocurrency: Cryptocurrency): Flow<Result<Unit>> {
+    suspend fun saveCryptocurrency(cryptocurrencyAndRoi: CryptocurrencyAndRoi): Flow<Result<Unit>> {
         return flow {
-            emit(Result.Success(
-                database.cryptocurrencyDao().insert(cryptocurrency.dbCryptocurrency).let {
-                    cryptocurrency.dbRoi?.let { it -> database.roiDao().insert(it) }
+            emit(
+                Result.Success(
+                database.cryptocurrencyDao().insert(cryptocurrencyAndRoi.dbCryptocurrency).let {
+                    cryptocurrencyAndRoi.dbRoi?.let { it -> database.roiDao().insert(it) }
                 }
             ))
         }
     }
 
-    suspend fun getCryptocurrency(cryptocurrencyId: String): Flow<Result<Cryptocurrency>> {
+    suspend fun getCryptocurrency(cryptocurrencyId: String): Flow<Result<CryptocurrencyAndRoi>> {
         return flow {
             database.cryptocurrencyDao().getCryptocurrencyById(cryptocurrencyId).collect { emit(Result.Success(it)) }
         }
     }
 
-    suspend fun deleteCryptocurrencyList(cryptocurrencyList: List<Cryptocurrency>): Flow<Result<Unit>> {
+    suspend fun deleteCryptocurrencyList(cryptocurrencyAndRoiList: List<CryptocurrencyAndRoi>): Flow<Result<Unit>> {
         return flow {
-            emit(Result.Success(cryptocurrencyList.forEach {
+            emit(Result.Success(cryptocurrencyAndRoiList.forEach {
                 database.cryptocurrencyDao().delete(it.dbCryptocurrency)
                 it.dbRoi?.let { it1 -> database.roiDao().delete(it1) }
             }))
         }
     }
 
-    suspend fun getFavoriteCryptocurrencies(): Flow<Result<List<Cryptocurrency>>> {
+    suspend fun getFavoriteCryptocurrencies(): Flow<Result<List<CryptocurrencyAndRoi>>> {
         return flow{
             database.cryptocurrencyDao().getFavorites().collect { emit(Result.Success(it)) }
         }

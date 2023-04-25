@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.cryptoanalytic.domain.entity.News
 import com.example.cryptoanalytic.databinding.ListItemNewsBinding
-import com.example.database.entity.DbNews
 
 
-class NewsListAdapter : ListAdapter<DbNews, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class NewsListAdapter : ListAdapter<News, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<DbNews>() {
-            override fun areItemsTheSame(oldItem: DbNews, newItem: DbNews): Boolean = oldItem.newsId == newItem.newsId
-            override fun areContentsTheSame(oldItem: DbNews, newItem: DbNews): Boolean = oldItem == newItem
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<News>() {
+            override fun areItemsTheSame(oldItem: News, newItem: News): Boolean = oldItem.newsId == newItem.newsId
+            override fun areContentsTheSame(oldItem: News, newItem: News): Boolean = oldItem == newItem
         }
     }
 
@@ -33,8 +33,8 @@ class NewsListAdapter : ListAdapter<DbNews, RecyclerView.ViewHolder>(DIFF_CALLBA
     }
 
     inner class NewsItemViewHolder(private val itemBinding: ListItemNewsBinding) : RecyclerView.ViewHolder(itemBinding.root) {
-        fun bind(item: DbNews) {
-            itemBinding.dbNews = item
+        fun bind(item: News) {
+            itemBinding.news = item
             itemBinding.root.setOnClickListener {
                 itemBinding.root.context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(item.link)))
             }

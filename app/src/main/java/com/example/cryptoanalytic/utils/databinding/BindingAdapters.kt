@@ -14,15 +14,15 @@ import androidx.databinding.InverseBindingListener
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.cryptoanalytic.domain.entity.Cryptocurrency
+import com.cryptoanalytic.domain.entity.News
+import com.cryptoanalytic.domain.entity.Notification
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.presentation.cryptocurrencies.CryptocurrenciesListAdapter
 import com.example.cryptoanalytic.presentation.news.NewsListAdapter
 import com.example.cryptoanalytic.presentation.notifications.NotificationsListAdapter
 import com.example.cryptoanalytic.utils.listeners.OnFavoriteClickListener
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
-import com.example.database.embeeded.Cryptocurrency
-import com.example.database.entity.DbNews
-import com.example.database.entity.DbNotification
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -32,9 +32,7 @@ object BindingAdapters {
 
     @BindingAdapter(value = ["cryptocurrencyItems", "clickListener", "favoriteListener"])
     @JvmStatic
-    fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<Cryptocurrency>,
-                                listener: OnItemClickListener<Cryptocurrency>,
-    favoriteListener: OnFavoriteClickListener<String>) {
+    fun bindCryptocurrencyItems(recyclerView: RecyclerView, cryptocurrencyItems: List<Cryptocurrency>, listener: OnItemClickListener<Cryptocurrency>, favoriteListener: OnFavoriteClickListener<String>) {
         recyclerView.adapter ?: run {
             recyclerView.adapter = CryptocurrenciesListAdapter(listener, favoriteListener)
         }
@@ -43,7 +41,7 @@ object BindingAdapters {
 
     @BindingAdapter(value = ["notificationItems", "clickListener"])
     @JvmStatic
-    fun bindNotificationItems(recyclerView: RecyclerView, notificationItems: List<DbNotification>, listener: OnItemClickListener<DbNotification>) {
+    fun bindNotificationItems(recyclerView: RecyclerView, notificationItems: List<Notification>, listener: OnItemClickListener<Notification>) {
         recyclerView.adapter ?: run {
             recyclerView.adapter = NotificationsListAdapter(listener)
         }
@@ -52,12 +50,12 @@ object BindingAdapters {
 
     @BindingAdapter("newsItems")
     @JvmStatic
-    fun bindNewsItems(recyclerView: RecyclerView, news: List<DbNews>?) {
+    fun bindNewsItems(recyclerView: RecyclerView, newsItems: List<News>?) {
         recyclerView.adapter ?: run {
             recyclerView.adapter = NewsListAdapter()
             recyclerView.itemAnimator = DefaultItemAnimator()
         }
-        (recyclerView.adapter as NewsListAdapter).submitList(news)
+        (recyclerView.adapter as NewsListAdapter).submitList(newsItems)
     }
 
     @BindingAdapter("favoriteIcon")
@@ -134,7 +132,6 @@ object BindingAdapters {
                     addAll(currencies)
                     setNotifyOnChange(true)
                 }
-
             }
         }
 

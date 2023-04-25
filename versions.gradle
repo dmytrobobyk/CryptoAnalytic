@@ -7,15 +7,16 @@ ext {
     constraintLayout = "2.1.4"
     okHttp = "4.9.1"
     retrofit = "2.9.0"
-    hilt = "2.39.1"
+    hilt = "2.41"
     room = "2.4.2"
-    coroutines = "1.5.2"
+    coroutines = "1.6.0"
     navigation = "2.4.2"
     lifeCycleExtensions = "2.2.0"
     lifecycleViewModel = "2.4.1"
     MPAndroidCharts = "v3.0.2"
     toggleButtonGroup = "1.1.2"
     glide = "4.14.2"
+    javaInjectVersion = "1"
 
     //Testing
     jUnit = "4.13.2"

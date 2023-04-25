@@ -4,13 +4,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.cryptoanalytic.domain.entity.cryptocurrencyDetails.CryptocurrencyDetailsResponse
+import com.cryptoanalytic.domain.entity.cryptocurrencyDetails.CryptocurrencyHistoryPrices
+import com.cryptoanalytic.domain.usecases.cryptocurrencies.GetCryptocurrencyInfoUseCase
+import com.cryptoanalytic.domain.usecases.cryptocurrencies.GetHistoryOfPriceForDateRangeUseCase
 import com.example.cryptoanalytic.common.BaseViewModel
-import com.example.cryptoanalytic.data.di.qualifiers.DispatcherIOScope
-import com.example.cryptoanalytic.data.remote.api.response.cryptocurrency.CryptocurrencyDetailsResponse
-import com.example.cryptoanalytic.data.remote.api.response.cryptocurrency.CryptocurrencyHistoryPrices
-import com.example.cryptoanalytic.domain.cryptocurrencies.GetCryptocurrencyInfoUseCase
-import com.example.cryptoanalytic.domain.cryptocurrencies.GetHistoryOfPriceForDateRangeUseCase
-import com.example.database.wrapper.Result
+import com.example.cryptoanalytic.di.DispatcherIOScope
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -18,8 +17,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import com.cryptoanalytic.domain.wrapper.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
 class CryptocurrencyDetailsViewModel @AssistedInject constructor(
     private val getCryptocurrencyInfoUseCase: GetCryptocurrencyInfoUseCase,

@@ -5,20 +5,19 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
+import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
+import com.cryptoanalytic.domain.usecases.cryptocurrencies.GetCryptocurrencyMarketDataUseCase
+import com.cryptoanalytic.domain.usecases.notifications.GetNotificationsUseCase
+import com.cryptoanalytic.domain.usecases.notifications.UpdateNotificationActiveStateUseCase
 import com.example.cryptoanalytic.R
-import com.example.cryptoanalytic.data.di.qualifiers.DispatcherIOScope
-import com.example.cryptoanalytic.domain.cryptocurrencies.GetCryptocurrencyMarketDataUseCase
-import com.example.cryptoanalytic.domain.notifications.GetNotificationsUseCase
-import com.example.cryptoanalytic.domain.notifications.UpdateNotificationActiveStateUseCase
-import com.example.database.entity.DbNotification
-import com.example.database.wrapper.Result
+import com.example.cryptoanalytic.di.DispatcherIOScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
+import com.cryptoanalytic.domain.wrapper.Result
 import javax.inject.Inject
 
 
@@ -77,13 +76,14 @@ class CryptoChangeNotificationService : Service() {
                                     .map { launchPersistentTimerNotifications(it) }
                             }
                         }
+                        else -> {}
                     }
                 }
         }
     }
 
 
-    private fun launchPersistentTimerNotifications(dbNotification: DbNotification) {
+    private fun launchPersistentTimerNotifications(dbNotification: com.cryptoanalytic.domain.entity.Notification) {
         notificationJob = scope.launch {
             while (notificationJob?.isActive == true) {
 
@@ -109,19 +109,19 @@ class CryptoChangeNotificationService : Service() {
         super.onDestroy()
     }
 
-    private fun getCryptocurrencyMarketData(dbNotification: DbNotification) {
+    private fun getCryptocurrencyMarketData(dbNotification: com.cryptoanalytic.domain.entity.Notification) {
         cryptocurrencyMarketDataJob = scope.launch {
             getCryptocurrencyMarketDataUseCase(dbNotification.cryptocurrencyId)
                 .collect { result ->
                     when (result) {
-                        is Result.Success -> {
+                        is com.cryptoanalytic.domain.wrapper.Result.Success -> {
                             result.data?.let { cryptocurrency ->
                                 when {
-                                    dbNotification.lessThan < cryptocurrency.dbCryptocurrency.currentPrice ||
-                                            dbNotification.moreThan > cryptocurrency.dbCryptocurrency.currentPrice ||
-                                            dbNotification.increasedBy <= cryptocurrency.dbCryptocurrency.currentPrice - dbNotification.cryptocurrencyPrice ||
-                                            dbNotification.decreasedBy <= dbNotification.cryptocurrencyPrice - cryptocurrency.dbCryptocurrency.currentPrice ||
-                                            dbNotification.changedBy != dbNotification.cryptocurrencyPrice - cryptocurrency.dbCryptocurrency.currentPrice -> {
+                                    dbNotification.lessThan < cryptocurrency.currentPrice ||
+                                            dbNotification.moreThan > cryptocurrency.currentPrice ||
+                                            dbNotification.increasedBy <= cryptocurrency.currentPrice - dbNotification.cryptocurrencyPrice ||
+                                            dbNotification.decreasedBy <= dbNotification.cryptocurrencyPrice - cryptocurrency.currentPrice ||
+                                            dbNotification.changedBy != dbNotification.cryptocurrencyPrice - cryptocurrency.currentPrice -> {
 
                                         Log.d(TAG, "Notification sent for ${dbNotification.cryptocurrencyShortName}")
                                         notificationManager.notify(
@@ -136,27 +136,34 @@ class CryptoChangeNotificationService : Service() {
                                 }
                             }
                         }
+                        else -> {}
                     }
                 }
         }
     }
 
-    private fun getRemoteNotification(dbNotification: DbNotification): Notification.Builder {
-        notificationManager.createNotificationChannel(
-            NotificationChannel(
-                NOTIFICATION_PUSH_CHANNEL_ID,
-                "Change price Channel",
-                NotificationManager.IMPORTANCE_LOW
-            )
-        )
+    private fun getRemoteNotification(dbNotification: com.cryptoanalytic.domain.entity.Notification): Notification.Builder {
 
-        return Notification.Builder(this)
+        val notification = Notification.Builder(this)
             .setContentIntent(null)
-            .setChannelId(NOTIFICATION_PUSH_CHANNEL_ID)
+//            .setChannelId(NOTIFICATION_PUSH_CHANNEL_ID)
             .setContentTitle("${dbNotification.cryptocurrencyName} is changed")
             .setSmallIcon(R.drawable.coinmarketcap)
             .setLargeIcon(getDrawable(R.drawable.coinmarketcap)?.toBitmap(300, 300))
             .setStyle(Notification.BigTextStyle().bigText(dbNotification.getAllParamsInMultilineString()))
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationManager.createNotificationChannel(
+                NotificationChannel(
+                    NOTIFICATION_PUSH_CHANNEL_ID,
+                    "Change price Channel",
+                    NotificationManager.IMPORTANCE_LOW
+                )
+            )
+            notification.setChannelId(NOTIFICATION_PUSH_CHANNEL_ID)
+        }
+
+        return notification
     }
 
 }

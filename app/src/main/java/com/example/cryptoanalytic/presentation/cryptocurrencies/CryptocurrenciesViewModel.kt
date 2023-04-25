@@ -2,18 +2,17 @@ package com.example.cryptoanalytic.presentation.cryptocurrencies
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.cryptoanalytic.domain.entity.Cryptocurrency
+import com.cryptoanalytic.domain.usecases.cryptocurrencies.GetCryptocurrenciesUseCase
+import com.cryptoanalytic.domain.usecases.cryptocurrencies.SaveFavoriteCryptocurrencyStateUseCase
+import com.cryptoanalytic.domain.wrapper.Result
 import com.example.cryptoanalytic.common.BaseViewModel
-import com.example.cryptoanalytic.data.di.qualifiers.DispatcherIOScope
-import com.example.cryptoanalytic.domain.cryptocurrencies.GetCryptocurrenciesUseCase
-import com.example.cryptoanalytic.domain.cryptocurrencies.SaveFavoriteCryptocurrencyStateUseCase
-import com.example.database.embeeded.Cryptocurrency
-import com.example.database.wrapper.Result
+import com.example.cryptoanalytic.di.DispatcherIOScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -7,10 +7,10 @@ import com.example.database.DB_NEWS
 @Entity(tableName = DB_NEWS)
 data class DbNews(
     @PrimaryKey(autoGenerate = true)
-    val newsId: Long = 0,
-    val title: String? = "",
-    val link: String? = "",
-    val imageUrl: String? = "",
-    val publicationDate: String? = "",
-    val description: String? = ""
+    var newsId: Long = 0,
+    var title: String? = "",
+    var link: String? = "",
+    var imageUrl: String? = "",
+    var publicationDate: String? = "",
+    var description: String? = ""
 )

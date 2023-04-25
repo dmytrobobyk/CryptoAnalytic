@@ -7,8 +7,8 @@
         <import type="android.text.Html" />
 
         <variable
-            name="dbNews"
-            type="com.example.database.entity.DbNews" />
+            name="news"
+            type="com.cryptoanalytic.domain.entity.News" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -30,7 +30,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{dbNews.title}"
+                android:text="@{news.title}"
                 android:textColor="@color/title_item_name_color"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/image"
@@ -44,7 +44,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{dbNews.publicationDate}"
+                android:text="@{news.publicationDate}"
                 android:textColor="@color/title_item_name_color"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/image"
@@ -53,7 +53,7 @@
 
             <ImageView
                 android:id="@+id/image"
-                setImage="@{dbNews.imageUrl}"
+                setImage="@{news.imageUrl}"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 android:layout_marginTop="16dp"
@@ -69,7 +69,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@{Html.fromHtml(dbNews.description)}"
+                android:text="@{Html.fromHtml(news.description)}"
                 android:textColor="@color/title_item_name_color"
                 app:layout_constraintBottom_toTopOf="@+id/link"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +85,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="24dp"
                 android:autoLink="web"
-                android:text="@{dbNews.link}"
+                android:text="@{news.link}"
                 android:textSize="12sp"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="parent"

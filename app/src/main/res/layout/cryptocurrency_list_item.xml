@@ -7,7 +7,7 @@
     <data>
         <variable
             name="cryptoItem"
-            type="com.example.database.entity.DbCryptocurrency" />
+            type="com.cryptoanalytic.domain.entity.Cryptocurrency" />
     </data>
 
     <FrameLayout

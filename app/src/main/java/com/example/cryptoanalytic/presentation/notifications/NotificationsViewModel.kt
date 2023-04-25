@@ -2,17 +2,16 @@ package com.example.cryptoanalytic.presentation.notifications
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.cryptoanalytic.domain.entity.Notification
+import com.cryptoanalytic.domain.usecases.notifications.GetNotificationsUseCase
+import com.cryptoanalytic.domain.wrapper.Result
 import com.example.cryptoanalytic.common.BaseViewModel
-import com.example.cryptoanalytic.data.di.qualifiers.DispatcherIOScope
-import com.example.cryptoanalytic.domain.notifications.GetNotificationsUseCase
-import com.example.database.entity.DbNotification
-import com.example.database.wrapper.Result
+import com.example.cryptoanalytic.di.DispatcherIOScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +21,8 @@ class NotificationsViewModel @Inject constructor(
     @DispatcherIOScope private val ioDispatcher: CoroutineDispatcher
     ) : BaseViewModel() {
 
-    private val _notificationList = MutableStateFlow<List<DbNotification>>(emptyList())
-    val notificationList: StateFlow<List<DbNotification>> = _notificationList.asStateFlow()
+    private val _notificationList = MutableStateFlow<List<Notification>>(emptyList())
+    val notificationList: StateFlow<List<Notification>> = _notificationList.asStateFlow()
 
     init {
         viewModelScope.launch(ioDispatcher) {
@@ -44,6 +43,7 @@ class NotificationsViewModel @Inject constructor(
                         Log.d(TAG, "FINISH")
 
                     }
+                    else -> {}
                 }
 
             }

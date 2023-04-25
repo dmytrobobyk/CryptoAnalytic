@@ -8,14 +8,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.cryptoanalytic.domain.entity.Notification
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.databinding.FragmentNotificationsBinding
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
-import com.example.database.entity.DbNotification
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NotificationFragment : Fragment(), OnItemClickListener<DbNotification> {
+class NotificationFragment : Fragment(), OnItemClickListener<Notification> {
 
     val viewModel: NotificationsViewModel by viewModels()
 
@@ -28,7 +28,7 @@ class NotificationFragment : Fragment(), OnItemClickListener<DbNotification> {
         return binding.root
     }
 
-    override fun onItemClicked(item: DbNotification) {
+    override fun onItemClicked(item: Notification) {
 
     }
 

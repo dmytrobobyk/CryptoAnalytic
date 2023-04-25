@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'kotlin-kapt'
-//    id 'kotlin-android-extensions'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
 }
@@ -13,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.cryptoanalytic"
-        minSdk 21
+        minSdk 24
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -25,10 +24,6 @@ android {
         buildConfigField "String", "API_KEY", '"574ea375-7e0f-46d5-a352-379d2b1383b3"'
         buildConfigField "String", "API_AUTH_HEADER", '"X-CMC_PRO_API_KEY"'
 
-        //Coin gecko api
-        buildConfigField "String", "COIN_GECKO_API_BASE_URL", '"https://api.coingecko.com/api/v3/"'
-        //Cryptocurrency RSS Feeds
-        buildConfigField "String", "NEWS_RSS_FEED", '"https://cointelegraph.com/rss/"'
     }
 
     buildTypes {
@@ -56,7 +51,8 @@ apply from: "../versions.gradle"
 
 
 dependencies {
-    implementation(project(":database"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
 
     //AndroidX
     implementation "androidx.core:core-ktx:$androidX"

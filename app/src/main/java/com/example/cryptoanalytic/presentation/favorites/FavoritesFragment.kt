@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.cryptoanalytic.domain.entity.Cryptocurrency
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.databinding.FragmentFavoritesBinding
 import com.example.cryptoanalytic.utils.listeners.OnFavoriteClickListener
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
-import com.example.database.embeeded.Cryptocurrency
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

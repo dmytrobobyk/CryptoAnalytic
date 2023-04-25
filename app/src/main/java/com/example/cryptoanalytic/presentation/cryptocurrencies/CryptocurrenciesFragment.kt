@@ -8,18 +8,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.cryptoanalytic.domain.entity.Cryptocurrency
 import com.example.cryptoanalytic.R
 import com.example.cryptoanalytic.databinding.CryptocurrencyListFragmentBinding
 import com.example.cryptoanalytic.utils.listeners.OnFavoriteClickListener
 import com.example.cryptoanalytic.utils.listeners.OnItemClickListener
-import com.example.database.embeeded.Cryptocurrency
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CryptocurrenciesFragment : Fragment(), OnItemClickListener<Cryptocurrency>, OnFavoriteClickListener<String> {
 
-//    @Inject
-//    lateinit var viewModel: CryptocurrenciesViewModel
     val viewModel: CryptocurrenciesViewModel by viewModels()
 
 
@@ -33,7 +31,7 @@ class CryptocurrenciesFragment : Fragment(), OnItemClickListener<Cryptocurrency>
     }
 
     override fun onItemClicked(item: Cryptocurrency) {
-        val action = CryptocurrenciesFragmentDirections.actionCryptocurrenciesFragmentToCryptocurrencyDetails(item.dbCryptocurrency.id.lowercase())
+        val action = CryptocurrenciesFragmentDirections.actionCryptocurrenciesFragmentToCryptocurrencyDetails(item.id.lowercase())
         this.findNavController().navigate(action)
     }
 

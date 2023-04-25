@@ -2,18 +2,17 @@ package com.example.cryptoanalytic.presentation.favorites
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.cryptoanalytic.domain.entity.Cryptocurrency
+import com.cryptoanalytic.domain.usecases.cryptocurrencies.GetFavoritesCryptocurrenciesUseCase
+import com.cryptoanalytic.domain.usecases.cryptocurrencies.RemoveCryptocurrencyFromFavoriteUseCase
+import com.cryptoanalytic.domain.wrapper.Result
 import com.example.cryptoanalytic.common.BaseViewModel
-import com.example.cryptoanalytic.data.di.qualifiers.DispatcherIOScope
-import com.example.cryptoanalytic.domain.cryptocurrencies.GetFavoritesCryptocurrenciesUseCase
-import com.example.cryptoanalytic.domain.cryptocurrencies.RemoveCryptocurrencyFromFavoriteUseCase
-import com.example.database.embeeded.Cryptocurrency
-import com.example.database.wrapper.Result
+import com.example.cryptoanalytic.di.DispatcherIOScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -52,6 +51,7 @@ class FavoritesViewModel @Inject constructor(
                     is Result.Error -> {
                         Log.d(TAG, "ERROR")
                     }
+                    else -> {}
                 }
             }
         }
@@ -76,7 +76,6 @@ class FavoritesViewModel @Inject constructor(
                         result.data?.let {
 
                         }
-
                     }
 
                     is Result.Error -> {

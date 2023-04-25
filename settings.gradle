@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 rootProject.name = "CryptoAnalytic"
 include ':app'
 include ':database'
+include ':data'
+include ':domain'

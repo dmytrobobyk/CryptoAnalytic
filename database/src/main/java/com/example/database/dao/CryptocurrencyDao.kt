@@ -1,7 +1,7 @@
 package com.example.database.dao
 
 import androidx.room.*
-import com.example.database.embeeded.Cryptocurrency
+import com.example.database.embeeded.CryptocurrencyAndRoi
 import com.example.database.entity.DbCryptocurrency
 import kotlinx.coroutines.flow.Flow
 
@@ -9,13 +9,13 @@ import kotlinx.coroutines.flow.Flow
 interface CryptocurrencyDao {
 
     @Query("SELECT * FROM DB_CRYPTOCURRENCY")
-    fun getAll(): Flow<List<Cryptocurrency>>
+    fun getAll(): Flow<List<CryptocurrencyAndRoi>>
 
     @Query("SELECT * FROM DB_CRYPTOCURRENCY WHERE DB_CRYPTOCURRENCY.isFavorite = 1")
-    fun getFavorites(): Flow<List<Cryptocurrency>>
+    fun getFavorites(): Flow<List<CryptocurrencyAndRoi>>
 
     @Query("SELECT * FROM DB_CRYPTOCURRENCY WHERE DB_CRYPTOCURRENCY.id = :cryptocurrencyId")
-    fun getCryptocurrencyById(cryptocurrencyId: String): Flow<Cryptocurrency>
+    fun getCryptocurrencyById(cryptocurrencyId: String): Flow<CryptocurrencyAndRoi>
 
     @Transaction
     @Insert(onConflict = OnConflictStrategy.IGNORE)
